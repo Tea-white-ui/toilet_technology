@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "toilet_technology",
+	"version": "${version}",
+	"name": "toilet technology",
+	"description": "这是一款基于厕所的科技mod",
+	"authors": [
+		"Tea_white_"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/toilet_technology/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"tea.toilet.technology.ToiletTechnology"
+		],
+		"client": [
+			"tea.toilet.technology.client.ToiletTechnologyClient"
+		],
+		"fabric-datagen": [
+			"tea.toilet.technology.client.ToiletTechnologyDataGenerator"
+		]
+	},
+	"mixins": [
+		"toilet_technology.mixins.json",
+		{
+			"config": "toilet_technology.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~1.21.1",
+		"java": ">=21",
+		"fabric-api": "*"
+	}
+}

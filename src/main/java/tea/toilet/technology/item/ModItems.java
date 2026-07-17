@@ -7,15 +7,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static tea.toilet.technology.ToiletTechnology.LOGGER;
 import tea.toilet.technology.ToiletTechnology;
 
 
 
 public class ModItems {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModItems.class);
 
     public static final Item FECES = register("feces", new Item(new Item.Properties()));
 

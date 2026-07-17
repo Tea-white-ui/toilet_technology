@@ -10,14 +10,12 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import tea.toilet.technology.ToiletTechnology;
+import static tea.toilet.technology.ToiletTechnology.LOGGER;
 
 
 public class ModItemGroups {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ModItemGroups.class);
 
     // 创建一个厕所工艺物品栏
     public static final ResourceKey<CreativeModeTab> TOILET_TECHNOLOGY_GROUP_KEY = ResourceKey.create(BuiltInRegistries.CREATIVE_MODE_TAB.key(), ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, ToiletTechnology.MOD_ID));

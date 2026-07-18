@@ -8,8 +8,13 @@ import net.minecraft.world.level.block.Block;
 
 public class ModTags {
     public static class Items {
-        public static final TagKey<Item> MATERIAL_TAG = createTag("material");
-        public static final TagKey<Item> BLOCK_TAG = createTag("block");
+        // === 原材料 ===
+        public static final TagKey<Item> MATERIAL = createTag("material");
+            // === 粪便 ===
+            public static final TagKey<Item> FECES = createTag("feces");
+
+        // === 建筑方块物品 ===
+        public static final TagKey<Item> BUILDING_BLOCK = createTag("building_blocks");
 
 
         private static TagKey<Item> createTag(String name) {

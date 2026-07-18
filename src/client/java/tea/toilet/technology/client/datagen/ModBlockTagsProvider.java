@@ -10,9 +10,9 @@ import tea.toilet.technology.block.ModBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ToiletTechnologyBlockTagProvider extends FabricTagProvider<Block> {
-    public ToiletTechnologyBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, Registries.BLOCK, registriesFuture);
+public class ModBlockTagsProvider extends FabricTagProvider.BlockTagProvider {
+    public ModBlockTagsProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        super(output, registriesFuture);
     }
 
     @Override

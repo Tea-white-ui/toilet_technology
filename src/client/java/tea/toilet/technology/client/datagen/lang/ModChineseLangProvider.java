@@ -1,4 +1,4 @@
-package tea.toilet.technology.client.datagen;
+package tea.toilet.technology.client.datagen.lang;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
@@ -8,8 +8,8 @@ import tea.toilet.technology.item.ModItems;
 
 import java.util.concurrent.CompletableFuture;
 
-public class ToiletTechnologyChineseLangProvider extends FabricLanguageProvider {
-	public ToiletTechnologyChineseLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+public class ModChineseLangProvider extends FabricLanguageProvider {
+	public ModChineseLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		super(dataOutput, "zh_cn", registryLookup);
 	}
 

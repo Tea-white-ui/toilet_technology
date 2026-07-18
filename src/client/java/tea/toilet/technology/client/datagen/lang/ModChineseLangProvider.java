@@ -15,10 +15,13 @@ public class ModChineseLangProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
-		// === 原料 ===
+		// === 物品 ===
 		translationBuilder.add(ModItems.FECES, "粪便");
 		// === 建筑方块 ===
 		translationBuilder.add(ModBlocks.FECES_BLOCK, "粪便块");
 		// === 功能方块 ===
+
+		// 创造物品栏标签
+		translationBuilder.add("itemGroup.toilet_technology", "厕所技艺");
 	}
 }

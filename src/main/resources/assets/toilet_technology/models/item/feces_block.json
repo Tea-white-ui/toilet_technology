@@ -1,0 +1,6 @@
+{
+  "parent": "toilet_technology:block/feces_block",
+  "textures": {
+    "layer0": "toilet_technology:block/feces_block"
+  }
+}

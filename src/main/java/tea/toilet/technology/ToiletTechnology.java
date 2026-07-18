@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import tea.toilet.technology.block.ModBlocks;
 import tea.toilet.technology.item.ModItemGroups;
 import tea.toilet.technology.item.ModItems;
 
@@ -20,6 +21,7 @@ public class ToiletTechnology implements ModInitializer {
 		// 一旦Minecraft处于mod加载就绪状态，此代码就会运行。然而，有些东西（如资源）可能仍未初始化。谨慎行事。
 		LOGGER.info("Hello Fabric world!");
 		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
 		ModItemGroups.registerModItemsGroups();
 	}
 

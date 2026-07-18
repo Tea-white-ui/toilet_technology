@@ -42,6 +42,8 @@ dependencies {
 }
 
 processResources {
+	duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
 	def version = project.version
 	inputs.property "version", version
 
@@ -70,6 +72,16 @@ jar {
 
 	from("LICENSE") {
 		rename { "${it}_$projectName"}
+	}
+}
+
+sourceSets {
+	main {
+		resources {
+			srcDirs += [
+				'src/main/generated'
+			]
+		}
 	}
 }
 

@@ -41,6 +41,7 @@ public class ModItemGroups {
         // 将物品添加到厕所工艺标签页里
         ItemGroupEvents.modifyEntriesEvent(TOILET_TECHNOLOGY_GROUP_KEY)
                 .register(ModItems::addItemToIG);
+
     }
 
 }

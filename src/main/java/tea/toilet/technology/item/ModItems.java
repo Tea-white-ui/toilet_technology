@@ -5,6 +5,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,8 +22,17 @@ import tea.toilet.technology.block.ModBlocks;
 
 public class ModItems {
 
-    // === 物品 ===
-    public static final Item FECES = register("feces", new Item(new Item.Properties()));
+    // === 材料 ===
+    public static final Item FECES = register("feces", new Item(
+            new Item.Properties().food(new FoodProperties
+                    .Builder()
+                    .alwaysEdible()
+                    .nutrition(1)
+                    .saturationModifier(0f)
+                    .effect(new MobEffectInstance(MobEffects.BLINDNESS,20,5),1.0f)
+                    .effect(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN,80,1),1.0f)
+                    .effect(new MobEffectInstance(MobEffects.CONFUSION,200,1),1.0f)
+                    .build())));
 
 
     // === 方块物品 ===

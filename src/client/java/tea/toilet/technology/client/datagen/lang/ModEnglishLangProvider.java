@@ -17,6 +17,7 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 	public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
 		// === Items ===
 		translationBuilder.add(ModItems.FECES, "Feces");
+		translationBuilder.add(ModItems.DRIED_FECES, "Dried Feces");
 		// === Blocks ===
 		translationBuilder.add(ModBlocks.FECES_BLOCK, "Feces Block");
 		// === Item Groups ===

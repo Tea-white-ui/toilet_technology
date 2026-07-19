@@ -17,6 +17,7 @@ public class ModChineseLangProvider extends FabricLanguageProvider {
 	public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
 		// === 物品 ===
 		translationBuilder.add(ModItems.FECES, "粪便");
+		translationBuilder.add(ModItems.DRIED_FECES, "干粪");
 		// === 建筑方块 ===
 		translationBuilder.add(ModBlocks.FECES_BLOCK, "粪便块");
 		// === 功能方块 ===

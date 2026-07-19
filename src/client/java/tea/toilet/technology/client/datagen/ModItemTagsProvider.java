@@ -21,7 +21,8 @@ public class ModItemTagsProvider extends FabricTagProvider.ItemTagProvider {
 
 		// === 原材料 ===
 		getOrCreateTagBuilder(ModTags.Items.FECES)
-				.add(ModItems.FECES);
+				.add(ModItems.FECES)
+				.add(ModItems.DRIED_FECES);
 		// === 标签嵌套 ===
 		getOrCreateTagBuilder(ModTags.Items.MATERIAL)
 				.addTag(ModTags.Items.FECES);

@@ -34,6 +34,8 @@ public class ModItems {
                     .effect(new MobEffectInstance(MobEffects.CONFUSION,200,1),1.0f)
                     .build())));
 
+    public static final Item DRIED_FECES = register("dried_feces", new Item(new Item.Properties()));
+
 
     // === 方块物品 ===
     public static final Item FECES_BLOCK = registerBlockItem(ModBlocks.FECES_BLOCK, new BlockItem(ModBlocks.FECES_BLOCK, new Item.Properties()));
@@ -51,7 +53,9 @@ public class ModItems {
      */
     public static void addItemToIG(FabricItemGroupEntries fabricItemGroupEntries){
         fabricItemGroupEntries.accept(new ItemStack(FECES));
+        fabricItemGroupEntries.accept(new ItemStack(DRIED_FECES));
         fabricItemGroupEntries.accept(new ItemStack(FECES_BLOCK));
+
     }
 
 

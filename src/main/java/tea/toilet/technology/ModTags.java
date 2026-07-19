@@ -15,6 +15,7 @@ public class ModTags {
 
         // === 建筑方块物品 ===
         public static final TagKey<Item> BUILDING_BLOCK = createTag("building_blocks");
+        public static final TagKey<Item> TOILET = createTag("toilets");
 
 
         private static TagKey<Item> createTag(String name) {
@@ -24,8 +25,10 @@ public class ModTags {
     }
 
     public static class Blocks {
+        // === 建筑方块 ===
         public static final TagKey<Block> BUILDING_BLOCKS = createTag("building_blocks");
-        public static final TagKey<Block> FUNCTIONAL_BLOCKS = createTag("functional_blocks");
+        // === 厕所 ===
+        public static final TagKey<Block> TOILETS = createTag("toilets");
 
         private static TagKey<Block> createTag(String name) {
             return TagKey.create(Registries.BLOCK,

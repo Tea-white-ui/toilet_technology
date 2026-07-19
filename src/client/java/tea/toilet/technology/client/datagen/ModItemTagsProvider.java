@@ -26,8 +26,10 @@ public class ModItemTagsProvider extends FabricTagProvider.ItemTagProvider {
 		// === 标签嵌套 ===
 		getOrCreateTagBuilder(ModTags.Items.MATERIAL)
 				.addTag(ModTags.Items.FECES);
+
 		// === 建筑方块物品 ===
 		copy(ModTags.Blocks.BUILDING_BLOCKS, ModTags.Items.BUILDING_BLOCK);
-
+		// === 厕所方块物品 ===
+		copy(ModTags.Blocks.TOILETS, ModTags.Items.TOILET);
 	}
 }

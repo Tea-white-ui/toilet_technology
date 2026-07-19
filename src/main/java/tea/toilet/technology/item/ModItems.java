@@ -39,6 +39,7 @@ public class ModItems {
 
     // === 方块物品 ===
     public static final Item FECES_BLOCK = registerBlockItem(ModBlocks.FECES_BLOCK, new BlockItem(ModBlocks.FECES_BLOCK, new Item.Properties()));
+    public static final Item SQUAT_TOILET = registerBlockItem(ModBlocks.SQUAT_TOILET, new BlockItem(ModBlocks.SQUAT_TOILET, new Item.Properties()));
 
 
     /**
@@ -52,9 +53,12 @@ public class ModItems {
      * 添加物品到物品栏入口
      */
     public static void addItemToIG(FabricItemGroupEntries fabricItemGroupEntries){
+        // === 材料 ===
         fabricItemGroupEntries.accept(new ItemStack(FECES));
         fabricItemGroupEntries.accept(new ItemStack(DRIED_FECES));
+        // === 方块物品 ===
         fabricItemGroupEntries.accept(new ItemStack(FECES_BLOCK));
+        fabricItemGroupEntries.accept(new ItemStack(SQUAT_TOILET));
 
     }
 

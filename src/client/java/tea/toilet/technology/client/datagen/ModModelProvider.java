@@ -17,6 +17,8 @@ public class ModModelProvider extends FabricModelProvider {
     @Override
     public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
         blockStateModelGenerator.createTrivialCube(ModBlocks.FECES_BLOCK);
+        // === 复杂模型 ===
+        blockStateModelGenerator.createNonTemplateModelBlock(ModBlocks.SQUAT_TOILET);
     }
 
 

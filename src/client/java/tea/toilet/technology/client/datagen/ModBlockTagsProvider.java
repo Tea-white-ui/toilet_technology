@@ -20,7 +20,8 @@ public class ModBlockTagsProvider extends FabricTagProvider.BlockTagProvider {
         // === 建筑方块 ===
         getOrCreateTagBuilder(ModTags.Blocks.BUILDING_BLOCKS)
                 .add(ModBlocks.FECES_BLOCK);
-        // === 功能方块 ===
-        getOrCreateTagBuilder(ModTags.Blocks.FUNCTIONAL_BLOCKS);
+        // === 厕所 ===
+        getOrCreateTagBuilder(ModTags.Blocks.TOILETS)
+                .add(ModBlocks.SQUAT_TOILET);
     }
 }

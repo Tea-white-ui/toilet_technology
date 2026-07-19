@@ -20,6 +20,8 @@ public class ModEnglishLangProvider extends FabricLanguageProvider {
 		translationBuilder.add(ModItems.DRIED_FECES, "Dried Feces");
 		// === Blocks ===
 		translationBuilder.add(ModBlocks.FECES_BLOCK, "Feces Block");
+		// === toilet
+		translationBuilder.add(ModBlocks.SQUAT_TOILET, "Squat Toilet");
 		// === Item Groups ===
 		translationBuilder.add("itemGroup.toilet_technology", "Toilet Technology");
 	}

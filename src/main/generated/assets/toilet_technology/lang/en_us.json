@@ -1,4 +1,5 @@
 {
   "block.toilet_technology.feces_block": "Feces Block",
-  "item.toilet_technology.feces": "Feces"
+  "item.toilet_technology.feces": "Feces",
+  "itemGroup.toilet_technology": "Toilet Technology"
 }

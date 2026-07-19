@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "toilet_technology:block/squat_toilet" },
+    "facing=east": { "model": "toilet_technology:block/squat_toilet", "y": 90 },
+    "facing=south": { "model": "toilet_technology:block/squat_toilet", "y": 180 },
+    "facing=west": { "model": "toilet_technology:block/squat_toilet", "y": 270 }
+  }
+}

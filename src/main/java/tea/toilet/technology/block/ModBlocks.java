@@ -6,17 +6,25 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.material.PushReaction;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import net.minecraft.core.Direction;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import static net.minecraft.world.level.block.HorizontalDirectionalBlock.FACING;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import tea.toilet.technology.ToiletTechnology;
-
 import static tea.toilet.technology.ToiletTechnology.LOGGER;
 
 public class ModBlocks {
@@ -76,15 +84,53 @@ public class ModBlocks {
                     .isRedstoneConductor((state, world, pos) -> false)
                     .requiresCorrectToolForDrops()
             ){
+                private final VoxelShape NORTH_SHAPE = Shapes.or(
+                        box(0, 0, 0, 16, 12, 16),
+                        box(0, 12, 0, 5, 16, 16),
+                        box(11, 12, 0, 16, 16, 16),
+                        box(5, 12, 0, 11, 16, 3),
+                        box(5, 12, 13, 11, 16, 16)
+                );
+                private final VoxelShape EAST_SHAPE = Shapes.or(
+                        box(0, 0, 0, 16, 12, 16),
+                        box(0, 12, 0, 16, 16, 5),
+                        box(0, 12, 11, 16, 16, 16),
+                        box(13, 12, 5, 16, 16, 11),
+                        box(0, 12, 5, 3, 16, 11)
+                );
+                private final VoxelShape SOUTH_SHAPE = Shapes.or(
+                        box(0, 0, 0, 16, 12, 16),
+                        box(11, 12, 0, 16, 16, 16),
+                        box(0, 12, 0, 5, 16, 16),
+                        box(5, 12, 13, 11, 16, 16),
+                        box(5, 12, 0, 11, 16, 3)
+                );
+                private final VoxelShape WEST_SHAPE = Shapes.or(
+                        box(0, 0, 0, 16, 12, 16),
+                        box(0, 12, 11, 16, 16, 16),
+                        box(0, 12, 0, 16, 16, 5),
+                        box(0, 12, 5, 3, 16, 11),
+                        box(13, 12, 5, 16, 16, 11)
+                );
+
+                @Override
+                public BlockState getStateForPlacement(BlockPlaceContext context) {
+                    return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
+                }
+
+                @Override
+                protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+                    builder.add(FACING);
+                }
+
                 @Override
                 public @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-                    return Shapes.or(
-                            box(0, 0, 0, 16, 12, 16),
-                            box(0, 12, 0, 5, 16, 16),
-                            box(11, 12, 0, 16, 16, 16),
-                            box(5, 12, 0, 11, 16, 3),
-                            box(5, 12, 13, 11, 16, 16)
-                    );
+                    return switch (state.getValue(FACING)) {
+                        case EAST -> EAST_SHAPE;
+                        case SOUTH -> SOUTH_SHAPE;
+                        case WEST -> WEST_SHAPE;
+                        default -> NORTH_SHAPE;
+                    };
                 }
             }
     );

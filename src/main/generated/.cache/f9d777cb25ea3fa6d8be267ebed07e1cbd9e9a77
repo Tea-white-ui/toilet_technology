@@ -1,8 +1,6 @@
-// 1.21.1	2026-07-19T22:13:58.9995687	toilet technology/Model Definitions
+// 1.21.1	2026-07-19T22:33:44.6253481	toilet technology/Model Definitions
 539fe7bd96c87ddf655f455bd1b9f40a138905e7 assets\toilet_technology\blockstates\feces_block.json
 f7413f5ef39fcc4a7eb3e48b034efc48b8b8fd7d assets\toilet_technology\models\item\dried_feces.json
 041680909a463e5ec209be7795a4f6524a549797 assets\toilet_technology\models\block\feces_block.json
 7a66de2c179097c59a2bb368552d0f7ba35e8959 assets\toilet_technology\models\item\feces.json
-c9da802615d2fbe160bb605f02da62829024094a assets\toilet_technology\models\item\squat_toilet.json
 fb117de00ad24d1c81bee23cbe3b493027c696cf assets\toilet_technology\models\item\feces_block.json
-d147c6a74d059332cb2dca78b8cb6d9d10f3e035 assets\toilet_technology\blockstates\squat_toilet.json

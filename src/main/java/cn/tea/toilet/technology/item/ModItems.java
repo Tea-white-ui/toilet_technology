@@ -20,16 +20,22 @@ public class ModItems {
     );
 
     // === 材料 ===
-    public static final DeferredHolder<Item, Item> FECES = ITEMS.register("feces", () -> new Item(
-            new Item.Properties().food(new FoodProperties
-                    .Builder()
-                    .alwaysEdible()
-                    .nutrition(1)
-                    .saturationModifier(0f)
-                    .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 5), 1.0f)
-                    .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), 1.0f)
-                    .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)
-                    .build())));
+        // === 粪便 ===
+        public static final DeferredHolder<Item, Item> FECES = ITEMS.register("feces", () -> new Item(
+                new Item.Properties().food(new FoodProperties
+                        .Builder()
+                        .alwaysEdible()
+                        .nutrition(1)
+                        .saturationModifier(0f)
+                        .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 5), 1.0f)
+                        .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), 1.0f)
+                        .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)
+                        .build())));
+
+        public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",() -> new ModFuelItem(
+                new Item.Properties(),200
+                )
+        );
 
     // === 方块物品 ===
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",

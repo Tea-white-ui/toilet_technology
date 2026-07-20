@@ -16,5 +16,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         // add(ModBlocks.EXAMPLE_BLOCK.get(), "Example Block");
         add(ModItems.FECES.get(), "粪便");
         add(ModItems.FECES_BLOCK_ITEM.get(), "粪便块");
+        add(ModItems.DRIED_FECES.get(),"干粪");
+
     }
 }

@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.datagen.lang;
 
 import cn.tea.toilet.technology.ToiletTechnology;
-import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.datagen.ModItemTagProvider;import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -14,7 +14,8 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
     protected void addTranslations() {
         add("itemGroup.toilet_technology", "toilet technology");
         // add(ModBlocks.EXAMPLE_BLOCK.get(), "Example Block");
-        add(ModItems.FECES.get(), "feces");
-        add(ModItems.FECES_BLOCK_ITEM.get(), "feces block");
+        add(ModItems.FECES.get(), "Feces");
+        add(ModItems.FECES_BLOCK_ITEM.get(), "Feces block");
+        add(ModItems.DRIED_FECES.get(),"Dried feces");
     }
 }

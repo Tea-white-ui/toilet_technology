@@ -21,7 +21,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
         // 材料
             // 粪便
             this.tag(ModTags.Items.FECES)
-                    .add(ModItems.FECES.get());
+                    .add(ModItems.FECES.get())
+                    .add(ModItems.DRIED_FECES.get()
+                    );
 
         // 建筑方块物品
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)

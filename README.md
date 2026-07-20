@@ -19,4 +19,5 @@ Authors
 
 Credits
 =======
-- Sound effects: [poopsky]([项目链接](https://github.com/Altnoir/PoopSkyMod)) by [Altnoir], licensed under the [MIT License].
+- Sound & Texture effects: [poopsky]([项目链接](https://github.com/Altnoir/PoopSkyMod)) by [Altnoir], licensed under the [MIT License].
+

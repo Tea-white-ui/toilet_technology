@@ -28,8 +28,10 @@ public class DataGenerators {
         ModItemTagProvider itemTagProvider = new ModItemTagProvider(output, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper);
         generator.addProvider(event.includeServer(), itemTagProvider);
 
-        generator.addProvider(event.includeServer(), new ModItemModelProvider(output, existingFileHelper));
-        generator.addProvider(event.includeServer(), new ModBlockStateProvider(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModItemModelProvider(output, existingFileHelper));
+        generator.addProvider(event.includeClient(), new ModBlockStateProvider(output, existingFileHelper));
+
+        generator.addProvider(event.includeServer(), ModLootTableProvider.create(output, lookupProvider));
 
         generator.addProvider(event.includeClient(), new ModLanguageEnUsProvider(output, "en_us"));
         generator.addProvider(event.includeClient(), new ModLanguageZhCnProvider(output, "zh_cn"));

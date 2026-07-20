@@ -65,6 +65,10 @@ public abstract class ToiletBlock extends BaseEntityBlock {
 
     @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        return getToiletShape(state);
+    }
+
+    protected @NotNull VoxelShape getToiletShape(BlockState state) {
         return switch (state.getValue(FACING)) {
             case NORTH -> SHAPE_NORTH;
             case SOUTH -> SHAPE_SOUTH;
@@ -72,11 +76,6 @@ public abstract class ToiletBlock extends BaseEntityBlock {
             case EAST -> SHAPE_EAST;
             default -> SHAPE_NORTH;
         };
-    }
-
-    @Override
-    public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
-        return new ToiletBlockEntity(pos, state);
     }
 
     @Override

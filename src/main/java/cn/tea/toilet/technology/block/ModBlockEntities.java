@@ -2,7 +2,7 @@ package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
-import cn.tea.toilet.technology.block.toilet.ToiletBlockEntity;
+import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.neoforged.bus.api.IEventBus;
@@ -15,12 +15,11 @@ public class ModBlockEntities {
             ToiletTechnology.MOD_ID
     );
 
-    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<ToiletBlockEntity>> TOILET =
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SquatToiletBlockEntity>> TOILET =
             BLOCK_ENTITIES.register("toilet", () -> BlockEntityType.Builder.of(
-                    ToiletBlockEntity::new,
+                    SquatToiletBlockEntity::new,
                     ModBlocks.SQUAT_TOILET.get()
             ).build(null));
-
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PremiumToiletBlockEntity>> PREMIUM_TOILET =
             BLOCK_ENTITIES.register("premium_toilet", () -> BlockEntityType.Builder.of(

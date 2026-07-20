@@ -3,7 +3,7 @@ package cn.tea.toilet.technology.datagen;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageEnUsProvider;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageZhCnProvider;
-import net.minecraft.core.HolderLookup;
+import cn.tea.toilet.technology.datagen.loottable.ModLootTableProvider;import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;

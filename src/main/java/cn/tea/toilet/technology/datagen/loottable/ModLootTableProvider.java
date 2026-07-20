@@ -1,4 +1,4 @@
-package cn.tea.toilet.technology.datagen;
+package cn.tea.toilet.technology.datagen.loottable;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;

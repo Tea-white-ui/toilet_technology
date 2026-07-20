@@ -1,4 +1,4 @@
-package cn.tea.toilet.technology.datagen;
+package cn.tea.toilet.technology.datagen.loottable;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.item.ModItems;

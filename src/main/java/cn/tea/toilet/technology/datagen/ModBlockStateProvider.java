@@ -16,6 +16,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         // === 简单方块 ===
         simpleBlock(ModBlocks.FECES_BLOCK.get(), models().cubeAll("feces_block", modLoc("block/feces_block")));
         // === 自定义模型 ===
-        // simpleBlock(ModBlocks.YOUR_BLOCK.get(), models().cubeAll("your_block", modLoc("block/your_block")));
+        //simpleBlock(ModBlocks.YOUR_BLOCK.get(), models().cubeAll("your_block", modLoc("block/your_block")));
+        horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
+
     }
 }

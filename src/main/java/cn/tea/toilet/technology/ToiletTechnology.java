@@ -1,4 +1,5 @@
 package cn.tea.toilet.technology;
+import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.world.level.block.Blocks;
@@ -26,6 +27,7 @@ public class ToiletTechnology {
     public ToiletTechnology(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         ModBlocks.register(modEventBus);
+        ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 

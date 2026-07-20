@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -51,6 +52,15 @@ public class ModBlocks {
             // .air() // 空气属性：无碰撞、不阻挡、不可交互（类似空气方块）
             // .pushReaction(PushReaction.BLOCK) // 活塞反应：BLOCK=活塞无法推动; DESTROY=活塞破坏方块; IGNORE=活塞忽略
             // .offsetType(Block.OffsetType.XZ) // 偏移类型：方块可以在XZ方向上微调偏移（如花草的随机偏移）
+    ));
+
+    public static final DeferredHolder<Block, Block> SQUAT_TOILET = BLOCKS.register("squat_toilet", () -> new SquatToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
     ));
 
     public static void register(IEventBus bus){

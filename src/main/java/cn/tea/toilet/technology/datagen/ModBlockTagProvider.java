@@ -25,6 +25,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(ModTags.Blocks.BUILDING_BLOCKS)
                 .add(ModBlocks.FECES_BLOCK.get());
 
+        this.tag(ModTags.Blocks.TOILETS)
+                .add(ModBlocks.SQUAT_TOILET.get());
+
         // 铲子加速挖掘
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)
                 .add(ModBlocks.FECES_BLOCK.get());

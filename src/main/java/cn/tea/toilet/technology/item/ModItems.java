@@ -40,6 +40,9 @@ public class ModItems {
     // === 方块物品 ===
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",
             () -> new BlockItem(ModBlocks.FECES_BLOCK.get(), new Item.Properties()));
+    // === 厕所 ===
+    public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",
+            () -> new BlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties()));
 
 
 

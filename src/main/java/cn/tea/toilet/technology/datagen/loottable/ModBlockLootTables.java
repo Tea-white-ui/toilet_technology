@@ -40,6 +40,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         // 5. 时运加成掉落
         //this.add(ModBlocks.FECES_BLOCK.get(), block ->
         //        this.createOreDrop(ModBlocks.FECES_BLOCK.get(), ModItems.FECES.get()));
+
+
+        this.dropSelf(ModBlocks.SQUAT_TOILET.get());
     }
 
     @Override

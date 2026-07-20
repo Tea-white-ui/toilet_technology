@@ -3,7 +3,8 @@ package cn.tea.toilet.technology.datagen;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageEnUsProvider;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageZhCnProvider;
-import cn.tea.toilet.technology.datagen.loottable.ModLootTableProvider;import net.minecraft.core.HolderLookup;
+import cn.tea.toilet.technology.datagen.loottable.ModLootTableProvider;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -37,5 +38,7 @@ public class DataGenerators {
 
         generator.addProvider(event.includeClient(), new ModLanguageEnUsProvider(output, "en_us"));
         generator.addProvider(event.includeClient(), new ModLanguageZhCnProvider(output, "zh_cn"));
+
+        generator.addProvider(event.includeClient(), new ModSoundProvider(output, existingFileHelper));
     }
 }

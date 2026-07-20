@@ -26,7 +26,7 @@ public class ModItems {
                         .Builder()
                         .alwaysEdible()
                         .nutrition(1)
-                        .saturationModifier(0f)
+                        .saturationModifier(0.5f)
                         .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 5), 1.0f)
                         .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), 1.0f)
                         .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)

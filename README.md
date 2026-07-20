@@ -1,25 +1,22 @@
 
-Installation information
+Toilet Technology
 =======
+In the Minecraft modding ecosystem, industrial automation and survival enhancement modules are quite mature, but gameplay centered around "physiological needs" and "waste disposal" is almost nonexistent.
+"Toilet Craftsmanship" fills this gap by turning toilet use into a deep resource circulation system.
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
-
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
-
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
-
-Mapping Names:
+Module contents
 ============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+Currently, the mod content is in a highly testing phase, and its features and content may change at any time.
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+License
+=======
+code: MIT art: CC-BY-NC 4.0
+
+Authors
+========
+- Tea_white_
+
+
+Credits
+=======
+- Sound effects: [poopsky]([项目链接](https://github.com/Altnoir/PoopSkyMod)) by [Altnoir], licensed under the [MIT License].

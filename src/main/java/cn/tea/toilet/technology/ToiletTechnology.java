@@ -1,7 +1,9 @@
 package cn.tea.toilet.technology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
@@ -30,7 +32,10 @@ public class ToiletTechnology {
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
+        ModSounds.register(modEventBus);
 
+        NeoForge.EVENT_BUS.register(this);
+        NeoForge.EVENT_BUS.register(new PlayerToiletHandler());
         // 报名参加我们感兴趣的服务器及其他游戏活动。
         //注意，当且仅当我们希望*这个*类（ToiletTechnology）直接响应事件时，才需要这样做。
         //如果该类中没有带@SubscribeEvent注释的函数，比如下面的 onServerStarting（），请不要添加这行。

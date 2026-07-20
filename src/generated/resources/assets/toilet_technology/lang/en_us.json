@@ -1,8 +1,10 @@
 {
   "block.toilet_technology.feces_block": "Feces block",
+  "block.toilet_technology.feces_liquid_block": "Feces Liquid",
   "block.toilet_technology.oak_toilet": "Oak Toilet",
   "block.toilet_technology.squat_toilet": "Squat Toilet",
   "item.toilet_technology.dried_feces": "Dried feces",
   "item.toilet_technology.feces": "Feces",
+  "item.toilet_technology.feces_liquid_bucket": "Feces Liquid Bucket",
   "itemGroup.toilet_technology": "toilet technology"
 }

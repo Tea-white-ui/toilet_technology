@@ -18,6 +18,9 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.DRIED_FECES.get(),"Dried feces");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"Squat Toilet");
         add(ModItems.OAK_TOILET_ITEM.get(), "Oak Toilet");
+        add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
+        add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
+
 
     }
 }

@@ -17,6 +17,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         // === 普通物品 ===
         basicItem(ModItems.FECES.get());
         basicItem(ModItems.DRIED_FECES.get());
+        basicItem(ModItems.FECES_LIQUID_BUCKET.get());
         // === 方块物品 ===
         getBuilder("feces_block")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/feces_block")));

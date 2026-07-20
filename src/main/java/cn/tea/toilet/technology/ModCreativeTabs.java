@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology;
 
-import cn.tea.toilet.technology.datagen.ModItemTagProvider;import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -27,6 +27,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.SQUAT_TOILET_ITEM.get());
                         output.accept(ModItems.OAK_TOILET_ITEM.get());
+                        output.accept(ModItems.FECES_LIQUID_BUCKET.get());
                     })
                     .build());
 

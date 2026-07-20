@@ -4,8 +4,10 @@ import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
+import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
@@ -73,6 +75,16 @@ public class ModBlocks {
             .isRedstoneConductor((state, world, pos) -> false)
             .pushReaction(PushReaction.BLOCK)
     ));
+
+    public static final DeferredHolder<Block, LiquidBlock> FECES_LIQUID_BLOCK = BLOCKS.register("feces_liquid_block",
+            () -> new LiquidBlock(ModFluids.FECES_LIQUID.get(), Block.Properties.of()
+                    .noCollission()
+                    .strength(100.0f)
+                    .noLootTable()
+                    .liquid()
+                    .replaceable()
+                    .sound(SoundType.EMPTY)
+            ));
 
     public static void register(IEventBus bus){
         BLOCKS.register(bus);

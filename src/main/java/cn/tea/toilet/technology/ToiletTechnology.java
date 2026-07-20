@@ -5,6 +5,8 @@ import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -28,6 +30,7 @@ public class ToiletTechnology {
 
     public ToiletTechnology(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerCapabilities);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
@@ -42,6 +45,14 @@ public class ToiletTechnology {
         NeoForge.EVENT_BUS.register(this);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    private void registerCapabilities(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(
+                Capabilities.FluidHandler.BLOCK,
+                ModBlockEntities.PREMIUM_TOILET.get(),
+                (blockEntity, side) -> blockEntity.fluidTank
+        );
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

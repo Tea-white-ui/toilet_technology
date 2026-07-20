@@ -1,6 +1,8 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
+import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -58,6 +60,15 @@ public class ModBlocks {
             .destroyTime(2.0f)
             .explosionResistance(1.0f)
             .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+    ));
+
+    public static final DeferredHolder<Block, Block> OAK_TOILET = BLOCKS.register("oak_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.WOOD)
             .isValidSpawn((state, world, pos, type) -> false)
             .isRedstoneConductor((state, world, pos) -> false)
             .pushReaction(PushReaction.BLOCK)

@@ -26,6 +26,7 @@ public class ModCreativeTabs {
                         // === 方块物品 ===
                         output.accept(ModItems.FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.SQUAT_TOILET_ITEM.get());
+                        output.accept(ModItems.OAK_TOILET_ITEM.get());
                     })
                     .build());
 

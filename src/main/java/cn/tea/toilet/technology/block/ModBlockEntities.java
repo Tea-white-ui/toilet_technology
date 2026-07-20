@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.ToiletBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -18,6 +19,13 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("toilet", () -> BlockEntityType.Builder.of(
                     ToiletBlockEntity::new,
                     ModBlocks.SQUAT_TOILET.get()
+            ).build(null));
+
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PremiumToiletBlockEntity>> PREMIUM_TOILET =
+            BLOCK_ENTITIES.register("premium_toilet", () -> BlockEntityType.Builder.of(
+                    PremiumToiletBlockEntity::new,
+                    ModBlocks.OAK_TOILET.get()
             ).build(null));
 
     public static void register(IEventBus bus) {

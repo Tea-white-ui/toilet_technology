@@ -22,5 +22,7 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/feces_block")));
         getBuilder("squat_toilet")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/squat_toilet")));
+        getBuilder("oak_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/oak_toilet")));
     }
 }

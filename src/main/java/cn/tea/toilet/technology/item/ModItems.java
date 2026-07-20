@@ -43,6 +43,8 @@ public class ModItems {
     // === 厕所 ===
     public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",
             () -> new BlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> OAK_TOILET_ITEM = ITEMS.register("oak_toilet",
+            () -> new BlockItem(ModBlocks.OAK_TOILET.get(), new Item.Properties()));
 
 
 

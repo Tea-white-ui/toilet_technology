@@ -18,6 +18,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         // === 自定义模型 ===
         //simpleBlock(ModBlocks.YOUR_BLOCK.get(), models().cubeAll("your_block", modLoc("block/your_block")));
         horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
+        horizontalBlock(ModBlocks.OAK_TOILET.get(), models().getExistingFile(modLoc("block/oak_toilet")));
 
     }
 }

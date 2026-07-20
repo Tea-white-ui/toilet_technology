@@ -29,7 +29,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)
                 .add(ModItems.FECES_BLOCK_ITEM.get());
         this.tag(ModTags.Items.TOILETS)
-                .add(ModItems.SQUAT_TOILET_ITEM.get());
+                .add(ModItems.SQUAT_TOILET_ITEM.get())
+                .add(ModItems.OAK_TOILET_ITEM.get());
 
 
         // === 标签嵌套 ===

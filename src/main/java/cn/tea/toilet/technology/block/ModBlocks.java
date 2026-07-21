@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.drying.DryingRackBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
@@ -58,6 +59,7 @@ public class ModBlocks {
             // .offsetType(Block.OffsetType.XZ) // 偏移类型：方块可以在XZ方向上微调偏移（如花草的随机偏移）
     ));
 
+    // === 厕所 ===
     public static final DeferredHolder<Block, Block> SQUAT_TOILET = BLOCKS.register("squat_toilet", () -> new SquatToiletBlock(Block.Properties.of()
             .destroyTime(2.0f)
             .explosionResistance(1.0f)
@@ -125,6 +127,16 @@ public class ModBlocks {
             .isRedstoneConductor((state, world, pos) -> false)
             .pushReaction(PushReaction.BLOCK)
             ,0.6
+    ));
+
+    // === 干燥台/箱 ===
+    public static final DeferredHolder<Block, Block> DRYING_RACK = BLOCKS.register("drying_rack", () -> new DryingRackBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.WOOD)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
     ));
 
 

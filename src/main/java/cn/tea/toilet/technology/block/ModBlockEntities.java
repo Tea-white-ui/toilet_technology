@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -30,6 +31,12 @@ public class ModBlockEntities {
                     ModBlocks.GOLD_TOILET.get(),
                     ModBlocks.DIAMOND_TOILET.get(),
                     ModBlocks.NETHERITE_TOILET.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DryingRackBlockEntity>> DRYING_RACK =
+            BLOCK_ENTITIES.register("drying_rack", () -> BlockEntityType.Builder.of(
+                    DryingRackBlockEntity::new,
+                    ModBlocks.DRYING_RACK.get()
             ).build(null));
 
     public static void register(IEventBus bus) {

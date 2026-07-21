@@ -38,6 +38,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DIAMOND_TOILET.get())
                 .add(ModBlocks.NETHERITE_TOILET.get());
 
+        this.tag(ModTags.Blocks.DRYERS)
+                .add(ModBlocks.DRYING_RACK.get());
+
 
         // === 挖掘加速 ===
         this.tag(BlockTags.MINEABLE_WITH_SHOVEL)

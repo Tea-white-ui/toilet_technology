@@ -58,6 +58,9 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.DIAMOND_TOILET.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> NETHERITE_TOILET_ITEM = ITEMS.register("netherite_toilet",
             () -> new BlockItem(ModBlocks.NETHERITE_TOILET.get(), new Item.Properties().fireResistant()));
+    // === 干燥台/箱 ===
+    public static final DeferredHolder<Item, BlockItem> DRYING_RACK_ITEM = ITEMS.register("drying_rack",
+            () -> new BlockItem(ModBlocks.DRYING_RACK.get(), new Item.Properties()));
 
     // === 桶 ===
     public static final DeferredHolder<Item, Item> FECES_LIQUID_BUCKET = ITEMS.register("feces_liquid_bucket",

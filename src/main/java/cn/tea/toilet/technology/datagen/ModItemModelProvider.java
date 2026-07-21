@@ -35,5 +35,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/diamond_toilet")));
         getBuilder("netherite_toilet")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/netherite_toilet")));
+        getBuilder("drying_rack")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/drying_rack")));
+
     }
 }

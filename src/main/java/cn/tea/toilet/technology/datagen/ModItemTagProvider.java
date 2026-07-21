@@ -36,6 +36,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GOLD_TOILET_ITEM.get())
                 .add(ModItems.DIAMOND_TOILET_ITEM.get())
                 .add(ModItems.NETHERITE_TOILET_ITEM.get());
+        this.tag(ModTags.Items.DRYERS)
+                .add(ModItems.DRYING_RACK_ITEM.get());
 
 
 

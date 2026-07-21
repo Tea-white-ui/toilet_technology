@@ -14,7 +14,6 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
     @Override
     protected void addTranslations() {
         add("itemGroup.toilet_technology", "厕所技艺");
-        // add(ModBlocks.EXAMPLE_BLOCK.get(), "Example Block");
         add(ModItems.FECES.get(), "粪便");
         add(ModItems.FECES_BLOCK_ITEM.get(), "粪便块");
         add(ModItems.DRIED_FECES.get(),"干粪");
@@ -27,6 +26,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.NETHERITE_TOILET_ITEM.get(), "下届合金厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
+        add(ModBlocks.DRYING_RACK.get(), "干燥架");
         add("fluid_type.toilet_technology.feces_liquid","粪液");
 
     }

@@ -3,17 +3,19 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "minecraft:diamond"
+      "item": "minecraft:stick"
     },
     "D": {
-      "item": "toilet_technology:gold_toilet"
+      "tag": "minecraft:planks"
     }
   },
   "pattern": [
-    "#D#"
+    "#D#",
+    "# #",
+    "# #"
   ],
   "result": {
     "count": 1,
-    "id": "toilet_technology:diamond_toilet"
+    "id": "toilet_technology:dryer_rack"
   }
 }

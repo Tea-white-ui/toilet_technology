@@ -8,6 +8,7 @@ import net.minecraft.data.recipes.*;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.conditions.IConditionBuilder;
 import org.jetbrains.annotations.NotNull;
 
@@ -75,6 +76,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('#', Items.DIAMOND)
                 .define('D', ModItems.GOLD_TOILET_ITEM.get())
                 .unlockedBy(getHasName(ModBlocks.GOLD_TOILET.get()), has(ModBlocks.GOLD_TOILET.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRYING_RACK.get())
+                .pattern("#D#")
+                .pattern("# #")
+                .pattern("# #")
+                .define('D', Ingredient.of(ItemTags.PLANKS))
+                .define('#', Items.STICK)
+                .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
                 .save(output);
 
         SmithingTransformRecipeBuilder.smithing(

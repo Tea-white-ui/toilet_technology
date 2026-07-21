@@ -14,6 +14,8 @@ public class ModTags {
         public static final TagKey<Block> BUILDING_BLOCKS = tag("building_blocks");
         // === 厕所 ===
         public static final TagKey<Block> TOILETS = tag("toilets");
+        // === 高级厕所 ===
+        public static final TagKey<Block> ADVANCED_TOILETS = tag("advanced_toilets");
 
         private static TagKey<Block> tag(String name) {
             return BlockTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
@@ -30,6 +32,7 @@ public class ModTags {
         public static final TagKey<Item> BUILDING_BLOCKS_ITEM = tag("building_blocks_item");
         // === 厕所 ===
         public static final TagKey<Item> TOILETS = tag("toilets");
+
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));

@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.toilet;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -10,6 +11,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import org.jetbrains.annotations.NotNull;
 
@@ -22,6 +24,17 @@ public class PremiumToiletBlockEntity extends BlockEntity {
             if (level != null && !level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
+        }
+
+        @Override
+        public @NotNull FluidStack drain(int maxDrain, IFluidHandler.FluidAction action) {
+            if (getFluidAmount() > 0 && getFluid().is(ModFluids.FECES_LIQUID.get())) {
+                if (action.simulate()) {
+                    return getFluid().copyWithAmount(Math.min(getFluidAmount(), maxDrain));
+                }
+                return super.drain(maxDrain, action);
+            }
+            return super.drain(maxDrain, action);
         }
     };
 

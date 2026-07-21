@@ -1,6 +1,8 @@
 package cn.tea.toilet.technology.block.toilet;
 
+import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
@@ -17,10 +19,15 @@ import org.jetbrains.annotations.NotNull;
 
 public  class PremiumToiletBlock extends ToiletBlock {
 
-    public static final MapCodec<PremiumToiletBlock> CODEC = simpleCodec(PremiumToiletBlock::new);
+    public static final MapCodec<PremiumToiletBlock> CODEC = RecordCodecBuilder.mapCodec(instance ->
+            instance.group(
+                    propertiesCodec(),
+                    Codec.DOUBLE.fieldOf("multiplier").forGetter(b -> b.multiplier)
+            ).apply(instance, PremiumToiletBlock::new)
+    );
 
     public PremiumToiletBlock(Properties properties) {
-        super(properties);
+        this(properties, 1);
     }
 
     @Override
@@ -31,6 +38,17 @@ public  class PremiumToiletBlock extends ToiletBlock {
     @Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
+    }
+
+    private final double multiplier;
+
+    public PremiumToiletBlock(Properties properties, double multiplier) {
+        super(properties);
+        this.multiplier = multiplier;
+    }
+
+    public double getMultiplier() {
+        return multiplier;
     }
 
     @Override

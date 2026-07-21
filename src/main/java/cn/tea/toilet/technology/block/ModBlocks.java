@@ -74,6 +74,7 @@ public class ModBlocks {
             .isValidSpawn((state, world, pos, type) -> false)
             .isRedstoneConductor((state, world, pos) -> false)
             .pushReaction(PushReaction.BLOCK)
+            ,1.0
     ));
 
     public static final DeferredHolder<Block, LiquidBlock> FECES_LIQUID_BLOCK = BLOCKS.register("feces_liquid_block",

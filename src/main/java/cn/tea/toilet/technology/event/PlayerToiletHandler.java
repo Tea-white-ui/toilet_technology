@@ -24,11 +24,12 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayerToiletHandler {
 
     private static final int PRODUCE_INTERVAL = 20;
-    private static final Map<UUID, Integer> TIMERS = new HashMap<>();
+    private static final Map<UUID, Integer> TIMERS = new ConcurrentHashMap<>();
 
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent.Post event) {
@@ -45,11 +46,10 @@ public class PlayerToiletHandler {
         BlockState stateAtFeet = player.level().getBlockState(feet);
         BlockState stateBelow = player.level().getBlockState(below);
 
-        boolean onToilet = stateAtFeet.getBlock() instanceof SquatToiletBlock
-                || stateBelow.getBlock() instanceof SquatToiletBlock;
-
         boolean onPremiumToilet = stateAtFeet.getBlock() instanceof PremiumToiletBlock
                 || stateBelow.getBlock() instanceof PremiumToiletBlock;
+        boolean onToilet = !onPremiumToilet && (stateAtFeet.getBlock() instanceof SquatToiletBlock
+                || stateBelow.getBlock() instanceof SquatToiletBlock);
 
         if (onToilet || onPremiumToilet) {
             int interval = PRODUCE_INTERVAL;
@@ -76,6 +76,11 @@ public class PlayerToiletHandler {
         } else {
             TIMERS.remove(player.getUUID());
         }
+    }
+
+    @SubscribeEvent
+    public void onPlayerLogout(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
+        TIMERS.remove(event.getEntity().getUUID());
     }
 
     private void handlePremiumToilet(Player player, BlockState stateAtFeet, BlockState stateBelow, BlockPos feet, BlockPos below) {
@@ -136,4 +141,5 @@ public class PlayerToiletHandler {
             player.getFoodData().setFoodLevel(player.getFoodData().getFoodLevel() - 1);
         }
     }
+
 }

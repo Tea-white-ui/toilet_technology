@@ -30,6 +30,10 @@ public class ToiletTechnology {
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static Logger getLOGGER(){
+        return LOGGER;
+    }
+
 
     public ToiletTechnology(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);

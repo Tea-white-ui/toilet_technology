@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.drying;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
+import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
+
 
 /**
  * 干燥架方块实体
@@ -95,15 +97,19 @@ public class DryingRackBlockEntity extends BlockEntity {
                     //执行物品转化
                     ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
                     entity.itemHandler.setStackInSlot(i, output);
+                    ToiletTechnology.getLOGGER().debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
+
 
                     //重置进度 entity.dryingProgress[i] =0;
                     entity.dryingTotalTime[i] = 0;
                     entity.cachedRecipes[i] = null;
 
-                    //标记方块实体已改变 entity.setChanged();
+                    //标记方块实体已改变
+                    entity.setChanged();
                 }
             } else {
                 // 没有匹配配方，重置进度
+                ToiletTechnology.getLOGGER().debug("No matching drying recipe for item: {}, pos={}", stack, pos);
                 entity.dryingProgress[i] = 0;
                 entity.dryingTotalTime[i] = 0;
             }

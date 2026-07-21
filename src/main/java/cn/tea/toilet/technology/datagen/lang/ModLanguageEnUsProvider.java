@@ -20,9 +20,15 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.DRIED_FECES.get(),"Dried feces");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"Squat Toilet");
         add(ModItems.OAK_TOILET_ITEM.get(), "Oak Toilet");
+        add(ModItems.STONE_TOILET_ITEM.get(),"Stone Toilet");
+        add(ModItems.IRON_TOILET_ITEM.get(),"Iron Toilet");
+        add(ModItems.GOLD_TOILET_ITEM.get(),"Gold Toilet");
+        add(ModItems.DIAMOND_TOILET_ITEM.get(),"Diamond Toilet");
+        add(ModItems.NETHERITE_TOILET_ITEM.get(),"Netherite Toilet");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
         add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
+
 
 
     }

@@ -48,6 +48,16 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> OAK_TOILET_ITEM = ITEMS.register("oak_toilet",
             () -> new BlockItem(ModBlocks.OAK_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> STONE_TOILET_ITEM = ITEMS.register("stone_toilet",
+            () -> new BlockItem(ModBlocks.STONE_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> IRON_TOILET_ITEM = ITEMS.register("iron_toilet",
+            () -> new BlockItem(ModBlocks.IRON_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> GOLD_TOILET_ITEM = ITEMS.register("gold_toilet",
+            () -> new BlockItem(ModBlocks.GOLD_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> DIAMOND_TOILET_ITEM = ITEMS.register("diamond_toilet",
+            () -> new BlockItem(ModBlocks.DIAMOND_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> NETHERITE_TOILET_ITEM = ITEMS.register("netherite_toilet",
+            () -> new BlockItem(ModBlocks.NETHERITE_TOILET.get(), new Item.Properties().fireResistant()));
 
     // === 桶 ===
     public static final DeferredHolder<Item, Item> FECES_LIQUID_BUCKET = ITEMS.register("feces_liquid_bucket",

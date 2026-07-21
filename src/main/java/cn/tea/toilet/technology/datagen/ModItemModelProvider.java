@@ -25,5 +25,15 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/squat_toilet")));
         getBuilder("oak_toilet")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/oak_toilet")));
+        getBuilder("stone_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/stone_toilet")));
+        getBuilder("iron_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/iron_toilet")));
+        getBuilder("gold_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/gold_toilet")));
+        getBuilder("diamond_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/diamond_toilet")));
+        getBuilder("netherite_toilet")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/netherite_toilet")));
     }
 }

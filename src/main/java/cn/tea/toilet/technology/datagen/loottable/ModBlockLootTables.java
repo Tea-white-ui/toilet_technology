@@ -44,6 +44,11 @@ public class ModBlockLootTables extends BlockLootSubProvider {
 
         this.dropSelf(ModBlocks.SQUAT_TOILET.get());
         this.dropSelf(ModBlocks.OAK_TOILET.get());
+        this.dropSelf(ModBlocks.STONE_TOILET.get());
+        this.dropSelf(ModBlocks.IRON_TOILET.get());
+        this.dropSelf(ModBlocks.GOLD_TOILET.get());
+        this.dropSelf(ModBlocks.DIAMOND_TOILET.get());
+        this.dropSelf(ModBlocks.NETHERITE_TOILET.get());
     }
 
     @Override

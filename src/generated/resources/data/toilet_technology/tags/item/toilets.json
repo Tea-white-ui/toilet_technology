@@ -1,6 +1,11 @@
 {
   "values": [
     "toilet_technology:squat_toilet",
-    "toilet_technology:oak_toilet"
+    "toilet_technology:oak_toilet",
+    "toilet_technology:stone_toilet",
+    "toilet_technology:iron_toilet",
+    "toilet_technology:gold_toilet",
+    "toilet_technology:diamond_toilet",
+    "toilet_technology:netherite_toilet"
   ]
 }

@@ -30,7 +30,13 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.FECES_BLOCK_ITEM.get());
         this.tag(ModTags.Items.TOILETS)
                 .add(ModItems.SQUAT_TOILET_ITEM.get())
-                .add(ModItems.OAK_TOILET_ITEM.get());
+                .add(ModItems.OAK_TOILET_ITEM.get())
+                .add(ModItems.STONE_TOILET_ITEM.get())
+                .add(ModItems.IRON_TOILET_ITEM.get())
+                .add(ModItems.GOLD_TOILET_ITEM.get())
+                .add(ModItems.DIAMOND_TOILET_ITEM.get())
+                .add(ModItems.NETHERITE_TOILET_ITEM.get());
+
 
 
         // === 标签嵌套 ===

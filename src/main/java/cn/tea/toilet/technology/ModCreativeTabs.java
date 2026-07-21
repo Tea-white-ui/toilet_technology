@@ -27,6 +27,11 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.SQUAT_TOILET_ITEM.get());
                         output.accept(ModItems.OAK_TOILET_ITEM.get());
+                        output.accept(ModItems.STONE_TOILET_ITEM.get());
+                        output.accept(ModItems.IRON_TOILET_ITEM.get());
+                        output.accept(ModItems.GOLD_TOILET_ITEM.get());
+                        output.accept(ModItems.DIAMOND_TOILET_ITEM.get());
+                        output.accept(ModItems.NETHERITE_TOILET_ITEM.get());
                         output.accept(ModItems.FECES_LIQUID_BUCKET.get());
                     })
                     .build());

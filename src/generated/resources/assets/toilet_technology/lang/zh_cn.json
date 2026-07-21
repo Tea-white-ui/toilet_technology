@@ -1,8 +1,13 @@
 {
+  "block.toilet_technology.diamond_toilet": "钻石厕所",
   "block.toilet_technology.feces_block": "粪便块",
   "block.toilet_technology.feces_liquid_block": "粪液",
+  "block.toilet_technology.gold_toilet": "金制厕所",
+  "block.toilet_technology.iron_toilet": "铁制厕所",
+  "block.toilet_technology.netherite_toilet": "下届合金厕所",
   "block.toilet_technology.oak_toilet": "木制厕所",
   "block.toilet_technology.squat_toilet": "蹲坑",
+  "block.toilet_technology.stone_toilet": "石制厕所",
   "fluid_type.toilet_technology.feces_liquid": "粪液",
   "item.toilet_technology.dried_feces": "干粪",
   "item.toilet_technology.feces": "粪便",

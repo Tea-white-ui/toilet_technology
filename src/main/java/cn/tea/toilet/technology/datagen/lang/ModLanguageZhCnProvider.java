@@ -20,6 +20,11 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.DRIED_FECES.get(),"干粪");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"蹲坑");
         add(ModItems.OAK_TOILET_ITEM.get(), "木制厕所");
+        add(ModItems.STONE_TOILET_ITEM.get(), "石制厕所");
+        add(ModItems.IRON_TOILET_ITEM.get(), "铁制厕所");
+        add(ModItems.GOLD_TOILET_ITEM.get(), "金制厕所");
+        add(ModItems.DIAMOND_TOILET_ITEM.get(), "钻石厕所");
+        add(ModItems.NETHERITE_TOILET_ITEM.get(), "下届合金厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
         add("fluid_type.toilet_technology.feces_liquid","粪液");

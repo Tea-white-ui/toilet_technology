@@ -19,6 +19,11 @@ public class ModBlockStateProvider extends BlockStateProvider {
         //simpleBlock(ModBlocks.YOUR_BLOCK.get(), models().cubeAll("your_block", modLoc("block/your_block")));
         horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
         horizontalBlock(ModBlocks.OAK_TOILET.get(), models().getExistingFile(modLoc("block/oak_toilet")));
+        horizontalBlock(ModBlocks.STONE_TOILET.get(), models().getExistingFile(modLoc("block/stone_toilet")));
+        horizontalBlock(ModBlocks.IRON_TOILET.get(), models().getExistingFile(modLoc("block/iron_toilet")));
+        horizontalBlock(ModBlocks.GOLD_TOILET.get(), models().getExistingFile(modLoc("block/gold_toilet")));
+        horizontalBlock(ModBlocks.DIAMOND_TOILET.get(), models().getExistingFile(modLoc("block/diamond_toilet")));
+        horizontalBlock(ModBlocks.NETHERITE_TOILET.get(), models().getExistingFile(modLoc("block/netherite_toilet")));
 
     }
 }

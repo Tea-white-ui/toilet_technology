@@ -1,8 +1,13 @@
 {
+  "block.toilet_technology.diamond_toilet": "Diamond Toilet",
   "block.toilet_technology.feces_block": "Feces block",
   "block.toilet_technology.feces_liquid_block": "Feces Liquid",
+  "block.toilet_technology.gold_toilet": "Gold Toilet",
+  "block.toilet_technology.iron_toilet": "Iron Toilet",
+  "block.toilet_technology.netherite_toilet": "Netherite Toilet",
   "block.toilet_technology.oak_toilet": "Oak Toilet",
   "block.toilet_technology.squat_toilet": "Squat Toilet",
+  "block.toilet_technology.stone_toilet": "Stone Toilet",
   "fluid_type.toilet_technology.feces_liquid": "Feces Liquid",
   "item.toilet_technology.dried_feces": "Dried feces",
   "item.toilet_technology.feces": "Feces",

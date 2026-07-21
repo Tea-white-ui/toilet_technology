@@ -24,7 +24,12 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PremiumToiletBlockEntity>> PREMIUM_TOILET =
             BLOCK_ENTITIES.register("premium_toilet", () -> BlockEntityType.Builder.of(
                     PremiumToiletBlockEntity::new,
-                    ModBlocks.OAK_TOILET.get()
+                    ModBlocks.OAK_TOILET.get(),
+                    ModBlocks.STONE_TOILET.get(),
+                    ModBlocks.IRON_TOILET.get(),
+                    ModBlocks.GOLD_TOILET.get(),
+                    ModBlocks.DIAMOND_TOILET.get(),
+                    ModBlocks.NETHERITE_TOILET.get()
             ).build(null));
 
     public static void register(IEventBus bus) {

@@ -77,6 +77,58 @@ public class ModBlocks {
             ,1.0
     ));
 
+    public static final DeferredHolder<Block, Block> STONE_TOILET = BLOCKS.register("stone_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+            ,0.9
+    ));
+
+    public static final DeferredHolder<Block, Block> IRON_TOILET = BLOCKS.register("iron_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+            ,0.8
+    ));
+
+    public static final DeferredHolder<Block, Block> GOLD_TOILET = BLOCKS.register("gold_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+            ,0.7
+    ));
+
+    public static final DeferredHolder<Block, Block> DIAMOND_TOILET = BLOCKS.register("diamond_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+            ,0.6
+    ));
+
+    public static final DeferredHolder<Block, Block> NETHERITE_TOILET = BLOCKS.register("netherite_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.STONE)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+            ,0.6
+    ));
+
+
+    // === 流体 ===
     public static final DeferredHolder<Block, LiquidBlock> FECES_LIQUID_BLOCK = BLOCKS.register("feces_liquid_block",
             () -> new LiquidBlock(ModFluids.FECES_LIQUID.get(), Block.Properties.of()
                     .noCollission()

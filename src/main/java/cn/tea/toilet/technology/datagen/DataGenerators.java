@@ -35,6 +35,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), ModLootTableProvider.create(output, lookupProvider));
 
         generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModDataMapProvider(output, lookupProvider));
 
         generator.addProvider(event.includeClient(), new ModLanguageEnUsProvider(output, "en_us"));
         generator.addProvider(event.includeClient(), new ModLanguageZhCnProvider(output, "zh_cn"));

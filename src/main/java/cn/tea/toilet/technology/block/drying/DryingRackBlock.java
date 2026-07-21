@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.drying;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -27,6 +28,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 
 public class DryingRackBlock extends BaseEntityBlock {
 
@@ -90,6 +94,19 @@ public class DryingRackBlock extends BaseEntityBlock {
     }
 
     @Override
+    protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean movedByPiston) {
+        //只在方块真正被替换（被破坏）时才掉落物品
+        if (!state.is(newState.getBlock())) {
+            if (level.getBlockEntity(pos) instanceof DryingRackBlockEntity blockEntity) {
+                for (int i = 0; i < blockEntity.itemHandler.getSlots(); i++) {
+                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), blockEntity.itemHandler.getStackInSlot(i));
+                }
+            }
+        }
+        super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+
+    @Override
     public @NotNull VoxelShape getShape(BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext context) {
         return SHAPE;
     }
@@ -145,7 +162,8 @@ public class DryingRackBlock extends BaseEntityBlock {
                 if (!player.getInventory().add(extracted)) {
                     player.drop(extracted, false);
                 }
-                level.sendBlockUpdated(pos, state, state, 2);
+                level.sendBlockUpdated(pos, state, state,2);
+                level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS,0.2F, (level.random.nextFloat() - level.random.nextFloat()) *1.4F +2.0F);
                 return ItemInteractionResult.sidedSuccess(level.isClientSide());
             }
         }

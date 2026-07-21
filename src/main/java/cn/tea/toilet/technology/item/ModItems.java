@@ -35,10 +35,10 @@ public class ModItems {
                         .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)
                         .build())));
 
-        public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",() -> new ModFuelItem(
-                new Item.Properties(),200
-                )
-        );
+        public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",() -> new Item(
+ new Item.Properties()
+ )
+ );
 
     // === 方块物品 ===
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",

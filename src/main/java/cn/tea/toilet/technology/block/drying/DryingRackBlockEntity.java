@@ -65,7 +65,7 @@ public class DryingRackBlockEntity extends BlockEntity {
         // 遍历所有槽位
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             ItemStack stack = entity.itemHandler.getStackInSlot(i);
-            
+
             // 如果槽位为空，重置进度
             if (stack.isEmpty()) {
                 entity.dryingProgress[i] = 0;
@@ -75,27 +75,27 @@ public class DryingRackBlockEntity extends BlockEntity {
 
             // 查找匹配的干燥配方
             DryingRecipe recipe = findMatchingRecipe(level, stack);
-            
+
             if (recipe != null) {
                 // 如果配方发生变化，重置进度
                 if (entity.dryingTotalTime[i] != recipe.getDryingTime()) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = recipe.getDryingTime();
                 }
-                
+
                 // 增加干燥进度
                 entity.dryingProgress[i]++;
-                
+
                 // 检查是否完成干燥
                 if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
                     // 执行物品转化
                     ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
                     entity.itemHandler.setStackInSlot(i, output);
-                    
+
                     // 重置进度
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
-                    
+
                     // 标记方块实体已改变，触发保存和网络同步
                     entity.setChanged();
                     level.sendBlockUpdated(pos, state, state, 2);
@@ -118,7 +118,7 @@ public class DryingRackBlockEntity extends BlockEntity {
     private static DryingRecipe findMatchingRecipe(Level level, ItemStack stack) {
         // 获取所有干燥配方
         var recipeHolders = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.DRYING.get());
-        
+
         // 遍历查找第一个匹配的配方
         for (var recipeHolder : recipeHolders) {
             DryingRecipe recipe = recipeHolder.value();
@@ -126,22 +126,8 @@ public class DryingRackBlockEntity extends BlockEntity {
                 return recipe;
             }
         }
-        
-        return null;
-    }
 
-    /**
-     * 方块实体被移除时的处理
-     * 掉落所有物品
-     */
-    @Override
-    public void setRemoved() {
-        if (level != null && !level.isClientSide()) {
-            for (int i = 0; i < itemHandler.getSlots(); i++) {
-                net.minecraft.world.Containers.dropItemStack(level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), itemHandler.getStackInSlot(i));
-            }
-        }
-        super.setRemoved();
+        return null;
     }
 
     /**

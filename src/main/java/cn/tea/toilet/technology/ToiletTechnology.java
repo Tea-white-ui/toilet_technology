@@ -55,6 +55,11 @@ public class ToiletTechnology {
                 ModBlockEntities.PREMIUM_TOILET.get(),
                 (blockEntity, side) -> blockEntity.fluidTank
         );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.DRYING_RACK.get(),
+                (blockEntity, side) -> blockEntity.itemHandler
+        );
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

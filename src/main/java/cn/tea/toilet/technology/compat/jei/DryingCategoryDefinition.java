@@ -11,7 +11,7 @@ import java.util.List;
 
 /**
  * 干燥配方的JEI类别定义 - 自描述干燥配方的所有JEI集成信息
- *
+ * <p>
  * 通过实现JeiCategoryDefinition接口，将RecipeType、Category创建、配方收集、催化剂列表全部内聚。
  * JEI RecipeType基于Minecraft RecipeType自动构建，无需手动指定命名空间和路径。
  */

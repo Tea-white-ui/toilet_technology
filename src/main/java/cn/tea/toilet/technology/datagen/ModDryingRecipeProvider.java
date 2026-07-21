@@ -18,7 +18,7 @@ import java.util.function.Consumer;
 public class ModDryingRecipeProvider {
 
     /**
-     * 添加所有干燥配方
+     * 添加干燥配方
      */
     public static void addRecipes(RecipeOutput output) {
         createDryingRecipe(

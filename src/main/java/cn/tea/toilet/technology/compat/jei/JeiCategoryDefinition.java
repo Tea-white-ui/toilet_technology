@@ -14,14 +14,14 @@ import java.util.List;
 
 /**
  * JEI配方类别定义接口 - 将每个配方类别的自描述信息内聚到一个对象中
- *
+ * <p>
  * 每个实现类负责定义：
  * - getMinecraftRecipeType() — 对应的Minecraft配方类型（核心数据源）
  * - getRecipeType() — JEI配方类型标识（基于Minecraft配方类型UID自动构建）
  * - createCategory() — JEI可视化布局实例
  * - getCatalysts() — 催化剂列表
  * - collectRecipes() — 配方收集（提供默认实现，基于getMinecraftRecipeType自动收集）
- *
+ * <p>
  * 通过此抽象，新增配方类型时无需修改Plugin主类，只需新增一个Definition实现并注册即可。
  *
  * @param <T> 配方类型，必须继承自Recipe

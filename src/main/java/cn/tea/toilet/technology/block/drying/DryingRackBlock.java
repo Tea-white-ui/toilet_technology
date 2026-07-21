@@ -137,7 +137,7 @@ public class DryingRackBlock extends BaseEntityBlock {
         localZ = Math.clamp(localZ, 0.0, 1.0);
         
         net.minecraft.core.Direction facing = state.getValue(FACING);
-        double[] rotatedPos = DryingRackConfig.rotateTo(localX, localZ, facing);
+        double[] rotatedPos = DryingRackConfig.unrotateFrom(localX, localZ, facing);
         
         int closestSlot = -1;
         double minDistanceSq = Double.MAX_VALUE;

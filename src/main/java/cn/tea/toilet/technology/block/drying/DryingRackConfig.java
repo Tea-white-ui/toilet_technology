@@ -32,4 +32,18 @@ public class DryingRackConfig {
             default -> new double[]{localX, localZ};
         };
     }
+
+    /**
+     * 逆向旋转：将世界坐标转回原生坐标（用于点击检测）
+     * rotateTo的逆变换，对于 SOUTH/NORTH与 rotateTo相同，
+     * 对于 WEST/EAST互换公式 */
+    public static double[] unrotateFrom(double worldX, double worldZ, Direction facing) {
+        return switch (facing.get2DDataValue()) {
+            case 0 -> new double[]{worldX, worldZ};
+            case 1 -> new double[]{1.0 - worldZ, worldX};
+            case 2 -> new double[]{1.0 - worldX,1.0 - worldZ};
+            case 3 -> new double[]{worldZ,1.0 - worldX};
+            default -> new double[]{worldX, worldZ};
+        };
+    }
 }

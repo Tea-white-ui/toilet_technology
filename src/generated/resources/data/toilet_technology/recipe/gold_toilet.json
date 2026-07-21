@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_ingot"
+    },
+    "D": {
+      "item": "toilet_technology:iron_toilet"
+    }
+  },
+  "pattern": [
+    "#D#",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:gold_toilet"
+  }
+}

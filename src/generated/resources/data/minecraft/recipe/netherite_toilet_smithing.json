@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smithing_transform",
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "base": {
+    "item": "toilet_technology:diamond_toilet"
+  },
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:netherite_toilet"
+  },
+  "template": []
+}

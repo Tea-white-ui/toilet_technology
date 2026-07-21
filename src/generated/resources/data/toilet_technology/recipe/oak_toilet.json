@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "D": {
+      "item": "toilet_technology:feces"
+    }
+  },
+  "pattern": [
+    "#D#",
+    "###",
+    "###"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:oak_toilet"
+  }
+}

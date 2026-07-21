@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_gold_toilet": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:gold_toilet"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "toilet_technology:diamond_toilet"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_gold_toilet"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "toilet_technology:diamond_toilet"
+    ]
+  }
+}

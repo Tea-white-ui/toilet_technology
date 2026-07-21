@@ -42,11 +42,11 @@ public class ToiletTechnologyClient {
         event.enqueueWork(() -> {
             BlockEntityRenderers.register(
                     ModBlockEntities.PREMIUM_TOILET.get(),
-                    context -> new PremiumToiletBlockEntityBER()
+                    PremiumToiletBlockEntityBER::new
             );
             BlockEntityRenderers.register(
                     ModBlockEntities.DRYING_RACK.get(),
-                    context -> new DryingRackBlockEntityBER()
+                    DryingRackBlockEntityBER::new
             );
         });
     }

@@ -11,7 +11,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "toilet_technology:dryer_rack"
+          "name": "toilet_technology:drying_rack"
         }
       ],
       "rolls": 1.0

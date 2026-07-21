@@ -7,6 +7,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.Containers;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.ItemStackHandler;
@@ -26,6 +28,16 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     public DryingRackBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.DRYING_RACK.get(), pos, blockState);
+    }
+
+    @Override
+    public void setRemoved() {
+        if (level != null && !level.isClientSide()) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                net.minecraft.world.Containers.dropItemStack(level, getBlockPos().getX(), getBlockPos().getY(), getBlockPos().getZ(), itemHandler.getStackInSlot(i));
+            }
+        }
+        super.setRemoved();
     }
 
     @Override

@@ -2,9 +2,9 @@ package cn.tea.toilet.technology.block.drying;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -17,22 +17,11 @@ import org.jetbrains.annotations.NotNull;
 
 public class DryingRackBlockEntityBER implements BlockEntityRenderer<DryingRackBlockEntity> {
 
-    private static final float ITEM_HEIGHT = 1.05f;
-    private static final float ITEM_SCALE = 0.45f;
+    private final ItemRenderer itemRenderer;
 
-    private static final float[][] ITEM_POSITIONS = {
-            {0.25f, 0.25f},
-            {0.25f, 0.75f},
-            {0.75f, 0.25f},
-            {0.75f, 0.75f}
-    };
-
-    private static final float[] ITEM_ROTATIONS = {
-            45.0f,
-            -45.0f,
-            135.0f,
-            -135.0f
-    };
+    public DryingRackBlockEntityBER(BlockEntityRendererProvider.Context context) {
+        this.itemRenderer = context.getItemRenderer();
+    }
 
     @Override
     public void render(@NotNull DryingRackBlockEntity blockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
@@ -43,45 +32,25 @@ public class DryingRackBlockEntityBER implements BlockEntityRenderer<DryingRackB
         }
 
         Direction facing = state.getValue(facingProperty);
-        int facingIndex = facing.get2DDataValue();
 
-        ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
-
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < DryingRackConfig.SLOT_COUNT; i++) {
             ItemStack itemStack = blockEntity.itemHandler.getStackInSlot(i);
             if (itemStack.isEmpty()) {
                 continue;
             }
 
-            float[] pos = ITEM_POSITIONS[i];
-            float x = pos[0];
-            float z = pos[1];
-
-            float rotatedX = x;
-            float rotatedZ = z;
-
-            switch (facingIndex) {
-                case 1:
-                    rotatedX = z;
-                    rotatedZ = 1.0f - x;
-                    break;
-                case 2:
-                    rotatedX = 1.0f - x;
-                    rotatedZ = 1.0f - z;
-                    break;
-                case 3:
-                    rotatedX = 1.0f - z;
-                    rotatedZ = x;
-                    break;
-            }
+            float[] pos = DryingRackConfig.ITEM_POSITIONS[i];
+            double[] rotatedPos = DryingRackConfig.rotateTo(pos[0], pos[1], facing);
+            float rotatedX = (float) rotatedPos[0];
+            float rotatedZ = (float) rotatedPos[1];
 
             poseStack.pushPose();
-            poseStack.translate(rotatedX, ITEM_HEIGHT, rotatedZ);
+            poseStack.translate(rotatedX, DryingRackConfig.ITEM_HEIGHT, rotatedZ);
 
-            poseStack.mulPose(Axis.YP.rotationDegrees(ITEM_ROTATIONS[i]));
+            poseStack.mulPose(Axis.YP.rotationDegrees(DryingRackConfig.ITEM_ROTATIONS[i]));
             poseStack.mulPose(Axis.XP.rotationDegrees(90.0f));
 
-            poseStack.scale(ITEM_SCALE, ITEM_SCALE, ITEM_SCALE);
+            poseStack.scale(DryingRackConfig.ITEM_SCALE, DryingRackConfig.ITEM_SCALE, DryingRackConfig.ITEM_SCALE);
 
             BakedModel model = itemRenderer.getModel(itemStack, null, null, 0);
             itemRenderer.render(

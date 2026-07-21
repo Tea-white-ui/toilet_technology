@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -80,9 +81,13 @@ public class DryingRackBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand, @NotNull BlockHitResult hitResult) {
+        if (level.isClientSide()) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        
         if (level.getBlockEntity(pos) instanceof DryingRackBlockEntity blockEntity) {
             if (player.isShiftKeyDown() && stack.isEmpty()) {
-                return handleTakeItem(blockEntity, player, level, pos);
+                return handleTakeItem(blockEntity, player, level, pos, hitResult, state);
             } else if (!player.isShiftKeyDown() && !stack.isEmpty()) {
                 return handlePlaceItem(blockEntity, stack, player, level, pos);
             }
@@ -90,20 +95,46 @@ public class DryingRackBlock extends BaseEntityBlock {
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
-    private @NotNull ItemInteractionResult handleTakeItem(DryingRackBlockEntity blockEntity, Player player, Level level, BlockPos pos) {
-        for (int i = 3; i >= 0; i--) {
-            ItemStack itemInSlot = blockEntity.itemHandler.getStackInSlot(i);
-            if (!itemInSlot.isEmpty()) {
-                ItemStack extracted = blockEntity.itemHandler.extractItem(i, itemInSlot.getCount(), false);
-                if (!extracted.isEmpty()) {
-                    if (!player.getInventory().add(extracted)) {
-                        player.drop(extracted, false);
-                    }
-                    level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
-                    return ItemInteractionResult.sidedSuccess(level.isClientSide());
+    private @NotNull ItemInteractionResult handleTakeItem(DryingRackBlockEntity blockEntity, Player player, Level level, BlockPos pos, BlockHitResult hitResult, BlockState state) {
+        Vec3 hitWorldPos = hitResult.getLocation();
+        
+        double localX = hitWorldPos.x - pos.getX();
+        double localZ = hitWorldPos.z - pos.getZ();
+        
+        localX = Math.clamp(localX, 0.0, 1.0);
+        localZ = Math.clamp(localZ, 0.0, 1.0);
+        
+        net.minecraft.core.Direction facing = state.getValue(FACING);
+        double[] rotatedPos = DryingRackConfig.rotateTo(localX, localZ, facing);
+        
+        int closestSlot = -1;
+        double minDistanceSq = Double.MAX_VALUE;
+        
+        for (int i = 0; i < DryingRackConfig.SLOT_COUNT; i++) {
+            if (!blockEntity.itemHandler.getStackInSlot(i).isEmpty()) {
+                double dx = rotatedPos[0] - DryingRackConfig.ITEM_POSITIONS[i][0];
+                double dz = rotatedPos[1] - DryingRackConfig.ITEM_POSITIONS[i][1];
+                double distanceSq = dx * dx + dz * dz;
+                
+                if (distanceSq < minDistanceSq) {
+                    minDistanceSq = distanceSq;
+                    closestSlot = i;
                 }
             }
         }
+        
+        if (closestSlot != -1) {
+            ItemStack itemInSlot = blockEntity.itemHandler.getStackInSlot(closestSlot);
+            ItemStack extracted = blockEntity.itemHandler.extractItem(closestSlot, itemInSlot.getCount(), false);
+            if (!extracted.isEmpty()) {
+                if (!player.getInventory().add(extracted)) {
+                    player.drop(extracted, false);
+                }
+                level.sendBlockUpdated(pos, state, state, 2);
+                return ItemInteractionResult.sidedSuccess(level.isClientSide());
+            }
+        }
+        
         return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
@@ -112,13 +143,13 @@ public class DryingRackBlock extends BaseEntityBlock {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < DryingRackConfig.SLOT_COUNT; i++) {
             if (blockEntity.itemHandler.getStackInSlot(i).isEmpty()) {
                 ItemStack toInsert = stack.copyWithCount(1);
                 ItemStack remaining = blockEntity.itemHandler.insertItem(i, toInsert, false);
                 if (remaining.isEmpty()) {
                     stack.shrink(1);
-                    level.sendBlockUpdated(pos, level.getBlockState(pos), level.getBlockState(pos), 3);
+                    level.sendBlockUpdated(pos, blockEntity.getBlockState(), blockEntity.getBlockState(), 2);
                     return ItemInteractionResult.sidedSuccess(level.isClientSide());
                 }
             }

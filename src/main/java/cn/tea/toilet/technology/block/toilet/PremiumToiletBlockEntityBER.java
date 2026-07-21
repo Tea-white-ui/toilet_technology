@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
@@ -16,6 +17,10 @@ import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
 public class PremiumToiletBlockEntityBER implements BlockEntityRenderer<PremiumToiletBlockEntity> {
+
+    public PremiumToiletBlockEntityBER(BlockEntityRendererProvider.Context context) {
+    }
+
     @Override
     public void render(@NotNull PremiumToiletBlockEntity premiumToiletBlockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
         FluidStack fluidStack = premiumToiletBlockEntity.getFluid();

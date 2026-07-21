@@ -90,7 +90,7 @@ public class DryingRecipe implements Recipe<SingleRecipeInput> {
 
     @Override
     public RecipeType<?> getType() {
-        return ModRecipeTypes.DRYING;
+        return ModRecipeTypes.DRYING.get();
     }
 
     @Override

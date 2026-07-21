@@ -117,7 +117,7 @@ public class DryingRackBlockEntity extends BlockEntity {
      */
     private static DryingRecipe findMatchingRecipe(Level level, ItemStack stack) {
         // 获取所有干燥配方
-        var recipeHolders = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.DRYING);
+        var recipeHolders = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.DRYING.get());
         
         // 遍历查找第一个匹配的配方
         for (var recipeHolder : recipeHolders) {

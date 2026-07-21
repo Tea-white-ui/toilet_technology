@@ -24,17 +24,12 @@ public class DryingRackConfig {
     public static final float ITEM_SCALE = 0.45f;
 
     public static double[] rotateTo(double localX, double localZ, Direction facing) {
-        switch (facing.get2DDataValue()) {
-            case 0:
-                return new double[]{localX, localZ};
-            case 1:
-                return new double[]{localZ, 1.0 - localX};
-            case 2:
-                return new double[]{1.0 - localX, 1.0 - localZ};
-            case 3:
-                return new double[]{1.0 - localZ, localX};
-            default:
-                return new double[]{localX, localZ};
-        }
+        return switch (facing.get2DDataValue()) {
+            case 0 -> new double[]{localX, localZ};
+            case 1 -> new double[]{localZ, 1.0 - localX};
+            case 2 -> new double[]{1.0 - localX, 1.0 - localZ};
+            case 3 -> new double[]{1.0 - localZ, localX};
+            default -> new double[]{localX, localZ};
+        };
     }
 }

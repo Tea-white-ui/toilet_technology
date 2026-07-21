@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "toilet_technology:block/gold_toilet",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "toilet_technology:block/gold_toilet"
+    },
+    "facing=south": {
+      "model": "toilet_technology:block/gold_toilet",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toilet_technology:block/gold_toilet",
+      "y": 270
+    }
+  }
+}

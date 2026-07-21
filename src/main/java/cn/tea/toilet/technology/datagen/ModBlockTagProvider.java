@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.block.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.NotNull;
@@ -46,6 +47,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.OAK_TOILET.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.SQUAT_TOILET.get())
                 .add(ModBlocks.STONE_TOILET.get())
                 .add(ModBlocks.IRON_TOILET.get())
                 .add(ModBlocks.GOLD_TOILET.get())
@@ -53,6 +55,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.NETHERITE_TOILET.get());
 
         // === 挖掘等级 ===
+        this.tag(Tags.Blocks.NEEDS_WOOD_TOOL)
+                .add(ModBlocks.SQUAT_TOILET.get());
+
         this.tag(BlockTags.NEEDS_STONE_TOOL)
                 .add(ModBlocks.STONE_TOILET.get());
 

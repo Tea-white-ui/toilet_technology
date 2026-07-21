@@ -33,6 +33,7 @@ public class ModBlockEntities {
                     ModBlocks.NETHERITE_TOILET.get()
             ).build(null));
 
+    // 干燥架方块实体，注册 tick 处理器
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DryingRackBlockEntity>> DRYING_RACK =
             BLOCK_ENTITIES.register("drying_rack", () -> BlockEntityType.Builder.of(
                     DryingRackBlockEntity::new,

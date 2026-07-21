@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.block.drying;
 
+import cn.tea.toilet.technology.block.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -14,6 +15,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
@@ -23,6 +26,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class DryingRackBlock extends BaseEntityBlock {
 
@@ -57,6 +61,17 @@ public class DryingRackBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new DryingRackBlockEntity(pos, state);
+    }
+
+    /**
+     * 注册方块实体的 Tick 处理器
+     * 让干燥架每个游戏刻都执行干燥逻辑
+     */
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        // 只在服务端注册 tick，客户端不需要执行干燥逻辑
+        return createTickerHelper(type, ModBlockEntities.DRYING_RACK.get(), DryingRackBlockEntity::tick);
     }
 
     @Override

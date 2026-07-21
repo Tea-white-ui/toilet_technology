@@ -1,0 +1,11 @@
+{
+  "type": "toilet_technology:drying",
+  "drying_time": 600,
+  "input": {
+    "item": "toilet_technology:feces"
+  },
+  "output": {
+    "count": 1,
+    "id": "toilet_technology:dried_feces"
+  }
+}

@@ -106,5 +106,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .requires(ModBlocks.FECES_BLOCK.get())
                 .unlockedBy(getHasName(ModBlocks.FECES_BLOCK.get()), has(ModBlocks.FECES_BLOCK.get()))
                 .save(output);
+
+        // 添加干燥配方
+        ModDryingRecipeProvider.addRecipes(output);
     }
 }

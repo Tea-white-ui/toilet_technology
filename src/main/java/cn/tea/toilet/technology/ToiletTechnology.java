@@ -4,6 +4,8 @@ import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
+import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -38,6 +40,8 @@ public class ToiletTechnology {
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModRecipeSerializers.register(modEventBus);
+        ModRecipeTypes.register();
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new PlayerToiletHandler());

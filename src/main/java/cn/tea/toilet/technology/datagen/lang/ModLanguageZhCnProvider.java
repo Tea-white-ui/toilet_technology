@@ -22,6 +22,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.OAK_TOILET_ITEM.get(), "木制厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
+        add("fluid_type.toilet_technology.feces_liquid","粪液");
 
     }
 }

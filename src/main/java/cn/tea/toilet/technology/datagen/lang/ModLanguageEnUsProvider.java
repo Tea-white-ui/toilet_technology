@@ -1,7 +1,9 @@
 package cn.tea.toilet.technology.datagen.lang;
 
 import cn.tea.toilet.technology.ToiletTechnology;
-import cn.tea.toilet.technology.block.ModBlocks;import cn.tea.toilet.technology.datagen.ModItemTagProvider;import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.block.ModBlocks;import cn.tea.toilet.technology.datagen.ModItemTagProvider;
+import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 
@@ -20,6 +22,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.OAK_TOILET_ITEM.get(), "Oak Toilet");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
+        add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
 
 
     }

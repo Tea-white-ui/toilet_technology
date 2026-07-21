@@ -3,6 +3,7 @@
   "block.toilet_technology.feces_liquid_block": "粪液",
   "block.toilet_technology.oak_toilet": "木制厕所",
   "block.toilet_technology.squat_toilet": "蹲坑",
+  "fluid_type.toilet_technology.feces_liquid": "粪液",
   "item.toilet_technology.dried_feces": "干粪",
   "item.toilet_technology.feces": "粪便",
   "item.toilet_technology.feces_liquid_bucket": "粪桶",

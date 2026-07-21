@@ -1,5 +1,7 @@
 package cn.tea.toilet.technology;
 
+import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import com.mojang.blaze3d.shaders.FogShape;
@@ -8,6 +10,7 @@ import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -19,6 +22,7 @@ import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtension
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
 @Mod(value = ToiletTechnology.MOD_ID, dist = Dist.CLIENT)
@@ -32,6 +36,14 @@ public class ToiletTechnologyClient {
     static void onClientSetup(FMLClientSetupEvent event) {
         ToiletTechnology.LOGGER.info("HELLO FROM CLIENT SETUP");
         ToiletTechnology.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
+
+        // enqueueWork 确保在客户端主线程中执行渲染注册
+        event.enqueueWork(() -> {
+            BlockEntityRenderers.register(
+                    ModBlockEntities.PREMIUM_TOILET.get(),
+                    context -> new PremiumToiletBlockEntityBER()
+            );
+        });
     }
 
     @SubscribeEvent
@@ -40,24 +52,24 @@ public class ToiletTechnologyClient {
             private static final Vector3f FOG_COLOR = new Vector3f(0.35f, 0.25f, 0.1f);
 
             @Override
-            public ResourceLocation getStillTexture() {
+            public @NotNull ResourceLocation getStillTexture() {
                 return BaseSewageFluidType.STILL_TEXTURE;
             }
 
             @Override
-            public ResourceLocation getFlowingTexture() {
+            public @NotNull ResourceLocation getFlowingTexture() {
                 return BaseSewageFluidType.FLOWING_TEXTURE;
             }
 
             @Override
-            public Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level,
-                                           int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
+            public @NotNull Vector3f modifyFogColor(@NotNull Camera camera, float partialTick, @NotNull ClientLevel level,
+                                                    int renderDistance, float darkenWorldAmount, @NotNull Vector3f fluidFogColor) {
                 return FOG_COLOR;
             }
 
             @Override
-            public void modifyFogRender(Camera camera, FogRenderer.FogMode mode, float renderDistance,
-                                        float partialTick, float nearDistance, float farDistance, FogShape shape) {
+            public void modifyFogRender(@NotNull Camera camera, FogRenderer.@NotNull FogMode mode, float renderDistance,
+                                        float partialTick, float nearDistance, float farDistance, @NotNull FogShape shape) {
                 RenderSystem.setShaderFogStart(1f);
                 RenderSystem.setShaderFogEnd(6f);
             }

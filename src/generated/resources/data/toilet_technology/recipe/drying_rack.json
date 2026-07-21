@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "item": "minecraft:stick"
+    },
+    "D": {
+      "tag": "minecraft:planks"
+    }
+  },
+  "pattern": [
+    "#D#",
+    "# #",
+    "# #"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:drying_rack"
+  }
+}

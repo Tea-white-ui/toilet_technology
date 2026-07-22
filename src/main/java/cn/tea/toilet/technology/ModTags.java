@@ -18,6 +18,8 @@ public class ModTags {
         public static final TagKey<Block> ADVANCED_TOILETS = tag("advanced_toilets");
         // === 干燥器 ===
         public static final TagKey<Block> DRYERS = tag("dryers");
+        // === 热源 ===
+        public static final TagKey<Block> HEAT_SOURCES = tag("heat_sources");
 
         private static TagKey<Block> tag(String name) {
             return BlockTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
@@ -36,6 +38,8 @@ public class ModTags {
         public static final TagKey<Item> TOILETS = tag("toilets");
         // === 干燥器 ===
         public static final TagKey<Item> DRYERS = tag("dryers");
+
+
 
 
         private static TagKey<Item> tag(String name) {

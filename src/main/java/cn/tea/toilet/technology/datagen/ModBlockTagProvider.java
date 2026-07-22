@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.block.ModBlocks;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -40,6 +41,13 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(ModTags.Blocks.DRYERS)
                 .add(ModBlocks.DRYING_RACK.get());
+        
+        this.tag(ModTags.Blocks.HEAT_SOURCES)
+                .addTag(BlockTags.FIRE)
+                .addTag(BlockTags.CAMPFIRES)
+                .add(Blocks.MAGMA_BLOCK)
+                .add(Blocks.LAVA);
+                
 
 
         // === 挖掘加速 ===

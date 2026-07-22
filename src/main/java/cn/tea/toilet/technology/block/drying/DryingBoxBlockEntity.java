@@ -4,9 +4,12 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.FloatTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -71,6 +74,8 @@ public class DryingBoxBlockEntity extends BlockEntity {
     private int[] dryingProgress = new int[SLOTS];
     // 每个输入槽位当前配方的干燥总时间
     private int[] dryingTotalTime = new int[SLOTS];
+    // 每个输入槽位的浮点干燥进度（用于精确计算小数进度）
+    private float[] dryingProgressFractional = new float[SLOTS];
     // 配方缓存
     private final DryingRecipe[] cachedRecipes = new DryingRecipe[SLOTS];
     // 标记是否有正在进行的干燥任务，用于优化 tick 性能
@@ -156,6 +161,10 @@ public class DryingBoxBlockEntity extends BlockEntity {
             return;
         }
 
+        // 检测下方方块是否为热源，并计算干燥速度倍率
+        boolean hasHeatSource = isHeatSourceBelow(level, pos);
+        float speedMultiplier = hasHeatSource ? 1.5f : 0.9f;
+
         boolean anyDrying = false;
         boolean progressChanged = false;
 
@@ -166,6 +175,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
+                    entity.dryingProgressFractional[i] = 0.0f;
                     entity.cachedRecipes[i] = null;
                     progressChanged = true;
                 }
@@ -189,6 +199,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
+                        entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
                         progressChanged = true;
                     }
@@ -202,6 +213,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
+                        entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
                         progressChanged = true;
                     }
@@ -212,10 +224,16 @@ public class DryingBoxBlockEntity extends BlockEntity {
                 if (entity.dryingTotalTime[i] != expectedTotalTime) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = expectedTotalTime;
+                    entity.dryingProgressFractional[i] = 0.0f;
                     progressChanged = true;
                 }
 
-                entity.dryingProgress[i]++;
+                // 使用浮点累积器精确计算进度
+                entity.dryingProgressFractional[i] += speedMultiplier;
+                int progressIncrement = (int) entity.dryingProgressFractional[i];
+                entity.dryingProgressFractional[i] -= progressIncrement;
+
+                entity.dryingProgress[i] += progressIncrement;
                 progressChanged = true;
 
                 if (entity.dryingProgress[i] >= expectedTotalTime) {
@@ -225,6 +243,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                         // 输出槽位已满，停止干燥以避免无限等待
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
+                        entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
                         progressChanged = true;
                     }
@@ -233,6 +252,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
+                    entity.dryingProgressFractional[i] = 0.0f;
                     progressChanged = true;
                 }
             }
@@ -283,9 +303,20 @@ public class DryingBoxBlockEntity extends BlockEntity {
         // 重置干燥状态
         entity.dryingProgress[slot] = 0;
         entity.dryingTotalTime[slot] = 0;
+        entity.dryingProgressFractional[slot] = 0.0f;
         entity.cachedRecipes[slot] = null;
 
         return true;
+    }
+
+    /**
+     * 检查指定位置下方的方块是否为热源
+     * 热源由 ModTags.Blocks.HEAT_SOURCES 标签定义，包括火焰、营火、岩浆块、熔岩等
+     */
+    private static boolean isHeatSourceBelow(Level level, BlockPos pos) {
+        BlockPos belowPos = pos.below();
+        BlockState belowState = level.getBlockState(belowPos);
+        return belowState.is(ModTags.Blocks.HEAT_SOURCES);
     }
 
     /**
@@ -307,6 +338,13 @@ public class DryingBoxBlockEntity extends BlockEntity {
         tag.put("OutputItems", outputHandler.serializeNBT(registries));
         tag.putIntArray("DryingProgress", dryingProgress);
         tag.putIntArray("DryingTotalTime", dryingTotalTime);
+        
+        // 保存浮点进度数组
+        ListTag fractionalList = new ListTag();
+        for (float f : dryingProgressFractional) {
+            fractionalList.add(FloatTag.valueOf(f));
+        }
+        tag.put("DryingProgressFractional", fractionalList);
     }
 
     @Override
@@ -334,6 +372,17 @@ public class DryingBoxBlockEntity extends BlockEntity {
             } else {
                 ToiletTechnology.getLOGGER().warn("DryingBox loaded DryingTotalTime with invalid length: {}, expected {}", totalTime.length, SLOTS);
                 dryingTotalTime = new int[SLOTS];
+            }
+        }
+        if (tag.contains("DryingProgressFractional")) {
+            ListTag fractionalList = tag.getList("DryingProgressFractional", 5); // 5 = FloatTag ID
+            if (fractionalList.size() == SLOTS) {
+                for (int i = 0; i < SLOTS; i++) {
+                    dryingProgressFractional[i] = fractionalList.getFloat(i);
+                }
+            } else {
+                ToiletTechnology.getLOGGER().warn("DryingBox loaded DryingProgressFractional with invalid length: {}, expected {}", fractionalList.size(), SLOTS);
+                dryingProgressFractional = new float[SLOTS];
             }
         }
     }

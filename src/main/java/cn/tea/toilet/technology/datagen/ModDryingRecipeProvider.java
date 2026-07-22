@@ -6,7 +6,9 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
@@ -27,6 +29,42 @@ public class ModDryingRecipeProvider {
                 new ItemStack(ModItems.DRIED_FECES.get()), // 输出
                 600, // 干燥时间
                 "feces_to_dried_feces"
+        );
+
+        // 腐肉 → 皮革 (20秒 = 400 tick)
+        createDryingRecipe(
+                output,
+                Ingredient.of(Items.ROTTEN_FLESH),
+                new ItemStack(Items.LEATHER),
+                400,
+                "rotten_flesh_to_leather"
+        );
+
+        // 海带 → 干海带 (10秒 = 200 tick)
+        createDryingRecipe(
+                output,
+                Ingredient.of(Items.KELP),
+                new ItemStack(Items.DRIED_KELP),
+                200,
+                "kelp_to_dried_kelp"
+        );
+
+        // 湿海绵 → 干海绵 (40秒 = 800 tick)
+        createDryingRecipe(
+                output,
+                Ingredient.of(Items.WET_SPONGE),
+                new ItemStack(Items.SPONGE),
+                800,
+                "wet_sponge_to_sponge"
+        );
+
+        // 泥巴 → 粘土块 (20秒 = 400 tick)
+        createDryingRecipe(
+                output,
+                Ingredient.of(Items.MUD),
+                new ItemStack(Blocks.CLAY),
+                400,
+                "mud_to_clay"
         );
     }
 

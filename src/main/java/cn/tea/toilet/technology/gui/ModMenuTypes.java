@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.gui;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.gui.dryingbox.DryingBoxMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;

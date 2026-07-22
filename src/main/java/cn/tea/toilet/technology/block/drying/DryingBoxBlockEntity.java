@@ -15,9 +15,11 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
@@ -74,8 +76,74 @@ public class DryingBoxBlockEntity extends BlockEntity {
     // 标记是否有正在进行的干燥任务，用于优化 tick 性能
     private boolean hasActiveDrying = false;
 
+    // 用于漏斗交互的包装 handler
+    // 输入槽（0-15）：漏斗可以插入，但不能提取
+    // 输出槽（16-31）：漏斗可以提取，但不能插入
+    private final IItemHandler hopperHandler = new HopperItemHandler();
+
+    private class HopperItemHandler implements IItemHandler {
+        @Override
+        public int getSlots() {
+            return SLOTS * 2; // 输入槽 + 输出槽
+        }
+
+        @Override
+        public @NotNull ItemStack getStackInSlot(int slot) {
+            if (slot < SLOTS) {
+                return inputHandler.getStackInSlot(slot);
+            } else {
+                return outputHandler.getStackInSlot(slot - SLOTS);
+            }
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            // 只允许插入到输入槽（槽位 0-15）
+            if (slot < SLOTS) {
+                return inputHandler.insertItem(slot, stack, simulate);
+            }
+            // 输出槽不允许漏斗插入
+            return stack;
+        }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            // 只允许从输出槽提取（槽位 16-31）
+            if (slot >= SLOTS && slot < SLOTS * 2) {
+                return outputHandler.extractItem(slot - SLOTS, amount, simulate);
+            }
+            // 输入槽不允许漏斗抽出
+            return ItemStack.EMPTY;
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            if (slot < SLOTS) {
+                return inputHandler.getSlotLimit(slot);
+            } else {
+                return outputHandler.getSlotLimit(slot - SLOTS);
+            }
+        }
+
+        @Override
+        public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            // 只允许输入槽验证物品
+            if (slot < SLOTS) {
+                return inputHandler.isItemValid(slot, stack);
+            }
+            return false;
+        }
+    }
+
     public DryingBoxBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.DRYING_BOX.get(), pos, blockState);
+    }
+
+    /**
+     * 获取用于漏斗交互的 ItemHandler
+     */
+    public IItemHandler getHopperHandler() {
+        return hopperHandler;
     }
 
     /**
@@ -112,6 +180,34 @@ public class DryingBoxBlockEntity extends BlockEntity {
             }
 
             if (recipe != null) {
+                // 检查输出槽位是否能接受产物
+                ItemStack outputStack = entity.outputHandler.getStackInSlot(i);
+                ItemStack expectedOutput = recipe.getResultItem(level.registryAccess());
+                
+                // 如果输出槽位不为空且与预期产物不同，则停止干燥
+                if (!outputStack.isEmpty() && !ItemStack.isSameItemSameComponents(outputStack, expectedOutput)) {
+                    if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
+                        entity.dryingProgress[i] = 0;
+                        entity.dryingTotalTime[i] = 0;
+                        entity.cachedRecipes[i] = null;
+                        progressChanged = true;
+                    }
+                    continue;
+                }
+                
+                // 模拟检查输出槽位是否能接受产物
+                ItemStack simulatedRemaining = entity.outputHandler.insertItem(i, expectedOutput.copy(), true);
+                if (!simulatedRemaining.isEmpty()) {
+                    // 输出槽位已满或无法接受产物，不开始干燥
+                    if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
+                        entity.dryingProgress[i] = 0;
+                        entity.dryingTotalTime[i] = 0;
+                        entity.cachedRecipes[i] = null;
+                        progressChanged = true;
+                    }
+                    continue;
+                }
+
                 int expectedTotalTime = recipe.getDryingTime();
                 if (entity.dryingTotalTime[i] != expectedTotalTime) {
                     entity.dryingProgress[i] = 0;

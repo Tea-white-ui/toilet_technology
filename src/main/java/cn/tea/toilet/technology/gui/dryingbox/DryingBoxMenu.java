@@ -1,10 +1,12 @@
-package cn.tea.toilet.technology.gui;
+package cn.tea.toilet.technology.gui.dryingbox;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
+import cn.tea.toilet.technology.gui.ModMenuTypes;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -25,6 +27,11 @@ public class DryingBoxMenu extends AbstractContainerMenu {
 
     private final ContainerLevelAccess access;
     private final DryingBoxBlockEntity blockEntity;
+    private final ContainerData dryingData;
+    
+    // 客户端本地存储的干燥进度数据（用于接收服务端同步）
+    private final int[] clientDryingProgress = new int[16];
+    private final int[] clientDryingTotalTime = new int[16];
 
     // 客户端构造器（用于网络同步）
     public DryingBoxMenu(int containerId, Inventory playerInventory) {
@@ -72,6 +79,54 @@ public class DryingBoxMenu extends AbstractContainerMenu {
             this.addSlot(new Slot(playerInventory, col,
                     8 + col * 18, 153));
         }
+
+        // 干燥进度数据同步（16个进度 + 16个总时间 = 32个数据槽）
+        this.dryingData = new ContainerData() {
+            @Override
+            public int get(int index) {
+                if (blockEntity == null) {
+                    // 客户端：从本地数组读取
+                    if (index < 16) {
+                        return clientDryingProgress[index];
+                    } else if (index < 32) {
+                        return clientDryingTotalTime[index - 16];
+                    }
+                    return 0;
+                }
+                // 服务端：从 BlockEntity 读取
+                if (index < 16) {
+                    return blockEntity.getDryingProgress()[index];
+                } else if (index < 32) {
+                    return blockEntity.getDryingTotalTime()[index - 16];
+                }
+                return 0;
+            }
+
+            @Override
+            public void set(int index, int value) {
+                if (blockEntity == null) {
+                    // 客户端：存储到本地数组
+                    if (index < 16) {
+                        clientDryingProgress[index] = value;
+                    } else if (index < 32) {
+                        clientDryingTotalTime[index - 16] = value;
+                    }
+                    return;
+                }
+                // 服务端：存储到 BlockEntity
+                if (index < 16) {
+                    blockEntity.getDryingProgress()[index] = value;
+                } else if (index < 32) {
+                    blockEntity.getDryingTotalTime()[index - 16] = value;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 32;
+            }
+        };
+        this.addDataSlots(dryingData);
     }
 
     @Override
@@ -133,5 +188,21 @@ public class DryingBoxMenu extends AbstractContainerMenu {
 
     public DryingBoxBlockEntity getBlockEntity() {
         return blockEntity;
+    }
+
+    /**
+     * 获取干燥进度数据（供客户端 Screen 使用）
+     */
+    public int getDryingProgress(int slot) {
+        if (slot < 0 || slot >= 16) return 0;
+        return dryingData.get(slot);
+    }
+
+    /**
+     * 获取干燥总时间数据（供客户端 Screen 使用）
+     */
+    public int getDryingTotalTime(int slot) {
+        if (slot < 0 || slot >= 16) return 0;
+        return dryingData.get(slot + 16);
     }
 }

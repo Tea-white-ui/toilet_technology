@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.block.drying;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.gui.DryingBoxMenu;
+import cn.tea.toilet.technology.gui.dryingbox.DryingBoxMenu;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;

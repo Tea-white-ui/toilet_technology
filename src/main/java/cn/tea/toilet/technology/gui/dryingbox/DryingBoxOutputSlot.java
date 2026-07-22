@@ -1,4 +1,4 @@
-package cn.tea.toilet.technology.gui;
+package cn.tea.toilet.technology.gui.dryingbox;
 
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.items.IItemHandler;

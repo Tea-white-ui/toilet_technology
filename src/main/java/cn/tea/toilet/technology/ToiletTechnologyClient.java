@@ -5,7 +5,7 @@ import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
-import cn.tea.toilet.technology.gui.DryingBoxScreen;
+import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;

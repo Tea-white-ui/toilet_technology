@@ -73,7 +73,7 @@ public class ToiletTechnology {
         event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.DRYING_BOX.get(),
-                (blockEntity, side) -> blockEntity.inputHandler
+                (blockEntity, side) -> blockEntity.getHopperHandler()
         );
     }
 

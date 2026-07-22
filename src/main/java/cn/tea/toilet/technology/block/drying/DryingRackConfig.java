@@ -20,7 +20,7 @@ public class DryingRackConfig {
             -135.0f
     };
 
-    public static final float ITEM_HEIGHT = 1.05f;
+    public static final float ITEM_HEIGHT = 1.04f;
     public static final float ITEM_SCALE = 0.45f;
 
     public static double[] rotateTo(double localX, double localZ, Direction facing) {

@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -41,7 +42,11 @@ public class DryingBoxBlock extends BaseEntityBlock {
     public static final MapCodec<DryingBoxBlock> CODEC = simpleCodec(DryingBoxBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
-    protected static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 16, 16);
+    protected static final VoxelShape SHAPE = Shapes.or(
+            box(1, 1, 1, 15, 13, 15),
+            box(0, 13, 0, 16, 14, 16),
+            box(0, 0, 0, 16, 1, 16)
+    );
 
     public DryingBoxBlock(Properties properties) {
         super(properties);

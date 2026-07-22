@@ -24,7 +24,7 @@ import org.jetbrains.annotations.NotNull;
  */
 public class DryingRackBlockEntity extends BlockEntity {
 
-    // 物品处理器，管理4个槽位
+    // 物品处理器，管理4个槽位（每槽最多1个物品，与视觉设计一致）
     public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         protected void onContentsChanged(int slot) {
@@ -33,6 +33,11 @@ public class DryingRackBlockEntity extends BlockEntity {
             if (level != null && !level.isClientSide()) {
                 level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
             }
+        }
+
+        @Override
+        public int getSlotLimit(int slot) {
+            return 1;
         }
     };
 
@@ -96,11 +101,19 @@ public class DryingRackBlockEntity extends BlockEntity {
                 if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
                     //执行物品转化
                     ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
-                    entity.itemHandler.setStackInSlot(i, output);
+                    // 使用 insertItem 而非 setStackInSlot，以尊重 getSlotLimit 限制
+                    // 先清空槽位，再插入（insertItem 会检查槽位上限）
+                    entity.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
+                    ItemStack remaining = entity.itemHandler.insertItem(i, output, false);
+                    // 如果有剩余（不应该发生，因为 output.copy() 的 count 通常为1），丢弃
+                    if (!remaining.isEmpty()) {
+                        net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
+                    }
                     ToiletTechnology.getLOGGER().debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
 
 
-                    //重置进度 entity.dryingProgress[i] =0;
+                    //重置进度
+                    entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
                     entity.cachedRecipes[i] = null;
 

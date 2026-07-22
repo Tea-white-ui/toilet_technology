@@ -66,6 +66,11 @@ public class ToiletTechnology {
                 (blockEntity, side) -> blockEntity.fluidTank
         );
         event.registerBlockEntity(
+                Capabilities.FluidHandler.BLOCK,
+                ModBlockEntities.NETHERITE_TOILET.get(),
+                (blockEntity, side) -> blockEntity.fluidTank
+        );
+        event.registerBlockEntity(
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.DRYING_RACK.get(),
                 (blockEntity, side) -> blockEntity.itemHandler

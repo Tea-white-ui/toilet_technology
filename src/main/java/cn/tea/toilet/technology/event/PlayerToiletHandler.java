@@ -1,5 +1,7 @@
 package cn.tea.toilet.technology.event;
 
+import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlock;
+import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
@@ -65,10 +67,12 @@ public class PlayerToiletHandler {
         // 检测玩家是否站在马桶上
         boolean onPremiumToilet = stateAtFeet.getBlock() instanceof PremiumToiletBlock
                 || stateBelow.getBlock() instanceof PremiumToiletBlock;
-        boolean onToilet = !onPremiumToilet && (stateAtFeet.getBlock() instanceof SquatToiletBlock
+        boolean onNetheriteToilet = stateAtFeet.getBlock() instanceof NetheriteToiletBlock
+                || stateBelow.getBlock() instanceof NetheriteToiletBlock;
+        boolean onToilet = !onPremiumToilet && !onNetheriteToilet && (stateAtFeet.getBlock() instanceof SquatToiletBlock
                 || stateBelow.getBlock() instanceof SquatToiletBlock);
 
-        if (onToilet || onPremiumToilet) {
+        if (onToilet || onPremiumToilet || onNetheriteToilet) {
             int interval = PRODUCE_INTERVAL;
             // 高级马桶根据材质效率调整产生间隔
             if (onPremiumToilet) {
@@ -76,13 +80,18 @@ public class PlayerToiletHandler {
                 if (player.level().getBlockState(toiletPos).getBlock() instanceof PremiumToiletBlock premiumBlock) {
                     interval = (int) (PRODUCE_INTERVAL * premiumBlock.getMultiplier());
                 }
+            } else if (onNetheriteToilet) {
+                BlockPos toiletPos = stateAtFeet.getBlock() instanceof NetheriteToiletBlock ? feet : below;
+                if (player.level().getBlockState(toiletPos).getBlock() instanceof NetheriteToiletBlock netheriteBlock) {
+                    interval = (int) (PRODUCE_INTERVAL * netheriteBlock.getMultiplier());
+                }
             }
 
             int count = TIMERS.merge(player.getUUID(), 1, Integer::sum);
             if (count >= interval) {
                 TIMERS.remove(player.getUUID());
 
-                if (onPremiumToilet) {
+                if (onPremiumToilet || onNetheriteToilet) {
                     handlePremiumToilet(player, stateAtFeet, stateBelow, feet, below);
                 } else {
                     produceFeces(player);
@@ -122,24 +131,34 @@ public class PlayerToiletHandler {
      * @param below 下方位置
      */
     private void handlePremiumToilet(Player player, BlockState stateAtFeet, BlockState stateBelow, BlockPos feet, BlockPos below) {
-        BlockPos toiletPos = stateAtFeet.getBlock() instanceof PremiumToiletBlock ? feet : below;
+        BlockPos toiletPos = stateAtFeet.getBlock() instanceof PremiumToiletBlock 
+                || stateAtFeet.getBlock() instanceof NetheriteToiletBlock ? feet : below;
         BlockEntity be = player.level().getBlockEntity(toiletPos);
-        if (!(be instanceof PremiumToiletBlockEntity toiletBE)) {
+        
+        net.neoforged.neoforge.fluids.capability.templates.FluidTank fluidTank = null;
+        
+        if (be instanceof PremiumToiletBlockEntity premiumBE) {
+            fluidTank = premiumBE.fluidTank;
+        } else if (be instanceof NetheriteToiletBlockEntity netheriteBE) {
+            fluidTank = netheriteBE.fluidTank;
+        }
+        
+        if (fluidTank == null) {
             produceFeces(player);
             return;
         }
 
-        FluidStack fluid = toiletBE.fluidTank.getFluid();
+        FluidStack fluid = fluidTank.getFluid();
         if (fluid.isEmpty()) {
             produceFeces(player);
         } else if (fluid.getFluid() == Fluids.WATER) {
             int amount = fluid.getAmount();
-            toiletBE.fluidTank.drain(amount, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
-            toiletBE.fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), amount), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            fluidTank.drain(amount, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), amount), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             playSplashSound(player);
         } else if (fluid.getFluid() == ModFluids.FECES_LIQUID.get()) {
-            if (toiletBE.fluidTank.getFluidAmount() < toiletBE.fluidTank.getCapacity()) {
-                toiletBE.fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), 1000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+            if (fluidTank.getFluidAmount() < fluidTank.getCapacity()) {
+                fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), 1000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             }
             playSplashSound(player);
         } else if (fluid.getFluid() == Fluids.LAVA) {

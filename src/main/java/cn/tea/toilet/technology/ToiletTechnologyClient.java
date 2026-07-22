@@ -2,6 +2,7 @@ package cn.tea.toilet.technology;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
+import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
@@ -46,6 +47,10 @@ public class ToiletTechnologyClient {
             BlockEntityRenderers.register(
                     ModBlockEntities.PREMIUM_TOILET.get(),
                     PremiumToiletBlockEntityBER::new
+            );
+            BlockEntityRenderers.register(
+                    ModBlockEntities.NETHERITE_TOILET.get(),
+                    NetheriteToiletBlockEntityBER::new
             );
             BlockEntityRenderers.register(
                     ModBlockEntities.DRYING_RACK.get(),

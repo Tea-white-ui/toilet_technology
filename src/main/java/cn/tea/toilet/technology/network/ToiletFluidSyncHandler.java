@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.network;
 
+import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
@@ -40,6 +41,12 @@ public class ToiletFluidSyncHandler {
             
             // 标记数据已改变，触发渲染更新
             toiletEntity.setChanged();
+        } else if (be instanceof NetheriteToiletBlockEntity netheriteToiletEntity) {
+            // 更新下界合金马桶流体数据
+            netheriteToiletEntity.fluidTank.setFluid(payload.fluidStack());
+            
+            // 标记数据已改变，触发渲染更新
+            netheriteToiletEntity.setChanged();
         }
     }
 }

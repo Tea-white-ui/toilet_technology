@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
+import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -33,7 +34,7 @@ public class ModBlockEntities {
                     ModBlocks.SQUAT_TOILET.get()
             ).build(null));
 
-    /** 高级马桶方块实体：适用于所有材质的高级马桶（木制、石制、铁制、金制、钻石制、下界合金制） */
+    /** 高级马桶方块实体：适用于木制、石制、铁制、金制、钻石材质的高级马桶 */
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<PremiumToiletBlockEntity>> PREMIUM_TOILET =
             BLOCK_ENTITIES.register("premium_toilet", () -> BlockEntityType.Builder.of(
                     PremiumToiletBlockEntity::new,
@@ -41,7 +42,13 @@ public class ModBlockEntities {
                     ModBlocks.STONE_TOILET.get(),
                     ModBlocks.IRON_TOILET.get(),
                     ModBlocks.GOLD_TOILET.get(),
-                    ModBlocks.DIAMOND_TOILET.get(),
+                    ModBlocks.DIAMOND_TOILET.get()
+            ).build(null));
+
+    /** 下界合金马桶方块实体：容量更大（16000mB），独立注册以支持特殊逻辑 */
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<NetheriteToiletBlockEntity>> NETHERITE_TOILET =
+            BLOCK_ENTITIES.register("netherite_toilet", () -> BlockEntityType.Builder.of(
+                    NetheriteToiletBlockEntity::new,
                     ModBlocks.NETHERITE_TOILET.get()
             ).build(null));
 

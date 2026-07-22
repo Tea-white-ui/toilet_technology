@@ -3,9 +3,7 @@ package cn.tea.toilet.technology.block;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
-import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
-import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
-import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
+import cn.tea.toilet.technology.block.toilet.*;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
@@ -108,7 +106,7 @@ public class ModBlocks {
     ));
 
     /** 下界合金马桶：高级马桶，效率系数 0.6，具有防火特性 */
-    public static final DeferredHolder<Block, Block> NETHERITE_TOILET = BLOCKS.register("netherite_toilet", () -> new PremiumToiletBlock(Block.Properties.of()
+    public static final DeferredHolder<Block, Block> NETHERITE_TOILET = BLOCKS.register("netherite_toilet", () -> new NetheriteToiletBlock(Block.Properties.of()
             .destroyTime(2.0f)
             .explosionResistance(1.0f)
             .sound(SoundType.STONE)

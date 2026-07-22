@@ -1,0 +1,11 @@
+{
+  "type": "toilet_technology:drying",
+  "drying_time": 200,
+  "input": {
+    "item": "minecraft:kelp"
+  },
+  "output": {
+    "count": 1,
+    "id": "minecraft:dried_kelp"
+  }
+}

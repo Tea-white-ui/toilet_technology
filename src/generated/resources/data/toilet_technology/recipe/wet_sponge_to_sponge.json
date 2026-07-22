@@ -1,0 +1,11 @@
+{
+  "type": "toilet_technology:drying",
+  "drying_time": 800,
+  "input": {
+    "item": "minecraft:wet_sponge"
+  },
+  "output": {
+    "count": 1,
+    "id": "minecraft:sponge"
+  }
+}

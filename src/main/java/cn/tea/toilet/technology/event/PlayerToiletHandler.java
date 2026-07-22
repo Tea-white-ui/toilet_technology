@@ -25,16 +25,33 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 玩家马桶交互处理器
+ * 监听玩家事件，处理玩家在马桶上蹲下时的交互逻辑：
+ * - 蹲便器：直接掉落粪便物品
+ * - 高级马桶：根据内部流体类型处理（水变粪便、粪便增加、熔岩燃烧）
+ * - 消耗玩家饥饿值
+ * - 播放放屁/飞溅/燃烧音效
+ */
 public class PlayerToiletHandler {
 
+    /** 产生粪便的基础间隔时间（tick），20 tick = 1秒 */
     private static final int PRODUCE_INTERVAL = 20;
+    /** 玩家计时器映射：记录每个玩家蹲下的tick计数 */
     private static final Map<UUID, Integer> TIMERS = new ConcurrentHashMap<>();
 
+    /**
+     * 玩家Tick事件处理
+     * 检测玩家是否在马桶上蹲下，并处理相应的交互逻辑
+     * 
+     * @param event 玩家Tick事件
+     */
     @SubscribeEvent
     public void onPlayerTick(PlayerTickEvent.Post event) {
         Player player = event.getEntity();
         if (player.level().isClientSide()) return;
 
+        // 玩家未蹲下时清除计时器
         if (!player.isShiftKeyDown()) {
             TIMERS.remove(player.getUUID());
             return;
@@ -45,6 +62,7 @@ public class PlayerToiletHandler {
         BlockState stateAtFeet = player.level().getBlockState(feet);
         BlockState stateBelow = player.level().getBlockState(below);
 
+        // 检测玩家是否站在马桶上
         boolean onPremiumToilet = stateAtFeet.getBlock() instanceof PremiumToiletBlock
                 || stateBelow.getBlock() instanceof PremiumToiletBlock;
         boolean onToilet = !onPremiumToilet && (stateAtFeet.getBlock() instanceof SquatToiletBlock
@@ -52,6 +70,7 @@ public class PlayerToiletHandler {
 
         if (onToilet || onPremiumToilet) {
             int interval = PRODUCE_INTERVAL;
+            // 高级马桶根据材质效率调整产生间隔
             if (onPremiumToilet) {
                 BlockPos toiletPos = stateAtFeet.getBlock() instanceof PremiumToiletBlock ? feet : below;
                 if (player.level().getBlockState(toiletPos).getBlock() instanceof PremiumToiletBlock premiumBlock) {
@@ -77,11 +96,31 @@ public class PlayerToiletHandler {
         }
     }
 
+    /**
+     * 玩家登出事件处理
+     * 清除该玩家的计时器数据
+     * 
+     * @param event 玩家登出事件
+     */
     @SubscribeEvent
     public void onPlayerLogout(net.neoforged.neoforge.event.entity.player.PlayerEvent.PlayerLoggedOutEvent event) {
         TIMERS.remove(event.getEntity().getUUID());
     }
 
+    /**
+     * 处理高级马桶交互逻辑
+     * 根据马桶内流体类型执行不同操作：
+     * - 空：掉落粪便物品
+     * - 水：水转化为粪便液体
+     * - 粪便液体：增加粪便液体量
+     * - 熔岩：播放燃烧音效
+     * 
+     * @param player 玩家
+     * @param stateAtFeet 脚下方块状态
+     * @param stateBelow 下方方块状态
+     * @param feet 脚下位置
+     * @param below 下方位置
+     */
     private void handlePremiumToilet(Player player, BlockState stateAtFeet, BlockState stateBelow, BlockPos feet, BlockPos below) {
         BlockPos toiletPos = stateAtFeet.getBlock() instanceof PremiumToiletBlock ? feet : below;
         BlockEntity be = player.level().getBlockEntity(toiletPos);
@@ -108,16 +147,31 @@ public class PlayerToiletHandler {
         }
     }
 
+    /**
+     * 播放液体飞溅音效
+     * 
+     * @param player 玩家
+     */
     private void playSplashSound(Player player) {
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.GENERIC_SPLASH, SoundSource.PLAYERS, 0.3f, 1.0f);
     }
 
+    /**
+     * 播放燃烧音效（马桶内有熔岩时）
+     * 
+     * @param player 玩家
+     */
     private void playBurnSound(Player player) {
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(),
                 SoundEvents.GENERIC_BURN, SoundSource.PLAYERS, 0.3f, 1.0f);
     }
 
+    /**
+     * 产生粪便物品实体
+     * 
+     * @param player 玩家
+     */
     private void produceFeces(Player player) {
         ItemEntity item = new ItemEntity(
                 (ServerLevel) player.level(),
@@ -128,11 +182,23 @@ public class PlayerToiletHandler {
         player.level().addFreshEntity(item);
     }
 
+    /**
+     * 播放放屁音效
+     * 随机选择 fart_1 或 fart_2
+     * 
+     * @param player 玩家
+     */
     private void playFartSound(Player player) {
         SoundEvent fart = player.getRandom().nextBoolean() ? ModSounds.FART_1.get() : ModSounds.FART_2.get();
         player.level().playSound(null, player.getX(), player.getY(), player.getZ(), fart, SoundSource.PLAYERS, 1.0f, 1.0f);
     }
 
+    /**
+     * 消耗玩家饥饿值
+     * 优先消耗饱和度，再消耗饥饿值
+     * 
+     * @param player 玩家
+     */
     private void consumeHunger(Player player) {
         if (player.getFoodData().getSaturationLevel() > 0) {
             player.getFoodData().setSaturation(player.getFoodData().getSaturationLevel() - 1f);

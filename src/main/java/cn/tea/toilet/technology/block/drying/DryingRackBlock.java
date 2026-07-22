@@ -95,8 +95,7 @@ public class DryingRackBlock extends BaseEntityBlock {
 
     @Override
     protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean movedByPiston) {
-        //只在方块真正被替换（被破坏）时才掉落物品
-        if (!state.is(newState.getBlock())) {
+         if (!state.is(newState.getBlock())) {
             if (level.getBlockEntity(pos) instanceof DryingRackBlockEntity blockEntity) {
                 for (int i = 0; i < blockEntity.itemHandler.getSlots(); i++) {
                     Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), blockEntity.itemHandler.getStackInSlot(i));

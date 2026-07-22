@@ -36,9 +36,7 @@ public class PremiumToiletBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged() {
             setChanged();
-            // 只在服务端处理网络同步
             if (level != null && !level.isClientSide()) {
-                // 使用自定义网络包替代 sendBlockUpdated
                 syncToClients();
             }
         }

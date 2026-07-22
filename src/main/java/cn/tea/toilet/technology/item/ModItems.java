@@ -15,15 +15,23 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+/**
+ * 物品注册类
+ * 负责注册模组中的所有物品，包括：
+ * - 材料物品（粪便、干燥粪便）
+ * - 方块对应的物品形式
+ * - 流体桶物品
+ */
 public class ModItems {
 
+    /** 物品延迟注册表 */
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
             BuiltInRegistries.ITEM,
             ToiletTechnology.MOD_ID
     );
 
     // === 材料 ===
-        // === 粪便 ===
+        /** 粪便物品：可食用但会产生负面效果（失明、减速、反胃） */
         public static final DeferredHolder<Item, Item> FECES = ITEMS.register("feces", () -> new Item(
                 new Item.Properties().food(new FoodProperties
                         .Builder()
@@ -35,36 +43,48 @@ public class ModItems {
                         .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)
                         .build())));
 
+        /** 干燥粪便物品：用于干燥配方或其他用途的基础材料 */
         public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",() -> new Item(
  new Item.Properties()
  )
  );
 
     // === 方块物品 ===
+    /** 粪便方块物品 */
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",
             () -> new BlockItem(ModBlocks.FECES_BLOCK.get(), new Item.Properties()));
     // === 厕所 ===
+    /** 蹲便器物品 */
     public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",
             () -> new BlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties()));
+    /** 木制马桶物品 */
     public static final DeferredHolder<Item, BlockItem> OAK_TOILET_ITEM = ITEMS.register("oak_toilet",
             () -> new BlockItem(ModBlocks.OAK_TOILET.get(), new Item.Properties()));
+    /** 石制马桶物品 */
     public static final DeferredHolder<Item, BlockItem> STONE_TOILET_ITEM = ITEMS.register("stone_toilet",
             () -> new BlockItem(ModBlocks.STONE_TOILET.get(), new Item.Properties()));
+    /** 铁制马桶物品 */
     public static final DeferredHolder<Item, BlockItem> IRON_TOILET_ITEM = ITEMS.register("iron_toilet",
             () -> new BlockItem(ModBlocks.IRON_TOILET.get(), new Item.Properties()));
+    /** 金制马桶物品 */
     public static final DeferredHolder<Item, BlockItem> GOLD_TOILET_ITEM = ITEMS.register("gold_toilet",
             () -> new BlockItem(ModBlocks.GOLD_TOILET.get(), new Item.Properties()));
+    /** 钻石马桶物品 */
     public static final DeferredHolder<Item, BlockItem> DIAMOND_TOILET_ITEM = ITEMS.register("diamond_toilet",
             () -> new BlockItem(ModBlocks.DIAMOND_TOILET.get(), new Item.Properties()));
+    /** 下界合金马桶物品：具有防火特性 */
     public static final DeferredHolder<Item, BlockItem> NETHERITE_TOILET_ITEM = ITEMS.register("netherite_toilet",
             () -> new BlockItem(ModBlocks.NETHERITE_TOILET.get(), new Item.Properties().fireResistant()));
     // === 干燥台/箱 ===
+    /** 干燥架物品 */
     public static final DeferredHolder<Item, BlockItem> DRYING_RACK_ITEM = ITEMS.register("drying_rack",
             () -> new BlockItem(ModBlocks.DRYING_RACK.get(), new Item.Properties()));
+    /** 干燥箱物品 */
     public static final DeferredHolder<Item, BlockItem> DRYING_BOX_ITEM = ITEMS.register("drying_box",
             () -> new BlockItem(ModBlocks.DRYING_BOX.get(), new Item.Properties()));
 
     // === 桶 ===
+    /** 粪便液体桶：用于存储和运输粪便液体，使用后返回空桶 */
     public static final DeferredHolder<Item, Item> FECES_LIQUID_BUCKET = ITEMS.register("feces_liquid_bucket",
             () -> new BucketItem(ModFluids.FECES_LIQUID.get(), new Item.Properties()
                     .craftRemainder(Items.BUCKET)
@@ -74,6 +94,11 @@ public class ModItems {
 
 
 
+    /**
+     * 注册所有物品到事件总线
+     * 
+     * @param bus NeoForge 事件总线
+     */
     public static void register(IEventBus bus){
         ITEMS.register(bus);
     }

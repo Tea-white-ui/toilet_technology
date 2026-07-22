@@ -36,9 +36,7 @@ public class DryingRackBlockEntity extends BlockEntity {
         protected void onContentsChanged(int slot) {
             setChanged();
             cachedRecipes[slot] = null;
-            // 只在服务端处理网络同步
             if (level != null && !level.isClientSide()) {
-                // 使用自定义网络包替代 sendBlockUpdated
                 syncToClients();
             }
         }
@@ -108,11 +106,9 @@ public class DryingRackBlockEntity extends BlockEntity {
 
         boolean progressChanged = false;
 
-        //遍历所有槽位
         for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
             ItemStack stack = entity.itemHandler.getStackInSlot(i);
 
-            //如果槽位为空，重置进度
             if (stack.isEmpty()) {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                     entity.dryingProgress[i] = 0;
@@ -123,7 +119,6 @@ public class DryingRackBlockEntity extends BlockEntity {
                 continue;
             }
 
-            //查找匹配的干燥配方（优先使用缓存）
             DryingRecipe recipe = entity.cachedRecipes[i];
             if (recipe == null) {
                 recipe = findMatchingRecipe(level, stack);
@@ -131,42 +126,32 @@ public class DryingRackBlockEntity extends BlockEntity {
             }
 
             if (recipe != null) {
-                // 如果配方发生变化，重置进度
                 if (entity.dryingTotalTime[i] != recipe.getDryingTime()) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = recipe.getDryingTime();
                     progressChanged = true;
                 }
 
-                // 增加干燥进度
                 entity.dryingProgress[i]++;
                 progressChanged = true;
 
-                //检查是否完成干燥
                 if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
-                    //执行物品转化
                     ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
-                    // 使用 insertItem 而非 setStackInSlot，以尊重 getSlotLimit 限制
-                    // 先清空槽位，再插入（insertItem 会检查槽位上限）
                     entity.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
                     ItemStack remaining = entity.itemHandler.insertItem(i, output, false);
-                    // 如果有剩余（不应该发生，因为 output.copy() 的 count 通常为1），丢弃
                     if (!remaining.isEmpty()) {
                         net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
                     }
                     ToiletTechnology.getLOGGER().debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
 
-                    //重置进度
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
                     entity.cachedRecipes[i] = null;
                     progressChanged = true;
 
-                    //标记方块实体已改变
                     entity.setChanged();
                 }
             } else {
-                // 没有匹配配方，重置进度
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
@@ -175,7 +160,6 @@ public class DryingRackBlockEntity extends BlockEntity {
             }
         }
 
-        // 每10tick同步一次数据到客户端，避免过于频繁的网络通信
         entity.lastSyncTick++;
         if (entity.lastSyncTick >= 10 || progressChanged) {
             entity.syncToClients();
@@ -183,18 +167,9 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
     }
 
-    /**
-     * 查找匹配当前物品的干燥配方
-     *
-     * @param level 当前世界
-     * @param stack 要检查的物品
-     * @return 匹配的配方，如果没有则返回null
-     */
     private static DryingRecipe findMatchingRecipe(Level level, ItemStack stack) {
-        // 获取所有干燥配方
         var recipeHolders = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.DRYING.get());
 
-        // 遍历查找第一个匹配的配方
         for (var recipeHolder : recipeHolders) {
             DryingRecipe recipe = recipeHolder.value();
             if (recipe.matches(stack)) {
@@ -205,28 +180,18 @@ public class DryingRackBlockEntity extends BlockEntity {
         return null;
     }
 
-    /**
-     * 保存数据到NBT（用于世界保存/加载）
-     */
     @Override
     protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
-        // 保存物品
         tag.put("Items", itemHandler.serializeNBT(registries));
-        // 保存干燥进度
         tag.putIntArray("DryingProgress", dryingProgress);
         tag.putIntArray("DryingTotalTime", dryingTotalTime);
     }
 
-    /**
-     * 从NBT加载数据
-     */
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
-        // 加载物品
         itemHandler.deserializeNBT(registries, tag.getCompound("Items"));
-        // 加载干燥进度
         if (tag.contains("DryingProgress")) {
             dryingProgress = tag.getIntArray("DryingProgress");
         }
@@ -235,10 +200,6 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
     }
 
-    /**
-     * 获取用于网络同步的NBT标签
-     * 保留此方法以兼容原版 BlockEntity 同步机制
-     */
     @Override
     public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
         CompoundTag tag = super.getUpdateTag(registries);
@@ -248,36 +209,9 @@ public class DryingRackBlockEntity extends BlockEntity {
         return tag;
     }
 
-    /**
-     * 获取用于客户端同步的更新包
-     * 保留此方法以兼容原版 BlockEntity 同步机制
-     */
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    /**
-     * 获取指定槽位的干燥进度百分比（0.0-1.0）
-     * 用于客户端渲染进度条
-     *
-     * @param slot 槽位索引
-     * @return 进度百分比，如果槽位为空或没有配方则返回0
-     */
-    public float getProgressPercent(int slot) {
-        if (slot < 0 || slot >= 4) return 0.0f;
-        if (dryingTotalTime[slot] == 0) return 0.0f;
-        return (float) dryingProgress[slot] / dryingTotalTime[slot];
-    }
-
-    /**
-     * 检查指定槽位是否正在干燥
-     *
-     * @param slot 槽位索引
-     * @return 如果正在干燥返回true
-     */
-    public boolean isDrying(int slot) {
-        if (slot < 0 || slot >= 4) return false;
-        return dryingProgress[slot] > 0 && dryingTotalTime[slot] > 0;
-    }
 }

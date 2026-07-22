@@ -35,7 +35,7 @@ public class DryingRecipeCategory implements IRecipeCategory<DryingRecipe> {
     private static final int OUTPUT_SLOT_Y = 1;
 
     private static final int ARROW_X = 27;
-    private static final int ARROW_Y = 9;
+    private static final int ARROW_Y = 3;
 
     private static final int TIME_TEXT_X = 28;
     private static final int TIME_TEXT_Y = 25;

@@ -34,6 +34,10 @@ public class DryingCategoryDefinition implements JeiCategoryDefinition<DryingRec
 
     @Override
     public List<ItemStack> getCatalysts() {
-        return List.of(ModBlocks.DRYING_RACK.get().asItem().getDefaultInstance());
+        return List.of(
+                // 添加可以执行干燥操作的方块
+            ModBlocks.DRYING_RACK.get().asItem().getDefaultInstance(),
+            ModBlocks.DRYING_BOX.get().asItem().getDefaultInstance()
+        );
     }
 }

@@ -33,8 +33,8 @@ import org.jetbrains.annotations.Nullable;
 
 /**
  * 干燥箱方块
- * 拥有16格存储空间，可存储待干燥/已干燥的物品
- * GUI 交互功能尚未实现，先完成方块和物品的注册
+ * 拥有16格输入+16格输出存储空间
+ * 支持干燥配方转化，右键打开 GUI 界面
  */
 public class DryingBoxBlock extends BaseEntityBlock {
 
@@ -82,11 +82,18 @@ public class DryingBoxBlock extends BaseEntityBlock {
     protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock())) {
             if (level.getBlockEntity(pos) instanceof DryingBoxBlockEntity blockEntity) {
+                // 使用 extractItem 真正移除物品并掉落
                 for (int i = 0; i < blockEntity.inputHandler.getSlots(); i++) {
-                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), blockEntity.inputHandler.getStackInSlot(i));
+                    ItemStack stack = blockEntity.inputHandler.extractItem(i, Integer.MAX_VALUE, false);
+                    if (!stack.isEmpty()) {
+                        Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    }
                 }
                 for (int i = 0; i < blockEntity.outputHandler.getSlots(); i++) {
-                    Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), blockEntity.outputHandler.getStackInSlot(i));
+                    ItemStack stack = blockEntity.outputHandler.extractItem(i, Integer.MAX_VALUE, false);
+                    if (!stack.isEmpty()) {
+                        Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    }
                 }
             }
         }

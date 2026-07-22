@@ -90,24 +90,26 @@ public class DryingBoxMenu extends AbstractContainerMenu {
         int hotbarEnd = hotbarStart + 9;
 
         if (index < INPUT_SLOTS) {
-            // 从输入槽位移到玩家背包
+            // 从输入槽位移到玩家背包（主背包 + 快捷栏）
             if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, hotbarEnd, true)) {
                 return ItemStack.EMPTY;
             }
         } else if (index < TOTAL_CUSTOM_SLOTS) {
-            // 从输出槽位移到玩家背包
+            // 从输出槽位移到玩家背包（主背包 + 快捷栏）
             if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, hotbarEnd, true)) {
                 return ItemStack.EMPTY;
             }
         } else {
-            // 从玩家背包移到输入槽位
+            // 从玩家背包点击：优先移到输入槽位，然后在玩家背包内部移动
             if (!this.moveItemStackTo(stackInSlot, 0, INPUT_SLOTS, false)) {
-                // 如果输入槽位放不下，尝试在玩家背包内部移动
+                // 输入槽位放不下，在玩家背包内部移动
                 if (index < playerInventoryEnd) {
+                    // 从主背包 → 快捷栏
                     if (!this.moveItemStackTo(stackInSlot, hotbarStart, hotbarEnd, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else {
+                    // 从快捷栏 → 主背包
                     if (!this.moveItemStackTo(stackInSlot, playerInventoryStart, playerInventoryEnd, false)) {
                         return ItemStack.EMPTY;
                     }

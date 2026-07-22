@@ -1,6 +1,8 @@
 package cn.tea.toilet.technology.block.drying;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.network.DryingBoxSyncPayload;
+import cn.tea.toilet.technology.network.ModPacketSender;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.ToiletTechnology;
@@ -80,6 +82,8 @@ public class DryingBoxBlockEntity extends BlockEntity {
     private final DryingRecipe[] cachedRecipes = new DryingRecipe[SLOTS];
     // 标记是否有正在进行的干燥任务，用于优化 tick 性能
     private boolean hasActiveDrying = false;
+    // 上次同步的tick计数，用于控制同步频率
+    private int lastSyncTick = 0;
 
     // 用于漏斗交互的包装 handler
     // 输入槽（0-15）：漏斗可以插入，但不能提取
@@ -149,6 +153,25 @@ public class DryingBoxBlockEntity extends BlockEntity {
      */
     public IItemHandler getHopperHandler() {
         return hopperHandler;
+    }
+
+    /**
+     * 同步数据到所有客户端
+     * 使用自定义网络包，比 sendBlockUpdated 更高效
+     * 仅在数据变化时调用，避免每tick发送
+     */
+    private void syncToClients() {
+        if (level == null || level.isClientSide()) {
+            return;
+        }
+        
+        DryingBoxSyncPayload payload = new DryingBoxSyncPayload(
+                getBlockPos(),
+                dryingProgress.clone(),
+                dryingTotalTime.clone()
+        );
+        
+        ModPacketSender.sendToTracking(level, getBlockPos(), payload);
     }
 
     /**
@@ -262,6 +285,15 @@ public class DryingBoxBlockEntity extends BlockEntity {
 
         if (progressChanged) {
             entity.setChanged();
+            // 数据变化时同步到客户端
+            entity.syncToClients();
+        } else {
+            // 每10tick同步一次，保持客户端数据更新
+            entity.lastSyncTick++;
+            if (entity.lastSyncTick >= 10) {
+                entity.syncToClients();
+                entity.lastSyncTick = 0;
+            }
         }
     }
 

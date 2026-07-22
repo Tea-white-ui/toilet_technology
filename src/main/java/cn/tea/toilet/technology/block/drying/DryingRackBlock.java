@@ -162,7 +162,7 @@ public class DryingRackBlock extends BaseEntityBlock {
                 if (!player.getInventory().add(extracted)) {
                     player.drop(extracted, false);
                 }
-                level.sendBlockUpdated(pos, state, state,2);
+                // 网络同步由 BlockEntity 的 onContentsChanged 自动处理
                 level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.PLAYERS,0.2F, (level.random.nextFloat() - level.random.nextFloat()) *1.4F +2.0F);
                 return ItemInteractionResult.sidedSuccess(level.isClientSide());
             }
@@ -182,7 +182,7 @@ public class DryingRackBlock extends BaseEntityBlock {
                 ItemStack remaining = blockEntity.itemHandler.insertItem(i, toInsert, false);
                 if (remaining.isEmpty()) {
                     stack.shrink(1);
-                    level.sendBlockUpdated(pos, blockEntity.getBlockState(), blockEntity.getBlockState(), 2);
+                    // 网络同步由 BlockEntity 的 onContentsChanged 自动处理
                     return ItemInteractionResult.sidedSuccess(level.isClientSide());
                 }
             }

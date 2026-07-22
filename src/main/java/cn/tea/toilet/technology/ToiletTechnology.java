@@ -5,12 +5,14 @@ import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.network.ModNetworkRegistry;
 import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -39,6 +41,8 @@ public class ToiletTechnology {
     public ToiletTechnology(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(this::registerCapabilities);
+        // 注册网络包处理器
+        modEventBus.addListener(this::registerPayloadHandlers);
         ModFluids.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
@@ -75,6 +79,16 @@ public class ToiletTechnology {
                 ModBlockEntities.DRYING_BOX.get(),
                 (blockEntity, side) -> blockEntity.getHopperHandler()
         );
+    }
+
+    /**
+     * 注册网络包处理器
+     * 使用 NeoForge 的新版网络系统，基于 CustomPacketPayload
+     */
+    private void registerPayloadHandlers(RegisterPayloadHandlersEvent event) {
+        // 使用版本号进行协议协商，版本不匹配的客户端/服务端将被拒绝连接
+        var registrar = event.registrar("1.0.0");
+        ModNetworkRegistry.register(registrar);
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

@@ -205,4 +205,18 @@ public class DryingBoxMenu extends AbstractContainerMenu {
         if (slot < 0 || slot >= 16) return 0;
         return dryingData.get(slot + 16);
     }
+
+    /**
+     * 更新客户端本地进度数据
+     * 由网络包处理器调用，接收服务端同步的干燥进度
+     * 
+     * @param progress 干燥进度数组
+     * @param totalTime 干燥总时间数组
+     */
+    public void updateClientProgress(int[] progress, int[] totalTime) {
+        if (progress.length == 16 && totalTime.length == 16) {
+            System.arraycopy(progress, 0, clientDryingProgress, 0, 16);
+            System.arraycopy(totalTime, 0, clientDryingTotalTime, 0, 16);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
@@ -38,6 +39,13 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("drying_rack", () -> BlockEntityType.Builder.of(
                     DryingRackBlockEntity::new,
                     ModBlocks.DRYING_RACK.get()
+            ).build(null));
+
+    // 干燥箱方块实体，16格存储，注册 tick 处理器
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<DryingBoxBlockEntity>> DRYING_BOX =
+            BLOCK_ENTITIES.register("drying_box", () -> BlockEntityType.Builder.of(
+                    DryingBoxBlockEntity::new,
+                    ModBlocks.DRYING_BOX.get()
             ).build(null));
 
     public static void register(IEventBus bus) {

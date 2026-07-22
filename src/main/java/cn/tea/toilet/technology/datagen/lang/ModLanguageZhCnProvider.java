@@ -27,6 +27,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
         add(ModBlocks.DRYING_RACK.get(), "干燥架");
+        add(ModBlocks.DRYING_BOX.get(), "干燥箱");
         add("fluid_type.toilet_technology.feces_liquid","粪液");
         add("jei.toilet_technology.drying.title", "物品干燥");
 

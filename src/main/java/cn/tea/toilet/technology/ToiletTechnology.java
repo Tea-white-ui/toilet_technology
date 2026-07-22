@@ -3,6 +3,7 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
@@ -42,6 +43,7 @@ public class ToiletTechnology {
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModSounds.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
@@ -67,6 +69,11 @@ public class ToiletTechnology {
                 Capabilities.ItemHandler.BLOCK,
                 ModBlockEntities.DRYING_RACK.get(),
                 (blockEntity, side) -> blockEntity.itemHandler
+        );
+        event.registerBlockEntity(
+                Capabilities.ItemHandler.BLOCK,
+                ModBlockEntities.DRYING_BOX.get(),
+                (blockEntity, side) -> blockEntity.inputHandler
         );
     }
 

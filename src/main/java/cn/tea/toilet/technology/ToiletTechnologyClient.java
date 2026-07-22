@@ -5,6 +5,8 @@ import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.gui.DryingBoxScreen;
+import cn.tea.toilet.technology.gui.ModMenuTypes;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
@@ -19,6 +21,7 @@ import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
@@ -49,6 +52,11 @@ public class ToiletTechnologyClient {
                     DryingRackBlockEntityBER::new
             );
         });
+    }
+
+    @SubscribeEvent
+    static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
+        event.register(ModMenuTypes.DRYING_BOX_MENU.get(), DryingBoxScreen::new);
     }
 
     @SubscribeEvent

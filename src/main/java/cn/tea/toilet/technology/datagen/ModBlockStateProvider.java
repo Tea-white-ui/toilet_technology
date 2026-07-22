@@ -24,6 +24,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         horizontalBlock(ModBlocks.DIAMOND_TOILET.get(), models().getExistingFile(modLoc("block/diamond_toilet")));
         horizontalBlock(ModBlocks.NETHERITE_TOILET.get(), models().getExistingFile(modLoc("block/netherite_toilet")));
         horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(modLoc("block/drying_rack")));
+        horizontalBlock(ModBlocks.DRYING_BOX.get(), models().getExistingFile(modLoc("block/drying_box")));
 
     }
 }

@@ -35,6 +35,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.NETHERITE_TOILET_ITEM.get());
                         output.accept(ModItems.FECES_LIQUID_BUCKET.get());
                         output.accept(ModItems.DRYING_RACK_ITEM.get());
+                        output.accept(ModItems.DRYING_BOX_ITEM.get());
 
                     })
                     .build());

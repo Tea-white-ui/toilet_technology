@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlock;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
@@ -131,6 +132,15 @@ public class ModBlocks {
 
     // === 干燥台/箱 ===
     public static final DeferredHolder<Block, Block> DRYING_RACK = BLOCKS.register("drying_rack", () -> new DryingRackBlock(Block.Properties.of()
+            .destroyTime(2.0f)
+            .explosionResistance(1.0f)
+            .sound(SoundType.WOOD)
+            .isValidSpawn((state, world, pos, type) -> false)
+            .isRedstoneConductor((state, world, pos) -> false)
+            .pushReaction(PushReaction.BLOCK)
+    ));
+
+    public static final DeferredHolder<Block, Block> DRYING_BOX = BLOCKS.register("drying_box", () -> new DryingBoxBlock(Block.Properties.of()
             .destroyTime(2.0f)
             .explosionResistance(1.0f)
             .sound(SoundType.WOOD)

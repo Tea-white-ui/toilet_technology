@@ -28,6 +28,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
         add(ModBlocks.DRYING_RACK.get(), "Dryer_Rack");
+        add(ModBlocks.DRYING_BOX.get(), "Drying Box");
         add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
 
 

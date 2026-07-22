@@ -36,10 +36,22 @@ public class DryingBoxBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            cachedRecipes[slot] = null;
-            if (level != null && !level.isClientSide()) {
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            // 只在物品真正改变时清除缓存，而不是每次内容变化
+            ItemStack stack = getStackInSlot(slot);
+            if (cachedRecipes[slot] != null) {
+                // 当 level 为 null 时无法验证配方匹配，直接清除缓存
+                if (level == null || level.isClientSide()) {
+                    cachedRecipes[slot] = null;
+                } else {
+                    // 检查当前物品是否仍然匹配缓存的配方
+                    DryingRecipe cachedRecipe = cachedRecipes[slot];
+                    if (!cachedRecipe.matches(new SingleRecipeInput(stack), level)) {
+                        cachedRecipes[slot] = null;
+                    }
+                }
             }
+            // 注意：移除了 sendBlockUpdated 调用，避免每tick发送网络包
+            // 网络同步由 Menu 的 ContainerData 机制处理
         }
     };
 
@@ -48,9 +60,8 @@ public class DryingBoxBlockEntity extends BlockEntity {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
-            if (level != null && !level.isClientSide()) {
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
-            }
+            // 注意：移除了 sendBlockUpdated 调用，避免每tick发送网络包
+            // 网络同步由 Menu 的 ContainerData 机制处理
         }
     };
 

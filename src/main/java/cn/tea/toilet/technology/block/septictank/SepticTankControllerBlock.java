@@ -7,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.entity.player.Player;
@@ -54,17 +55,27 @@ public class SepticTankControllerBlock extends BaseEntityBlock {
     protected @NotNull ItemInteractionResult useItemOn(@NotNull ItemStack stack, @NotNull BlockState state, @NotNull Level level,
                                                         @NotNull BlockPos pos, @NotNull Player player, @NotNull InteractionHand hand,
                                                         @NotNull BlockHitResult hitResult) {
-        if (!(level.getBlockEntity(pos) instanceof SepticTankControllerBlockEntity controller)) return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
-        if (!controller.revalidateStructure()) {
-            if (!level.isClientSide()) player.displayClientMessage(Component.translatable("message.toilet_technology.septic_tank_invalid"), true);
-            return ItemInteractionResult.sidedSuccess(level.isClientSide());
-        }
-        if (!level.isClientSide()) {
-            player.openMenu(new SimpleMenuProvider(
-                    (id, inventory, ignored) -> new SepticTankMenu(id, inventory, controller, ContainerLevelAccess.create(level, pos)),
-                    Component.translatable("block.toilet_technology.septic_tank_controller")));
-        }
+        if (!level.isClientSide()) openMenu(level, pos, player);
         return ItemInteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+    @Override
+    protected @NotNull InteractionResult useWithoutItem(@NotNull BlockState state, @NotNull Level level,
+                                                         @NotNull BlockPos pos, @NotNull Player player,
+                                                         @NotNull BlockHitResult hitResult) {
+        if (!level.isClientSide()) openMenu(level, pos, player);
+        return InteractionResult.sidedSuccess(level.isClientSide());
+    }
+
+    private static void openMenu(Level level, BlockPos pos, Player player) {
+        if (!(level.getBlockEntity(pos) instanceof SepticTankControllerBlockEntity controller)) return;
+        if (!controller.revalidateStructure()) {
+            player.displayClientMessage(Component.translatable("message.toilet_technology.septic_tank_invalid"), true);
+            return;
+        }
+        player.openMenu(new SimpleMenuProvider(
+                (id, inventory, ignored) -> new SepticTankMenu(id, inventory, controller, ContainerLevelAccess.create(level, pos)),
+                Component.translatable("block.toilet_technology.septic_tank_controller")));
     }
 
     @Override

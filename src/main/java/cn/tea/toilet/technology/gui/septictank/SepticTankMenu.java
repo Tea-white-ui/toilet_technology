@@ -23,7 +23,13 @@ import net.neoforged.neoforge.items.SlotItemHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class SepticTankMenu extends AbstractContainerMenu {
-    public static final int CUSTOM_SLOTS = 8;
+    public static final int CUSTOM_SLOTS = SepticTankMenuLayout.CUSTOM_SLOT_COUNT;
+    private static final int DATA_LIQUID_AMOUNT = 0;
+    private static final int DATA_GAS_AMOUNT = 1;
+    private static final int DATA_STRUCTURE_VALID = 2;
+    private static final int DATA_LIQUID_TYPE = 3;
+    private static final int DATA_GAS_TYPE = 4;
+    private static final int DATA_COUNT = 5;
     private final ContainerLevelAccess access;
     private final ContainerData data;
 
@@ -32,42 +38,47 @@ public class SepticTankMenu extends AbstractContainerMenu {
     public SepticTankMenu(int id, Inventory inventory, SepticTankControllerBlockEntity controller, ContainerLevelAccess access) {
         super(ModMenuTypes.SEPTIC_TANK_MENU.get(), id);
         this.access = access;
-        IItemHandler handler = controller == null ? new ItemStackHandler(CUSTOM_SLOTS) : controller.items;
+        IItemHandler handler = controller == null ? new ItemStackHandler(CUSTOM_SLOTS) : controller.getMenuItems();
 
-        addSlot(new SlotItemHandler(handler, 6, 80, 52));
-        addSlot(new OutputOnlySlot(handler, 7, 80, 93));
+        addSlot(new SlotItemHandler(handler, SepticTankMenuLayout.handlerSlot(SepticTankMenuLayout.CONTAINER_INPUT), 80, 52));
+        addSlot(new OutputOnlySlot(handler, SepticTankMenuLayout.handlerSlot(SepticTankMenuLayout.CONTAINER_OUTPUT), 80, 93));
         for (int row = 0; row < 3; row++) {
-            addSlot(new SlotItemHandler(handler, row, 116, 57 + row * 18));
+            addSlot(new SlotItemHandler(handler, SepticTankMenuLayout.handlerSlot(SepticTankMenuLayout.ITEM_INPUT_START + row), 116, 57 + row * 18));
         }
-        for (int row = 0; row < 3; row++) addSlot(new OutputOnlySlot(handler, 3 + row, 152, 57 + row * 18));
+        for (int row = 0; row < 3; row++) addSlot(new OutputOnlySlot(
+                handler,
+                SepticTankMenuLayout.handlerSlot(SepticTankMenuLayout.ITEM_OUTPUT_START + row),
+                152,
+                57 + row * 18
+        ));
         for (int row = 0; row < 3; row++) for (int col = 0; col < 9; col++)
             addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 116 + row * 18));
         for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 174));
 
-        this.data = controller == null ? new SimpleContainerData(5) : new ContainerData() {
+        this.data = controller == null ? new SimpleContainerData(DATA_COUNT) : new ContainerData() {
             @Override public int get(int index) {
                 return switch (index) {
-                    case 0 -> controller.liquidTank.getFluidAmount();
-                    case 1 -> (int) controller.gasTank.getStored();
-                    case 2 -> controller.isStructureValid() ? 1 : 0;
-                    case 3 -> fluidWireValue(controller.liquidTank.getFluid());
-                    case 4 -> chemicalWireValue(controller.gasTank.getStack());
+                    case DATA_LIQUID_AMOUNT -> controller.liquidTank.getFluidAmount();
+                    case DATA_GAS_AMOUNT -> (int) controller.gasTank.getStored();
+                    case DATA_STRUCTURE_VALID -> controller.isStructureValid() ? 1 : 0;
+                    case DATA_LIQUID_TYPE -> fluidWireValue(controller.liquidTank.getFluid());
+                    case DATA_GAS_TYPE -> chemicalWireValue(controller.gasTank.getStack());
                     default -> 0;
                 };
             }
             @Override public void set(int index, int value) { }
-            @Override public int getCount() { return 5; }
+            @Override public int getCount() { return DATA_COUNT; }
         };
         addDataSlots(data);
     }
 
-    public int liquidAmount() { return data.get(0) & 0xFFFF; }
+    public int liquidAmount() { return data.get(DATA_LIQUID_AMOUNT) & 0xFFFF; }
     public int liquidCapacity() { return SepticTankControllerBlockEntity.TANK_CAPACITY; }
-    public int gasAmount() { return data.get(1) & 0xFFFF; }
+    public int gasAmount() { return data.get(DATA_GAS_AMOUNT) & 0xFFFF; }
     public int gasCapacity() { return SepticTankControllerBlockEntity.TANK_CAPACITY; }
-    public boolean structureValid() { return data.get(2) != 0; }
-    public FluidStack liquidStack() { return displayStack(3, liquidAmount()); }
-    public ChemicalStack gasStack() { return displayChemicalStack(4, gasAmount()); }
+    public boolean structureValid() { return data.get(DATA_STRUCTURE_VALID) != 0; }
+    public FluidStack liquidStack() { return displayStack(DATA_LIQUID_TYPE, liquidAmount()); }
+    public ChemicalStack gasStack() { return displayChemicalStack(DATA_GAS_TYPE, gasAmount()); }
 
     private static int fluidWireValue(FluidStack stack) {
         return stack.isEmpty() ? 0 : SepticTankFluidDisplay.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
@@ -98,18 +109,24 @@ public class SepticTankMenu extends AbstractContainerMenu {
     }
 
     @Override public @NotNull ItemStack quickMoveStack(@NotNull Player player, int index) {
+        if (index < 0 || index >= slots.size()) return ItemStack.EMPTY;
         Slot slot = slots.get(index);
         if (!slot.hasItem()) return ItemStack.EMPTY;
         ItemStack source = slot.getItem();
         ItemStack copy = source.copy();
-        int playerStart = CUSTOM_SLOTS;
-        int playerEnd = playerStart + 36;
         if (index < CUSTOM_SLOTS) {
-            if (!moveItemStackTo(source, playerStart, playerEnd, true)) return ItemStack.EMPTY;
+            if (!moveItemStackTo(source, SepticTankMenuLayout.PLAYER_START, SepticTankMenuLayout.PLAYER_END, true)) {
+                return ItemStack.EMPTY;
+            }
         } else {
-            boolean moved = FluidUtilHelper.isFluidContainer(source)
-                    ? moveItemStackTo(source, 0, 1, false)
-                    : moveItemStackTo(source, 2, 5, false);
+            boolean acceptsContainerInput = slots.get(SepticTankMenuLayout.CONTAINER_INPUT).mayPlace(source);
+            boolean moved = false;
+            for (SepticTankMenuLayout.SlotRange destination : SepticTankMenuLayout.playerDestinationRanges(acceptsContainerInput)) {
+                if (moveItemStackTo(source, destination.startInclusive(), destination.endExclusive(), false)) {
+                    moved = true;
+                    if (source.isEmpty()) break;
+                }
+            }
             if (!moved) return ItemStack.EMPTY;
         }
         if (source.isEmpty()) slot.setByPlayer(ItemStack.EMPTY); else slot.setChanged();

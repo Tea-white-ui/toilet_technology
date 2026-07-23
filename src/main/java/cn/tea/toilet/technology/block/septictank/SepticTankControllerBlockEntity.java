@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.chemical.ModChemicals;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
@@ -11,6 +12,8 @@ import mekanism.api.chemical.IChemicalTank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -21,23 +24,25 @@ import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
 import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class SepticTankControllerBlockEntity extends BlockEntity {
     public static final int TANK_CAPACITY = 64_000;
-    public static final int ITEM_INPUT_START = 0;
-    public static final int ITEM_OUTPUT_START = 3;
-    public static final int CONTAINER_INPUT = 6;
-    public static final int CONTAINER_OUTPUT = 7;
-    public static final int SLOT_COUNT = 8;
+    private static final int DATA_VERSION = 2;
+    public static final int ITEM_INPUT_START = SepticTankInventoryLayout.ITEM_INPUT_START;
+    public static final int ITEM_OUTPUT_START = SepticTankInventoryLayout.ITEM_OUTPUT_START;
+    public static final int CONTAINER_INPUT = SepticTankInventoryLayout.CONTAINER_INPUT;
+    public static final int CONTAINER_OUTPUT = SepticTankInventoryLayout.CONTAINER_OUTPUT;
+    public static final int SLOT_COUNT = SepticTankInventoryLayout.SLOT_COUNT;
 
     private boolean structureValid;
     private int validationCooldown;
 
     public final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return slot < ITEM_OUTPUT_START
+            return SepticTankInventoryLayout.isItemInput(slot)
                     || slot == CONTAINER_INPUT && isFilledFluidContainer(stack);
         }
         @Override protected void onContentsChanged(int slot) { setChanged(); }
@@ -45,8 +50,14 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     public final FluidTank liquidTank = changedTank();
     /** Native Mekanism chemical storage, exposed through its chemical capability. */
-    public final IChemicalTank gasTank = BasicChemicalTank.create(TANK_CAPACITY, this::setChanged);
+    public final IChemicalTank gasTank = BasicChemicalTank.createModern(
+            TANK_CAPACITY,
+            stack -> stack.is(ModChemicals.BIOGAS.get()),
+            this::setChanged
+    );
     private final IItemHandler automationItems = new AutomationItemHandler();
+    private final IItemHandler menuItems = new MenuItemHandler();
+    private final IFluidHandler automationFluids = new StructureGatedFluidHandler(liquidTank, this::isStructureValid);
     private final IChemicalHandler automationChemicals = new StructureGatedChemicalHandler();
 
     public SepticTankControllerBlockEntity(BlockPos pos, BlockState state) {
@@ -82,6 +93,8 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     public boolean isStructureValid() { return structureValid; }
     public IItemHandler getAutomationItems() { return automationItems; }
+    public IItemHandler getMenuItems() { return menuItems; }
+    public IFluidHandler getAutomationFluids() { return automationFluids; }
     public IChemicalHandler getAutomationChemicals() { return automationChemicals; }
 
     private static boolean isFilledFluidContainer(ItemStack stack) {
@@ -100,10 +113,11 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     private void processFluidContainer() {
         ItemStack input = items.getStackInSlot(CONTAINER_INPUT);
         if (input.isEmpty()) return;
-        var simulated = FluidUtil.tryEmptyContainer(input, liquidTank, TANK_CAPACITY, null, false);
+        ItemStack singleContainer = input.copyWithCount(1);
+        var simulated = FluidUtil.tryEmptyContainer(singleContainer, liquidTank, TANK_CAPACITY, null, false);
         if (!simulated.isSuccess() || !canMachineInsertOutput(CONTAINER_OUTPUT, simulated.getResult())) return;
 
-        var executed = FluidUtil.tryEmptyContainer(input, liquidTank, TANK_CAPACITY, null, true);
+        var executed = FluidUtil.tryEmptyContainer(singleContainer, liquidTank, TANK_CAPACITY, null, true);
         if (!executed.isSuccess()) return;
         items.extractItem(CONTAINER_INPUT, 1, false);
         machineInsertOutput(CONTAINER_OUTPUT, executed.getResult());
@@ -131,6 +145,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     @Override protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
+        tag.putInt("DataVersion", DATA_VERSION);
         tag.put("Items", items.serializeNBT(registries));
         tag.put("LiquidTank", liquidTank.writeToNBT(registries, new CompoundTag()));
         tag.put("GasTank", gasTank.serializeNBT(registries));
@@ -139,13 +154,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     @Override protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains("Items")) {
-            items.deserializeNBT(registries, tag.getCompound("Items"));
-            if (items.getSlots() != SLOT_COUNT) {
-                ItemStack[] loaded = new ItemStack[Math.min(items.getSlots(), SLOT_COUNT)];
-                for (int slot = 0; slot < loaded.length; slot++) loaded[slot] = items.getStackInSlot(slot).copy();
-                items.setSize(SLOT_COUNT);
-                for (int slot = 0; slot < loaded.length; slot++) items.setStackInSlot(slot, loaded[slot]);
-            }
+            items.deserializeNBT(registries, normalizedInventoryTag(tag.getCompound("Items")));
         }
         if (tag.contains("LiquidTank")) {
             liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
@@ -153,9 +162,42 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
                 liquidTank.setFluid(FluidStack.EMPTY);
             }
         }
-        if (tag.contains("GasTank")) gasTank.deserializeNBT(registries, tag.getCompound("GasTank"));
+        if (tag.contains("GasTank")) loadGasTank(tag, registries);
         structureValid = false;
         validationCooldown = 1;
+    }
+
+    private static CompoundTag normalizedInventoryTag(CompoundTag savedItems) {
+        CompoundTag normalized = new CompoundTag();
+        normalized.putInt("Size", SLOT_COUNT);
+        ListTag validItems = new ListTag();
+        ListTag serializedItems = savedItems.getList("Items", Tag.TAG_COMPOUND);
+        for (int index = 0; index < serializedItems.size(); index++) {
+            CompoundTag serializedStack = serializedItems.getCompound(index);
+            int slot = serializedStack.getInt("Slot");
+            if (slot >= 0 && slot < SLOT_COUNT) validItems.add(serializedStack.copy());
+        }
+        normalized.put("Items", validItems);
+        return normalized;
+    }
+
+    private void loadGasTank(CompoundTag ownerTag, HolderLookup.Provider registries) {
+        CompoundTag tankTag = ownerTag.getCompound("GasTank");
+        if (ownerTag.getInt("DataVersion") < DATA_VERSION && tankTag.contains("Fluid")) {
+            FluidTank legacyTank = new FluidTank(TANK_CAPACITY);
+            legacyTank.readFromNBT(registries, tankTag);
+            if (!legacyTank.isEmpty()) {
+                gasTank.setStack(new ChemicalStack(ModChemicals.BIOGAS,
+                        Math.min(legacyTank.getFluidAmount(), TANK_CAPACITY)));
+            }
+            return;
+        }
+        gasTank.deserializeNBT(registries, tankTag);
+        if (!gasTank.isEmpty() && !gasTank.getStack().is(ModChemicals.BIOGAS.get())) {
+            gasTank.setEmpty();
+        } else if (gasTank.getStored() > TANK_CAPACITY) {
+            gasTank.setStack(gasTank.getStack().copyWithAmount(TANK_CAPACITY));
+        }
     }
 
     private class AutomationItemHandler implements IItemHandler {
@@ -165,16 +207,37 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             return structureValid && SepticTankSlotPolicy.allowsExternalInsertion(slot) ? items.insertItem(slot, stack, simulate) : stack;
         }
         @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return structureValid && (slot >= ITEM_OUTPUT_START && slot < CONTAINER_INPUT || slot == CONTAINER_OUTPUT)
+            return structureValid && SepticTankInventoryLayout.allowsExternalExtraction(slot)
                     ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
         }
         @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return items.isItemValid(slot, stack); }
     }
 
+    private class MenuItemHandler implements IItemHandlerModifiable {
+        @Override public int getSlots() { return SLOT_COUNT; }
+        @Override public @NotNull ItemStack getStackInSlot(int slot) { return items.getStackInSlot(slot); }
+        @Override public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+            if (structureValid && (stack.isEmpty() || items.isItemValid(slot, stack))) {
+                items.setStackInSlot(slot, stack);
+            }
+        }
+        @Override public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            return structureValid ? items.insertItem(slot, stack, simulate) : stack;
+        }
+        @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            return structureValid && SepticTankInventoryLayout.allowsMenuExtraction(slot)
+                    ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
+        }
+        @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
+        @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
+            return structureValid && items.isItemValid(slot, stack);
+        }
+    }
+
     private class StructureGatedChemicalHandler implements IChemicalHandler {
         private boolean allowsTransfer() {
-            return SepticTankChemicalAccess.allowsTransfer(structureValid);
+            return structureValid;
         }
 
         @Override public int getChemicalTanks() { return 1; }
@@ -182,7 +245,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             return tank == 0 ? gasTank.getStack() : ChemicalStack.EMPTY;
         }
         @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
-            throw new UnsupportedOperationException("External chemical automation cannot replace tank contents directly");
+            // Direct replacement is not an automation operation; reject it without crashing callers.
         }
         @Override public long getChemicalTankCapacity(int tank) {
             return tank == 0 ? gasTank.getCapacity() : 0;

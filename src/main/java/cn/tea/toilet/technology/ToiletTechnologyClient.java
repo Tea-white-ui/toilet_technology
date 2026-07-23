@@ -2,8 +2,7 @@ package cn.tea.toilet.technology;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
-import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntityBER;
-import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntityBER;
+import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
@@ -44,13 +43,14 @@ public class ToiletTechnologyClient {
 
         // enqueueWork 确保在客户端主线程中执行渲染注册
         event.enqueueWork(() -> {
+            // 两个马桶方块共用同一个泛型 BER（内部按 AbstractToiletBlockEntity 上界匹配）
             BlockEntityRenderers.register(
                     ModBlockEntities.PREMIUM_TOILET.get(),
-                    PremiumToiletBlockEntityBER::new
+                    ToiletBlockEntityBER::new
             );
             BlockEntityRenderers.register(
                     ModBlockEntities.NETHERITE_TOILET.get(),
-                    NetheriteToiletBlockEntityBER::new
+                    ToiletBlockEntityBER::new
             );
             BlockEntityRenderers.register(
                     ModBlockEntities.DRYING_RACK.get(),

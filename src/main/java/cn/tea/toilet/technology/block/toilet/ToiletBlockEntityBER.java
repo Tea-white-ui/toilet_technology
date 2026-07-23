@@ -16,14 +16,28 @@ import net.neoforged.neoforge.fluids.FluidStack;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix4f;
 
-public class PremiumToiletBlockEntityBER implements BlockEntityRenderer<PremiumToiletBlockEntity> {
+/**
+ * 马桶方块实体渲染器（合并版）
+ *
+ * 替代旧的 PremiumToiletBlockEntityBER / NetheriteToiletBlockEntityBER（两份代码逐字节相同），
+ * 通过泛型上界 AbstractToiletBlockEntity 复用同一份渲染逻辑：
+ * - 渲染流体静水面（y=0.85f）
+ * - 颜色取自 IClientFluidTypeExtensions 的 tint
+ * - 使用 RenderType.translucentMovingBlock 支持半透明流体
+ *
+ * 注册方式见 ToiletTechnologyClient：
+ *   BlockEntityRenderers.register(ModBlockEntities.PREMIUM_TOILET.get(), ToiletBlockEntityBER::new);
+ *   BlockEntityRenderers.register(ModBlockEntities.NETHERITE_TOILET.get(), ToiletBlockEntityBER::new);
+ */
+public class ToiletBlockEntityBER<T extends AbstractToiletBlockEntity> implements BlockEntityRenderer<T> {
 
-    public PremiumToiletBlockEntityBER(BlockEntityRendererProvider.Context context) {
+    public ToiletBlockEntityBER(BlockEntityRendererProvider.Context context) {
     }
 
     @Override
-    public void render(@NotNull PremiumToiletBlockEntity premiumToiletBlockEntity, float partialTick, @NotNull PoseStack poseStack, @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
-        FluidStack fluidStack = premiumToiletBlockEntity.getFluid();
+    public void render(@NotNull T blockEntity, float partialTick, @NotNull PoseStack poseStack,
+                       @NotNull MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+        FluidStack fluidStack = blockEntity.getFluid();
         if (fluidStack.isEmpty()) return;
 
         Fluid fluid = fluidStack.getFluid();
@@ -46,7 +60,6 @@ public class PremiumToiletBlockEntityBER implements BlockEntityRenderer<PremiumT
         poseStack.pushPose();
         VertexConsumer buffer = bufferSource.getBuffer(RenderType.translucentMovingBlock());
         Matrix4f matrix = poseStack.last().pose();
-
 
         float uMin = sprite.getU0();
         float uMax = sprite.getU1();

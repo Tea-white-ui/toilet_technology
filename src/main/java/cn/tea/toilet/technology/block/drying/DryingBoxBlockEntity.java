@@ -1,8 +1,6 @@
 package cn.tea.toilet.technology.block.drying;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.network.DryingBoxSyncPayload;
-import cn.tea.toilet.technology.network.ModPacketSender;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.ToiletTechnology;
@@ -30,6 +28,14 @@ import java.util.Optional;
 /**
  * 干燥箱方块实体
  * 负责管理干燥箱的16格输入+16格输出物品存储和干燥转化逻辑
+ *
+ * 同步机制说明（P1 #6 #7 修复后）：
+ * - 进度数据同步完全交给 DryingBoxMenu 内置的 ContainerData（Minecraft 原生增量同步机制）
+ *   - 服务端每 tick 比对 32 个 int 槽，变化才发包，只发给打开 GUI 的玩家
+ *   - 客户端通过 menu.getDryingProgress(slot) 读取，无需自定义包
+ * - BlockEntity 不再发送任何 DryingBoxSyncPayload（已删除，避免双轨同步双倍流量）
+ * - setChanged() 仅触发区块数据保存，不发网络包；GUI 同步由 ContainerData 全权负责
+ * - BER 无需进度数据（干燥箱没有 BER），无需 sendBlockUpdated
  */
 public class DryingBoxBlockEntity extends BlockEntity {
 
@@ -71,8 +77,6 @@ public class DryingBoxBlockEntity extends BlockEntity {
     private final DryingRecipe[] cachedRecipes = new DryingRecipe[SLOTS];
     // 标记是否有正在进行的干燥任务，用于优化 tick 性能
     private boolean hasActiveDrying = false;
-    // 上次同步的tick计数，用于控制同步频率
-    private int lastSyncTick = 0;
 
     // 用于漏斗交互的包装 handler
     // 输入槽（0-15）：漏斗可以插入，但不能提取
@@ -145,24 +149,13 @@ public class DryingBoxBlockEntity extends BlockEntity {
     }
 
     /**
-     * 同步数据到所有客户端
-     * 使用自定义网络包，比 sendBlockUpdated 更高效
-     * 仅在数据变化时调用，避免每tick发送
+     * 服务端 tick：处理干燥逻辑
+     *
+     * 同步策略（P1 #6 #7 修复）：
+     * - 移除旧的 DryingBoxSyncPayload 手动同步（双轨、双倍流量、progressChanged 永远 true 节流失效）
+     * - 只调 setChanged() 标记数据脏；进度同步交给 DryingBoxMenu 的 ContainerData 自动增量同步
+     * - 干燥箱没有 BER，无需为渲染发任何包
      */
-    private void syncToClients() {
-        if (level == null || level.isClientSide()) {
-            return;
-        }
-        
-        DryingBoxSyncPayload payload = new DryingBoxSyncPayload(
-                getBlockPos(),
-                dryingProgress.clone(),
-                dryingTotalTime.clone()
-        );
-        
-        ModPacketSender.sendToTracking(level, getBlockPos(), payload);
-    }
-
     public static void tick(Level level, BlockPos pos, BlockState state, DryingBoxBlockEntity entity) {
         if (level.isClientSide()) {
             return;
@@ -172,7 +165,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
         float speedMultiplier = hasHeatSource ? 1.5f : 0.9f;
 
         boolean anyDrying = false;
-        boolean progressChanged = false;
+        boolean dataChanged = false;
 
         for (int i = 0; i < SLOTS; i++) {
             ItemStack inputStack = entity.inputHandler.getStackInSlot(i);
@@ -183,7 +176,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     entity.dryingTotalTime[i] = 0;
                     entity.dryingProgressFractional[i] = 0.0f;
                     entity.cachedRecipes[i] = null;
-                    progressChanged = true;
+                    dataChanged = true;
                 }
                 continue;
             }
@@ -198,18 +191,18 @@ public class DryingBoxBlockEntity extends BlockEntity {
             if (recipe != null) {
                 ItemStack outputStack = entity.outputHandler.getStackInSlot(i);
                 ItemStack expectedOutput = recipe.getResultItem(level.registryAccess());
-                
+
                 if (!outputStack.isEmpty() && !ItemStack.isSameItemSameComponents(outputStack, expectedOutput)) {
                     if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
                         entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
-                        progressChanged = true;
+                        dataChanged = true;
                     }
                     continue;
                 }
-                
+
                 ItemStack simulatedRemaining = entity.outputHandler.insertItem(i, expectedOutput.copy(), true);
                 if (!simulatedRemaining.isEmpty()) {
                     if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
@@ -217,7 +210,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                         entity.dryingTotalTime[i] = 0;
                         entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
-                        progressChanged = true;
+                        dataChanged = true;
                     }
                     continue;
                 }
@@ -227,7 +220,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = expectedTotalTime;
                     entity.dryingProgressFractional[i] = 0.0f;
-                    progressChanged = true;
+                    dataChanged = true;
                 }
 
                 entity.dryingProgressFractional[i] += speedMultiplier;
@@ -235,17 +228,17 @@ public class DryingBoxBlockEntity extends BlockEntity {
                 entity.dryingProgressFractional[i] -= progressIncrement;
 
                 entity.dryingProgress[i] += progressIncrement;
-                progressChanged = true;
+                dataChanged = true;
 
                 if (entity.dryingProgress[i] >= expectedTotalTime) {
                     if (tryCompleteDrying(entity, i, recipe, level)) {
-                        progressChanged = true;
+                        dataChanged = true;
                     } else {
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
                         entity.dryingProgressFractional[i] = 0.0f;
                         entity.cachedRecipes[i] = null;
-                        progressChanged = true;
+                        dataChanged = true;
                     }
                 }
             } else {
@@ -253,22 +246,16 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
                     entity.dryingProgressFractional[i] = 0.0f;
-                    progressChanged = true;
+                    dataChanged = true;
                 }
             }
         }
 
         entity.hasActiveDrying = anyDrying;
 
-        if (progressChanged) {
+        // 只标脏让 Minecraft 保存区块；进度同步由 ContainerData 增量同步，无需手动发包
+        if (dataChanged) {
             entity.setChanged();
-            entity.syncToClients();
-        } else {
-            entity.lastSyncTick++;
-            if (entity.lastSyncTick >= 10) {
-                entity.syncToClients();
-                entity.lastSyncTick = 0;
-            }
         }
     }
 
@@ -324,7 +311,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
         tag.put("OutputItems", outputHandler.serializeNBT(registries));
         tag.putIntArray("DryingProgress", dryingProgress);
         tag.putIntArray("DryingTotalTime", dryingTotalTime);
-        
+
         ListTag fractionalList = new ListTag();
         for (float f : dryingProgressFractional) {
             fractionalList.add(FloatTag.valueOf(f));

@@ -183,22 +183,21 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
     ]
     inputs.properties replaceProperties
     expand replaceProperties
+    filter { line ->
+        if (line.startsWith('# Features are specific properties')) {
+            return """[[dependencies.toilet_technology]]
+    modId=\"mekanism\"
+    type=\"required\"
+    versionRange=\"[10.7.19,)\"
+    ordering=\"AFTER\"
+    side=\"BOTH\"
+
+${line}"""
+        }
+        line
+    }
     from "src/main/templates"
     into "build/generated/sources/modMetadata"
-    doLast {
-        def metadata = file("${destinationDir}/META-INF/neoforge.mods.toml")
-        if (!metadata.text.contains('modId="mekanism"')) {
-            metadata.append("""
-
-[[dependencies.${mod_id}]]
-    modId="mekanism"
-    type="required"
-    versionRange="[10.7.19,)"
-    ordering="AFTER"
-    side="BOTH"
-""")
-        }
-    }
 }
 // Include the output of "generateModMetadata" as an input directory for the build
 // this works with both building through Gradle and the IDE.

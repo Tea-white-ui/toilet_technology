@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.fluid.ModFluids;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
 import mekanism.api.chemical.BasicChemicalTank;
@@ -14,6 +15,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -51,9 +54,16 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     }
 
     private FluidTank changedTank() {
-        return new FluidTank(TANK_CAPACITY) {
+        return new FluidTank(TANK_CAPACITY, SepticTankControllerBlockEntity::isAllowedLiquid) {
             @Override protected void onContentsChanged() { setChanged(); }
         };
+    }
+
+    private static boolean isAllowedLiquid(FluidStack stack) {
+        return stack.is(Fluids.WATER)
+                || stack.is(Fluids.FLOWING_WATER)
+                || stack.is(ModFluids.FECES_LIQUID.get())
+                || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
     }
 
     public boolean revalidateStructure() {
@@ -76,8 +86,9 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     private static boolean isFilledFluidContainer(ItemStack stack) {
         return FluidUtil.getFluidHandler(stack)
-                .map(handler -> !handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE).isEmpty())
-                .orElse(false);
+                .map(handler -> handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE))
+                .filter(SepticTankControllerBlockEntity::isAllowedLiquid)
+                .isPresent();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SepticTankControllerBlockEntity entity) {
@@ -136,7 +147,12 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
                 for (int slot = 0; slot < loaded.length; slot++) items.setStackInSlot(slot, loaded[slot]);
             }
         }
-        if (tag.contains("LiquidTank")) liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
+        if (tag.contains("LiquidTank")) {
+            liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
+            if (!liquidTank.isEmpty() && !isAllowedLiquid(liquidTank.getFluid())) {
+                liquidTank.setFluid(FluidStack.EMPTY);
+            }
+        }
         if (tag.contains("GasTank")) gasTank.deserializeNBT(registries, tag.getCompound("GasTank"));
         structureValid = false;
         validationCooldown = 1;
@@ -166,7 +182,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             return tank == 0 ? gasTank.getStack() : ChemicalStack.EMPTY;
         }
         @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
-            if (tank == 0 && allowsTransfer()) gasTank.setStack(stack);
+            throw new UnsupportedOperationException("External chemical automation cannot replace tank contents directly");
         }
         @Override public long getChemicalTankCapacity(int tank) {
             return tank == 0 ? gasTank.getCapacity() : 0;

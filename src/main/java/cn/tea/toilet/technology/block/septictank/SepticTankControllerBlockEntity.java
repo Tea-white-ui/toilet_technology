@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.septictank;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.chemical.ModChemicals;
 import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.item.ModItems;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
 import mekanism.api.chemical.BasicChemicalTank;
@@ -39,6 +40,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     private boolean structureValid;
     private int validationCooldown;
+    private int biogasProductionTicks;
 
     public final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
@@ -107,7 +109,57 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     public static void tick(Level level, BlockPos pos, BlockState state, SepticTankControllerBlockEntity entity) {
         if (level.isClientSide()) return;
         if (--entity.validationCooldown <= 0) entity.revalidateStructure();
-        if (entity.structureValid) entity.processFluidContainer();
+        if (entity.structureValid) {
+            entity.processFluidContainer();
+            entity.convertWaterWithFeces();
+            entity.produceBiogas();
+        } else {
+            entity.biogasProductionTicks = SepticTankBiogasProduction.nextProgress(
+                    entity.biogasProductionTicks, false);
+        }
+    }
+
+    private void produceBiogas() {
+        FluidStack liquid = liquidTank.getFluid();
+        boolean containsFecesLiquid = liquid.is(ModFluids.FECES_LIQUID.get())
+                || liquid.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        if (!containsFecesLiquid || liquid.isEmpty()) {
+            biogasProductionTicks = 0;
+            return;
+        }
+        biogasProductionTicks = SepticTankBiogasProduction.nextProgress(biogasProductionTicks, true);
+        if (biogasProductionTicks < SepticTankBiogasProduction.INTERVAL_TICKS) return;
+        biogasProductionTicks = 0;
+
+        SepticTankBiogasProduction.Batch batch = SepticTankBiogasProduction.planBatch(
+                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity());
+        if (batch.gasProduced() == 0) return;
+
+        ChemicalStack remainder = gasTank.insert(
+                new ChemicalStack(ModChemicals.BIOGAS, batch.gasProduced()),
+                Action.EXECUTE, AutomationType.INTERNAL);
+        if (!remainder.isEmpty()) return;
+        if (batch.liquidConsumed() > 0) {
+            liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
+        }
+        setChanged();
+    }
+
+    private void convertWaterWithFeces() {
+        FluidStack fluid = liquidTank.getFluid();
+        boolean containsWater = fluid.is(Fluids.WATER) || fluid.is(Fluids.FLOWING_WATER);
+        boolean[] fecesInputs = new boolean[SepticTankInventoryLayout.ITEM_INPUT_END];
+        for (int slot = ITEM_INPUT_START; slot < SepticTankInventoryLayout.ITEM_INPUT_END; slot++) {
+            fecesInputs[slot] = items.getStackInSlot(slot).is(ModItems.FECES.get());
+        }
+
+        int inputSlot = SepticTankWaterConversion.findInputSlot(
+                fecesInputs, containsWater, fluid.getAmount());
+        if (inputSlot < 0) return;
+
+        liquidTank.setFluid(new FluidStack(ModFluids.FECES_LIQUID.get(), fluid.getAmount()));
+        items.extractItem(inputSlot, 1, false);
+        setChanged();
     }
 
     private void processFluidContainer() {
@@ -149,6 +201,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         tag.put("Items", items.serializeNBT(registries));
         tag.put("LiquidTank", liquidTank.writeToNBT(registries, new CompoundTag()));
         tag.put("GasTank", gasTank.serializeNBT(registries));
+        tag.putInt("BiogasProductionTicks", biogasProductionTicks);
     }
 
     @Override protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
@@ -163,6 +216,8 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             }
         }
         if (tag.contains("GasTank")) loadGasTank(tag, registries);
+        biogasProductionTicks = Math.max(0, Math.min(
+                tag.getInt("BiogasProductionTicks"), SepticTankBiogasProduction.INTERVAL_TICKS - 1));
         structureValid = false;
         validationCooldown = 1;
     }

@@ -14,6 +14,7 @@
   "item.toilet_technology.dried_feces": "Dried feces",
   "item.toilet_technology.feces": "Feces",
   "item.toilet_technology.feces_liquid_bucket": "Feces Liquid Bucket",
+  "item.toilet_technology.biogas_bucket": "Biogas Bucket",
   "itemGroup.toilet_technology": "toilet technology",
   "block.toilet_technology.septic_tank_controller": "Septic Tank Controller",
   "block.toilet_technology.septic_tank_wall": "Septic Tank Wall",
@@ -21,5 +22,7 @@
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
   "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
-  "chemical.toilet_technology.biogas": "Biogas"
+  "chemical.toilet_technology.biogas": "Biogas",
+  "tooltip.toilet_technology.biogas_bucket.amount": "Stores: %s / %s mB of biogas",
+  "tooltip.toilet_technology.biogas_bucket.sealed": "Sealed container: cannot be placed in the world"
 }

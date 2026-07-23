@@ -11,6 +11,9 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import mekanism.api.chemical.IChemicalHandler;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
@@ -23,6 +26,10 @@ import net.neoforged.neoforge.registries.DeferredRegister;
  * - 流体桶物品
  */
 public class ModItems {
+
+    /** Canonical Mekanism item capability used by chemical pipes and machines. */
+    public static final ItemCapability<IChemicalHandler, Void> CHEMICAL_ITEM_CAPABILITY = ItemCapability.createVoid(
+            ResourceLocation.fromNamespaceAndPath("mekanism", "chemical_handler"), IChemicalHandler.class);
 
     /** 物品延迟注册表 */
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
@@ -95,6 +102,13 @@ public class ModItems {
                     .craftRemainder(Items.BUCKET)
                     .stacksTo(1)
             ));
+
+    /**
+     * A sealed 1,000 mB transport container. It deliberately is not a BucketItem, so using it can never
+     * place a chemical as a world fluid. Mekanism automation can drain its stored biogas capability.
+     */
+    public static final DeferredHolder<Item, Item> BIOGAS_BUCKET = ITEMS.register("biogas_bucket",
+            () -> new BiogasBucketItem(new Item.Properties().stacksTo(1).durability((int) BiogasBucketItem.CAPACITY)));
 
 
 

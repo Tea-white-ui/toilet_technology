@@ -96,6 +96,10 @@ public class ToiletTechnology {
         event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY,
                 ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationChemicals() : null);
+        event.registerItem(ModItems.CHEMICAL_ITEM_CAPABILITY,
+                (stack, ignored) -> ((cn.tea.toilet.technology.item.BiogasBucketItem) stack.getItem())
+                        .createChemicalHandler(stack),
+                ModItems.BIOGAS_BUCKET.get());
     }
 
     /**

@@ -25,6 +25,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.DIAMOND_TOILET_ITEM.get(), "钻石厕所");
         add(ModItems.NETHERITE_TOILET_ITEM.get(), "下届合金厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
+        add(ModItems.BIOGAS_BUCKET.get(), "沼气桶");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
         add(ModBlocks.DRYING_RACK.get(), "干燥架");
         add(ModBlocks.DRYING_BOX.get(), "干燥箱");
@@ -37,6 +38,8 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("gui.toilet_technology.liquid", "液体：%s / %s mB");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("chemical.toilet_technology.biogas", "沼气");
+        add("tooltip.toilet_technology.biogas_bucket.amount", "储存：%s / %s mB 沼气");
+        add("tooltip.toilet_technology.biogas_bucket.sealed", "密封容器：无法在世界中放置");
 
     }
 }

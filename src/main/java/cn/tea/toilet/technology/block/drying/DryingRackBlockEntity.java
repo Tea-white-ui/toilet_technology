@@ -31,12 +31,16 @@ import org.jetbrains.annotations.NotNull;
 public class DryingRackBlockEntity extends BlockEntity {
 
     // 物品处理器，管理4个槽位（每槽最多1个物品，与视觉设计一致）
+    // 注意：这里覆写了所有会改变物品的入口（setStackInSlot/insertItem/extractItem），
+    // 用 suppressSlotSync 计数器来让 BlockEntity 能"原子地"做多次变更、只触发一次同步，
+    // 避免一次干燥完成时连发两个网络包。
     public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
             cachedRecipes[slot] = null;
-            if (level != null && !level.isClientSide()) {
+            noRecipeMatch[slot] = false;
+            if (level != null && !level.isClientSide() && suppressSlotSync == 0) {
                 syncToClients();
             }
         }
@@ -45,7 +49,40 @@ public class DryingRackBlockEntity extends BlockEntity {
         public int getSlotLimit(int slot) {
             return 1;
         }
+
+        @Override
+        public void setStackInSlot(int slot, @NotNull ItemStack stack) {
+            suppressSlotSync++;
+            try {
+                super.setStackInSlot(slot, stack);
+            } finally {
+                suppressSlotSync--;
+            }
+        }
+
+        @Override
+        public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
+            suppressSlotSync++;
+            try {
+                return super.insertItem(slot, stack, simulate);
+            } finally {
+                suppressSlotSync--;
+            }
+        }
+
+        @Override
+        public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
+            suppressSlotSync++;
+            try {
+                return super.extractItem(slot, amount, simulate);
+            } finally {
+                suppressSlotSync--;
+            }
+        }
     };
+
+    // 抑制同步的计数器（>0 时 onContentsChanged 不发网络包）
+    private int suppressSlotSync = 0;
 
     // 每个槽位的干燥进度（单位：tick）
     public int[] dryingProgress = new int[4];
@@ -53,6 +90,8 @@ public class DryingRackBlockEntity extends BlockEntity {
     public int[] dryingTotalTime = new int[4];
     // 配方缓存，避免每tick遍历全部配方
     private final DryingRecipe[] cachedRecipes = new DryingRecipe[4];
+    // 标记槽位已确认"无配方"，避免每 tick 重复查找（cachedRecipes[i]==null 时区分"未查"和"查过无匹配"）
+    private final boolean[] noRecipeMatch = new boolean[4];
     // 上次同步的tick计数，用于控制同步频率
     private int lastSyncTick = 0;
 
@@ -114,15 +153,22 @@ public class DryingRackBlockEntity extends BlockEntity {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
                     entity.cachedRecipes[i] = null;
+                    entity.noRecipeMatch[i] = false;
                     progressChanged = true;
                 }
                 continue;
             }
 
             DryingRecipe recipe = entity.cachedRecipes[i];
-            if (recipe == null) {
+            // 已确认"无配方"的槽位直接跳过查找，避免每 tick 调 getRecipeFor
+            if (recipe == null && !entity.noRecipeMatch[i]) {
                 recipe = findMatchingRecipe(level, stack);
-                entity.cachedRecipes[i] = recipe;
+                if (recipe == null) {
+                    // 标记"查过且无匹配"，物品变化时 onContentsChanged 会重置此标记
+                    entity.noRecipeMatch[i] = true;
+                } else {
+                    entity.cachedRecipes[i] = recipe;
+                }
             }
 
             if (recipe != null) {
@@ -136,9 +182,21 @@ public class DryingRackBlockEntity extends BlockEntity {
                 progressChanged = true;
 
                 if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
-                    ItemStack output = recipe.getResultItem(level.registryAccess()).copy();
-                    entity.itemHandler.setStackInSlot(i, ItemStack.EMPTY);
-                    ItemStack remaining = entity.itemHandler.insertItem(i, output, false);
+                    // 原子地完成干燥：先 extract 再 insert，中途抑制同步，最后只发一次包
+                    ItemStack output = recipe.getResultItem(level.registryAccess());
+                    ItemStack extracted = entity.itemHandler.extractItem(i, 1, false);
+                    if (extracted.isEmpty()) {
+                        // 输入槽被外部并发清空，放弃本次产出
+                        entity.dryingProgress[i] = 0;
+                        entity.dryingTotalTime[i] = 0;
+                        entity.cachedRecipes[i] = null;
+                        entity.noRecipeMatch[i] = false;
+                        progressChanged = true;
+                        continue;
+                    }
+
+                    // 输出槽 slot limit == 1，多出来的部分直接掉世界（与原行为一致）
+                    ItemStack remaining = entity.itemHandler.insertItem(i, output.copy(), false);
                     if (!remaining.isEmpty()) {
                         net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
                     }
@@ -147,9 +205,12 @@ public class DryingRackBlockEntity extends BlockEntity {
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;
                     entity.cachedRecipes[i] = null;
+                    entity.noRecipeMatch[i] = false;
                     progressChanged = true;
 
+                    // 上面 extract/insert 已被 suppressSlotSync 抑制，这里手动补一次同步
                     entity.setChanged();
+                    entity.syncToClients();
                 }
             } else {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
@@ -167,17 +228,18 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
     }
 
+    /**
+     * 查找匹配物品的干燥配方
+     * 使用 RecipeManager.getRecipeFor 走索引查询，O(1) 复杂度
+     * 替代旧实现的 getAllRecipesFor + 线性遍历（每次未命中都全表扫描）
+     */
     private static DryingRecipe findMatchingRecipe(Level level, ItemStack stack) {
-        var recipeHolders = level.getRecipeManager().getAllRecipesFor(ModRecipeTypes.DRYING.get());
-
-        for (var recipeHolder : recipeHolders) {
-            DryingRecipe recipe = recipeHolder.value();
-            if (recipe.matches(stack)) {
-                return recipe;
-            }
-        }
-
-        return null;
+        var recipeManager = level.getRecipeManager();
+        var recipeInput = new net.minecraft.world.item.crafting.SingleRecipeInput(stack);
+        return recipeManager
+                .getRecipeFor(ModRecipeTypes.DRYING.get(), recipeInput, level)
+                .map(net.minecraft.world.item.crafting.RecipeHolder::value)
+                .orElse(null);
     }
 
     @Override

@@ -52,6 +52,7 @@ public class ToiletTechnology {
         ModSounds.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
         ModRecipeTypes.register(modEventBus);
+        ModAttachments.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new PlayerToiletHandler());

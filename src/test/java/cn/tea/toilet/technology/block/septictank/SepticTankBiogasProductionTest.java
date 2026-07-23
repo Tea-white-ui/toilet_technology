@@ -11,7 +11,7 @@ class SepticTankBiogasProductionTest {
         SepticTankBiogasProduction.Batch batch = SepticTankBiogasProduction.planBatch(
                 true, 9_999, 0, 64_000);
 
-        assertEquals(125, batch.gasProduced());
+        assertEquals(10, batch.gasProduced());
         assertEquals(0, batch.liquidConsumed());
     }
 
@@ -20,26 +20,26 @@ class SepticTankBiogasProductionTest {
         SepticTankBiogasProduction.Batch batch = SepticTankBiogasProduction.planBatch(
                 true, 10_000, 31_999, 64_000);
 
-        assertEquals(250, batch.gasProduced());
+        assertEquals(20, batch.gasProduced());
         assertEquals(0, batch.liquidConsumed());
     }
 
     @Test
     void producesBaseAmountAtThreshold() {
         SepticTankBiogasProduction.Batch batch = SepticTankBiogasProduction.planBatch(
-                true, 10_000, 32_000, 64_000);
+                true, 32_000, 0, 64_000);
 
-        assertEquals(250, batch.gasProduced());
+        assertEquals(20, batch.gasProduced());
         assertEquals(0, batch.liquidConsumed());
     }
 
     @Test
-    void producesOneBucketAndConsumesHalfBucketAboveThreshold() {
+    void producesFiftyMillibucketsAndConsumesTwentyFiveAboveThreshold() {
         SepticTankBiogasProduction.Batch batch = SepticTankBiogasProduction.planBatch(
-                true, 10_000, 32_001, 64_000);
+                true, 32_001, 0, 64_000);
 
-        assertEquals(1_000, batch.gasProduced());
-        assertEquals(500, batch.liquidConsumed());
+        assertEquals(50, batch.gasProduced());
+        assertEquals(25, batch.liquidConsumed());
     }
 
     @Test
@@ -47,9 +47,9 @@ class SepticTankBiogasProductionTest {
         assertEquals(SepticTankBiogasProduction.Batch.NONE,
                 SepticTankBiogasProduction.planBatch(false, 10_000, 0, 64_000));
         assertEquals(SepticTankBiogasProduction.Batch.NONE,
-                SepticTankBiogasProduction.planBatch(true, 9_999, 63_876, 64_000));
+                SepticTankBiogasProduction.planBatch(true, 9_999, 63_991, 64_000));
         assertEquals(SepticTankBiogasProduction.Batch.NONE,
-                SepticTankBiogasProduction.planBatch(true, 10_000, 63_001, 64_000));
+                SepticTankBiogasProduction.planBatch(true, 32_001, 63_951, 64_000));
     }
 
     @Test

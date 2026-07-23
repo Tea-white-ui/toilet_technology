@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlock;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlock;
@@ -143,6 +144,8 @@ public class ModBlocks {
             () -> new SepticTankControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> SEPTIC_TANK_WALL = BLOCKS.register("septic_tank_wall",
             () -> new SepticTankWallBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> BIOGAS_GENERATOR = BLOCKS.register("biogas_generator",
+            () -> new BiogasGeneratorBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
 
 
     // === 流体 ===

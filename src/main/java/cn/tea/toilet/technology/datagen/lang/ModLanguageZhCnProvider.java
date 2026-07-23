@@ -33,6 +33,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("jei.toilet_technology.drying.title", "物品干燥");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "化粪池控制器");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "化粪池壁");
+        add(ModBlocks.BIOGAS_GENERATOR.get(), "沼气发生机");
         add("message.toilet_technology.septic_tank_invalid", "3×4×3 化粪池结构不完整");
         add("gui.toilet_technology.gas", "气体：%s / %s mB");
         add("gui.toilet_technology.liquid", "液体：%s / %s mB");

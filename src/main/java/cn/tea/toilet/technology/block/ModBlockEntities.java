@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
@@ -70,6 +71,11 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SepticTankControllerBlockEntity>> SEPTIC_TANK_CONTROLLER =
             BLOCK_ENTITIES.register("septic_tank_controller", () -> BlockEntityType.Builder.of(
                     SepticTankControllerBlockEntity::new, ModBlocks.SEPTIC_TANK_CONTROLLER.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiogasGeneratorBlockEntity>> BIOGAS_GENERATOR =
+            BLOCK_ENTITIES.register("biogas_generator", () -> BlockEntityType.Builder.of(
+                    BiogasGeneratorBlockEntity::new, ModBlocks.BIOGAS_GENERATOR.get()
             ).build(null));
 
     /**

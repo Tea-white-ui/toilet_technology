@@ -40,6 +40,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/drying_rack")));
         getBuilder("drying_box")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/drying_box")));
+        getBuilder("biogas_generator")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_generator")));
 
     }
 }

@@ -4,11 +4,11 @@ package cn.tea.toilet.technology.block.septictank;
 public final class SepticTankBiogasProduction {
     public static final int INTERVAL_TICKS = 5;
     private static final int LOW_LIQUID_THRESHOLD = 10_000;
-    private static final long HIGH_OUTPUT_THRESHOLD = 32_000;
-    private static final long LOW_LIQUID_GAS_OUTPUT = 125;
-    private static final long BASE_GAS_OUTPUT = 250;
-    private static final long HIGH_GAS_OUTPUT = 1_000;
-    private static final int HIGH_LIQUID_COST = 500;
+    private static final int HIGH_LIQUID_THRESHOLD = 32_000;
+    private static final long LOW_LIQUID_GAS_OUTPUT = 10;
+    private static final long BASE_GAS_OUTPUT = 20;
+    private static final long HIGH_GAS_OUTPUT = 50;
+    private static final int HIGH_LIQUID_COST = 25;
 
     private SepticTankBiogasProduction() {
     }
@@ -22,7 +22,7 @@ public final class SepticTankBiogasProduction {
         if (!containsFecesLiquid || liquidAmount <= 0) return Batch.NONE;
 
         boolean lowLiquid = liquidAmount < LOW_LIQUID_THRESHOLD;
-        boolean highOutput = !lowLiquid && gasAmount > HIGH_OUTPUT_THRESHOLD;
+        boolean highOutput = liquidAmount > HIGH_LIQUID_THRESHOLD;
         long gasProduced = lowLiquid ? LOW_LIQUID_GAS_OUTPUT
                 : highOutput ? HIGH_GAS_OUTPUT : BASE_GAS_OUTPUT;
         int liquidConsumed = highOutput ? HIGH_LIQUID_COST : 0;

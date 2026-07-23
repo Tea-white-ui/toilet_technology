@@ -19,5 +19,7 @@
   "block.toilet_technology.septic_tank_wall": "Septic Tank Wall",
   "message.toilet_technology.septic_tank_invalid": "The 3×4×3 septic tank structure is incomplete",
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
-  "gui.toilet_technology.liquid": "Liquid: %s / %s mB"
+  "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
+  "gui.toilet_technology.tank_amount": "%s / %s mB",
+  "chemical.toilet_technology.biogas": "Biogas"
 }

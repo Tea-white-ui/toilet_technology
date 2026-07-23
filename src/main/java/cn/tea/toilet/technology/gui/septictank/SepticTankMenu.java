@@ -3,6 +3,10 @@ package cn.tea.toilet.technology.gui.septictank;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
+import mekanism.api.MekanismAPI;
+import mekanism.api.chemical.Chemical;
+import mekanism.api.chemical.ChemicalStack;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -11,6 +15,8 @@ import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import net.neoforged.neoforge.items.SlotItemHandler;
@@ -38,17 +44,19 @@ public class SepticTankMenu extends AbstractContainerMenu {
             addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 116 + row * 18));
         for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 174));
 
-        this.data = controller == null ? new SimpleContainerData(3) : new ContainerData() {
+        this.data = controller == null ? new SimpleContainerData(5) : new ContainerData() {
             @Override public int get(int index) {
                 return switch (index) {
                     case 0 -> controller.liquidTank.getFluidAmount();
-                    case 1 -> controller.gasTank.getFluidAmount();
+                    case 1 -> (int) controller.gasTank.getStored();
                     case 2 -> controller.isStructureValid() ? 1 : 0;
+                    case 3 -> fluidWireValue(controller.liquidTank.getFluid());
+                    case 4 -> chemicalWireValue(controller.gasTank.getStack());
                     default -> 0;
                 };
             }
             @Override public void set(int index, int value) { }
-            @Override public int getCount() { return 3; }
+            @Override public int getCount() { return 5; }
         };
         addDataSlots(data);
     }
@@ -58,6 +66,32 @@ public class SepticTankMenu extends AbstractContainerMenu {
     public int gasAmount() { return data.get(1) & 0xFFFF; }
     public int gasCapacity() { return SepticTankControllerBlockEntity.TANK_CAPACITY; }
     public boolean structureValid() { return data.get(2) != 0; }
+    public FluidStack liquidStack() { return displayStack(3, liquidAmount()); }
+    public ChemicalStack gasStack() { return displayChemicalStack(4, gasAmount()); }
+
+    private static int fluidWireValue(FluidStack stack) {
+        return stack.isEmpty() ? 0 : SepticTankFluidDisplay.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
+    }
+
+    private static int chemicalWireValue(ChemicalStack stack) {
+        return stack.isEmpty() ? 0 : SepticTankChemicalDisplay.encodeRegistryId(
+                MekanismAPI.CHEMICAL_REGISTRY.getId(stack.getChemical()));
+    }
+
+    private FluidStack displayStack(int dataIndex, int amount) {
+        int registryId = SepticTankFluidDisplay.decodeRegistryId(data.get(dataIndex) & 0xFFFF);
+        if (registryId < 0 || amount <= 0) return FluidStack.EMPTY;
+        Fluid fluid = BuiltInRegistries.FLUID.byId(registryId);
+        return new FluidStack(fluid, amount);
+    }
+
+    private ChemicalStack displayChemicalStack(int dataIndex, long amount) {
+        int registryId = SepticTankChemicalDisplay.decodeRegistryId(data.get(dataIndex) & 0xFFFF);
+        if (registryId < 0 || amount <= 0) return ChemicalStack.EMPTY;
+        Chemical chemical = MekanismAPI.CHEMICAL_REGISTRY.byId(registryId);
+        return chemical == null ? ChemicalStack.EMPTY
+                : new ChemicalStack(MekanismAPI.CHEMICAL_REGISTRY.wrapAsHolder(chemical), amount);
+    }
 
     @Override public boolean stillValid(@NotNull Player player) {
         return structureValid() && stillValid(access, player, ModBlocks.SEPTIC_TANK_CONTROLLER.get());

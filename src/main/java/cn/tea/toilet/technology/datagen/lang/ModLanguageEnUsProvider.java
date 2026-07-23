@@ -30,6 +30,13 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModBlocks.DRYING_RACK.get(), "Dryer_Rack");
         add(ModBlocks.DRYING_BOX.get(), "Drying Box");
         add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
+        add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "Septic Tank Controller");
+        add(ModBlocks.SEPTIC_TANK_WALL.get(), "Septic Tank Wall");
+        add("message.toilet_technology.septic_tank_invalid", "The 3×4×3 septic tank structure is incomplete");
+        add("gui.toilet_technology.gas", "Gas: %s / %s mB");
+        add("gui.toilet_technology.liquid", "Liquid: %s / %s mB");
+        add("gui.toilet_technology.tank_amount", "%s / %s mB");
+        add("chemical.toilet_technology.biogas", "Biogas");
 
 
 

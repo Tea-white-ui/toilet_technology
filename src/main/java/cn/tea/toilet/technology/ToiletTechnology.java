@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.chemical.ModChemicals;
 import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
@@ -10,6 +11,10 @@ import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
+import mekanism.api.chemical.IChemicalHandler;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
@@ -30,6 +35,8 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 public class ToiletTechnology {
 
     public static final String MOD_ID = "toilet_technology";
+    private static final BlockCapability<IChemicalHandler, Direction> MEKANISM_CHEMICAL_CAPABILITY =
+            BlockCapability.createSided(ResourceLocation.fromNamespaceAndPath("mekanism", "chemical_handler"), IChemicalHandler.class);
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -44,6 +51,7 @@ public class ToiletTechnology {
         // 注册网络包处理器
         modEventBus.addListener(this::registerPayloadHandlers);
         ModFluids.register(modEventBus);
+        ModChemicals.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
@@ -85,6 +93,9 @@ public class ToiletTechnology {
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationItems() : null);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.liquidTank : null);
+        event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY,
+                ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationChemicals() : null);
     }
 
     /**

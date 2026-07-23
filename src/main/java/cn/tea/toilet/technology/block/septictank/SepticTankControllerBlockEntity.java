@@ -1,6 +1,12 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import mekanism.api.Action;
+import mekanism.api.AutomationType;
+import mekanism.api.chemical.BasicChemicalTank;
+import mekanism.api.chemical.ChemicalStack;
+import mekanism.api.chemical.IChemicalHandler;
+import mekanism.api.chemical.IChemicalTank;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -35,9 +41,10 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     };
 
     public final FluidTank liquidTank = changedTank();
-    /** Gas is represented by a second single-content tank until a dedicated gas API is introduced. */
-    public final FluidTank gasTank = changedTank();
+    /** Native Mekanism chemical storage, exposed through its chemical capability. */
+    public final IChemicalTank gasTank = BasicChemicalTank.create(TANK_CAPACITY, this::setChanged);
     private final IItemHandler automationItems = new AutomationItemHandler();
+    private final IChemicalHandler automationChemicals = new StructureGatedChemicalHandler();
 
     public SepticTankControllerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(), pos, state);
@@ -65,6 +72,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     public boolean isStructureValid() { return structureValid; }
     public IItemHandler getAutomationItems() { return automationItems; }
+    public IChemicalHandler getAutomationChemicals() { return automationChemicals; }
 
     private static boolean isFilledFluidContainer(ItemStack stack) {
         return FluidUtil.getFluidHandler(stack)
@@ -114,7 +122,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.put("Items", items.serializeNBT(registries));
         tag.put("LiquidTank", liquidTank.writeToNBT(registries, new CompoundTag()));
-        tag.put("GasTank", gasTank.writeToNBT(registries, new CompoundTag()));
+        tag.put("GasTank", gasTank.serializeNBT(registries));
     }
 
     @Override protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
@@ -129,7 +137,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             }
         }
         if (tag.contains("LiquidTank")) liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
-        if (tag.contains("GasTank")) gasTank.readFromNBT(registries, tag.getCompound("GasTank"));
+        if (tag.contains("GasTank")) gasTank.deserializeNBT(registries, tag.getCompound("GasTank"));
         structureValid = false;
         validationCooldown = 1;
     }
@@ -146,5 +154,31 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         }
         @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return items.isItemValid(slot, stack); }
+    }
+
+    private class StructureGatedChemicalHandler implements IChemicalHandler {
+        private boolean allowsTransfer() {
+            return SepticTankChemicalAccess.allowsTransfer(structureValid);
+        }
+
+        @Override public int getChemicalTanks() { return 1; }
+        @Override public ChemicalStack getChemicalInTank(int tank) {
+            return tank == 0 ? gasTank.getStack() : ChemicalStack.EMPTY;
+        }
+        @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
+            if (tank == 0 && allowsTransfer()) gasTank.setStack(stack);
+        }
+        @Override public long getChemicalTankCapacity(int tank) {
+            return tank == 0 ? gasTank.getCapacity() : 0;
+        }
+        @Override public boolean isValid(int tank, ChemicalStack stack) {
+            return tank == 0 && allowsTransfer() && gasTank.isValid(stack);
+        }
+        @Override public ChemicalStack insertChemical(int tank, ChemicalStack stack, Action action) {
+            return tank == 0 && allowsTransfer() ? gasTank.insert(stack, action, AutomationType.EXTERNAL) : stack;
+        }
+        @Override public ChemicalStack extractChemical(int tank, long amount, Action action) {
+            return tank == 0 && allowsTransfer() ? gasTank.extract(amount, action, AutomationType.EXTERNAL) : ChemicalStack.EMPTY;
+        }
     }
 }

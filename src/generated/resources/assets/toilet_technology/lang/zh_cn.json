@@ -20,5 +20,7 @@
   "block.toilet_technology.septic_tank_wall": "化粪池壁",
   "message.toilet_technology.septic_tank_invalid": "3×4×3 化粪池结构不完整",
   "gui.toilet_technology.gas": "气体：%s / %s mB",
-  "gui.toilet_technology.liquid": "液体：%s / %s mB"
+  "gui.toilet_technology.liquid": "液体：%s / %s mB",
+  "gui.toilet_technology.tank_amount": "%s / %s mB",
+  "chemical.toilet_technology.biogas": "沼气"
 }

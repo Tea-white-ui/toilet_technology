@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "toilet_technology:block/septic_tank_controller",
+    "up": "toilet_technology:block/septic_tank_controller",
+    "north": "toilet_technology:block/septic_tank_controller_front",
+    "south": "toilet_technology:block/septic_tank_controller",
+    "west": "toilet_technology:block/septic_tank_controller",
+    "east": "toilet_technology:block/septic_tank_controller",
+    "particle": "toilet_technology:block/septic_tank_controller"
+  }
+}

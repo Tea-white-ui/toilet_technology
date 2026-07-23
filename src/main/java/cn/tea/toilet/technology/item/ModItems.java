@@ -83,6 +83,11 @@ public class ModItems {
     public static final DeferredHolder<Item, BlockItem> DRYING_BOX_ITEM = ITEMS.register("drying_box",
             () -> new BlockItem(ModBlocks.DRYING_BOX.get(), new Item.Properties()));
 
+    public static final DeferredHolder<Item, BlockItem> SEPTIC_TANK_CONTROLLER_ITEM = ITEMS.register("septic_tank_controller",
+            () -> new BlockItem(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> SEPTIC_TANK_WALL_ITEM = ITEMS.register("septic_tank_wall",
+            () -> new BlockItem(ModBlocks.SEPTIC_TANK_WALL.get(), new Item.Properties()));
+
     // === 桶 ===
     /** 粪便液体桶：用于存储和运输粪便液体，使用后返回空桶 */
     public static final DeferredHolder<Item, Item> FECES_LIQUID_BUCKET = ITEMS.register("feces_liquid_bucket",

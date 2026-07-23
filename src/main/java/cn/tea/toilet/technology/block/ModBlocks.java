@@ -3,6 +3,8 @@ package cn.tea.toilet.technology.block;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
+import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlock;
+import cn.tea.toilet.technology.block.septictank.SepticTankWallBlock;
 import cn.tea.toilet.technology.block.toilet.*;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -136,6 +138,11 @@ public class ModBlocks {
             .isRedstoneConductor((state, world, pos) -> false)
             .pushReaction(PushReaction.BLOCK)
     ));
+
+    public static final DeferredHolder<Block, Block> SEPTIC_TANK_CONTROLLER = BLOCKS.register("septic_tank_controller",
+            () -> new SepticTankControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> SEPTIC_TANK_WALL = BLOCKS.register("septic_tank_wall",
+            () -> new SepticTankWallBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
 
 
     // === 流体 ===

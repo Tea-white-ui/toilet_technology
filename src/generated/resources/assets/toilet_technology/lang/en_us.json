@@ -14,5 +14,10 @@
   "item.toilet_technology.dried_feces": "Dried feces",
   "item.toilet_technology.feces": "Feces",
   "item.toilet_technology.feces_liquid_bucket": "Feces Liquid Bucket",
-  "itemGroup.toilet_technology": "toilet technology"
+  "itemGroup.toilet_technology": "toilet technology",
+  "block.toilet_technology.septic_tank_controller": "Septic Tank Controller",
+  "block.toilet_technology.septic_tank_wall": "Septic Tank Wall",
+  "message.toilet_technology.septic_tank_invalid": "The 3×4×3 septic tank structure is incomplete",
+  "gui.toilet_technology.gas": "Gas: %s / %s mB",
+  "gui.toilet_technology.liquid": "Liquid: %s / %s mB"
 }

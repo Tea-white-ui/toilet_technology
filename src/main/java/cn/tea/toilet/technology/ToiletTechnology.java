@@ -81,6 +81,10 @@ public class ToiletTechnology {
                 ModBlockEntities.DRYING_BOX.get(),
                 (blockEntity, side) -> blockEntity.getHopperHandler()
         );
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationItems() : null);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.liquidTank : null);
     }
 
     /**

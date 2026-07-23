@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "toilet_technology:block/septic_tank_controller"
+    },
+    "facing=east": {
+      "model": "toilet_technology:block/septic_tank_controller",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "toilet_technology:block/septic_tank_controller",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toilet_technology:block/septic_tank_controller",
+      "y": 270
+    }
+  }
+}

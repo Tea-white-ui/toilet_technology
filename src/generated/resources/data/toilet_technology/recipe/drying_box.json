@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "#": {
+      "tag": "minecraft:planks"
+    },
+    "D": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "pattern": [
+    "DDD",
+    "# #",
+    "DDD"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:drying_box"
+  }
+}

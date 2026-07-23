@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.gui;
 
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxMenu;
+import cn.tea.toilet.technology.gui.septictank.SepticTankMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
@@ -25,6 +26,8 @@ public class ModMenuTypes {
     /** 干燥箱菜单类型：使用 vanilla 特性标志集 */
     public static final DeferredHolder<MenuType<?>, MenuType<DryingBoxMenu>> DRYING_BOX_MENU =
             MENU_TYPES.register("drying_box", () -> new MenuType<>(DryingBoxMenu::new, FeatureFlags.VANILLA_SET));
+    public static final DeferredHolder<MenuType<?>, MenuType<SepticTankMenu>> SEPTIC_TANK_MENU =
+            MENU_TYPES.register("septic_tank", () -> new MenuType<>(SepticTankMenu::new, FeatureFlags.VANILLA_SET));
 
     /**
      * 注册所有菜单类型到事件总线

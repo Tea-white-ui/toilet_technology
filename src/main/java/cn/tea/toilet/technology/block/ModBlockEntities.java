@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block;
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
+import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
@@ -64,6 +65,11 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("drying_box", () -> BlockEntityType.Builder.of(
                     DryingBoxBlockEntity::new,
                     ModBlocks.DRYING_BOX.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SepticTankControllerBlockEntity>> SEPTIC_TANK_CONTROLLER =
+            BLOCK_ENTITIES.register("septic_tank_controller", () -> BlockEntityType.Builder.of(
+                    SepticTankControllerBlockEntity::new, ModBlocks.SEPTIC_TANK_CONTROLLER.get()
             ).build(null));
 
     /**

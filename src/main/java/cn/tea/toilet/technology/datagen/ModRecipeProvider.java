@@ -21,7 +21,6 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
-        // 示例：4个粪便合成粪便块
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.FECES_BLOCK.get())
                 .pattern("##")
                 .pattern("##")
@@ -85,6 +84,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('D', Ingredient.of(ItemTags.PLANKS))
                 .define('#', Items.STICK)
                 .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRYING_BOX.get())
+                .pattern("DDD")
+                .pattern("# #")
+                .pattern("DDD")
+                .define('D', Items.IRON_INGOT)
+                .define('#', Ingredient.of(ItemTags.PLANKS))
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(output);
 
         SmithingTransformRecipeBuilder.smithing(

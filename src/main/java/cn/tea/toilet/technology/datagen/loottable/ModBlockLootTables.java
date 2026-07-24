@@ -34,6 +34,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.add(ModBlocks.FECES_BLOCK.get(), block ->
                this.createSingleItemTable(ModItems.FECES.get())
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 4))));
+        this.dropSelf(ModBlocks.DRIED_FECES_BLOCK.get());
 
         // 4. 带概率掉落（50%掉落）
         //this.add(ModBlocks.FECES_BLOCK.get(), block ->

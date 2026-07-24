@@ -46,10 +46,8 @@ public class ModItems {
                         .build())));
 
         /** 干燥粪便物品：用于干燥配方或其他用途的基础材料 */
-        public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",() -> new Item(
- new Item.Properties()
- )
- );
+        public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",
+                () -> new Item(new Item.Properties()));
 
         /** 沼渣物品：沼气生产的副产物 */
         public static final DeferredHolder<Item, Item> BIOGAS_RESIDUE = ITEMS.register("biogas_residue",
@@ -59,6 +57,9 @@ public class ModItems {
     /** 粪便方块物品 */
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",
             () -> new BlockItem(ModBlocks.FECES_BLOCK.get(), new Item.Properties()));
+    /** 干粪块方块物品 */
+    public static final DeferredHolder<Item, BlockItem> DRIED_FECES_BLOCK_ITEM = ITEMS.register("dried_feces_block",
+            () -> new BlockItem(ModBlocks.DRIED_FECES_BLOCK.get(), new Item.Properties()));
     // === 厕所 ===
     /** 蹲便器物品 */
     public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",

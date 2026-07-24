@@ -47,6 +47,14 @@ public class ModBlocks {
             .pushReaction(PushReaction.NORMAL)
     ));
 
+    /** 干粪块：由粪便块干燥而成的可燃方块。 */
+    public static final DeferredHolder<Block, Block> DRIED_FECES_BLOCK = BLOCKS.register("dried_feces_block", () -> new Block(Block.Properties.of()
+            .destroyTime(1.0f)
+            .explosionResistance(0.5f)
+            .sound(SoundType.PACKED_MUD)
+            .pushReaction(PushReaction.NORMAL)
+    ));
+
     // === 厕所 ===
     /** 蹲便器：基础马桶，使用时直接掉落粪便物品 */
     public static final DeferredHolder<Block, Block> SQUAT_TOILET = BLOCKS.register("squat_toilet", () -> new SquatToiletBlock(Block.Properties.of()

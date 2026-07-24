@@ -23,6 +23,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         // === 方块物品 ===
         getBuilder("feces_block")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/feces_block")));
+        getBuilder("dried_feces_block")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/dried_feces_block")));
         getBuilder("squat_toilet")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/squat_toilet")));
         getBuilder("oak_toilet")

@@ -2,10 +2,14 @@
 package cn.tea.toilet.technology.compat.jei;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.gas.GasRegistry;
+import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.item.ModItems;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.registration.IModIngredientRegistration;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
@@ -47,6 +51,10 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
+        registration.addRecipeCategories(
+                BiogasProductionJeiCategory.septicTank(registration.getJeiHelpers().getGuiHelper()),
+                BiogasProductionJeiCategory.biogasPond(registration.getJeiHelpers().getGuiHelper())
+        );
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCategory(definition, registration);
         }
@@ -56,6 +64,10 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         //手动向 JEI注册燃料物品信息（不依赖 level，必须在 null检查之前调用）
         registerFuelInfo(registration);
+        registration.addRecipes(BiogasProductionJeiCategory.SEPTIC_TANK_RECIPE_TYPE,
+                BiogasProductionJeiRecipes.septicTankRecipes());
+        registration.addRecipes(BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE,
+                BiogasProductionJeiRecipes.biogasPondRecipes());
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) {
@@ -71,9 +83,26 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPTIC_TANK_CONTROLLER.get()),
+                BiogasProductionJeiCategory.SEPTIC_TANK_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BIOGAS_POND_CONTROLLER.get()),
+                BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BIOGAS_GENERATOR.get()),
+                BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCatalysts(definition, registration);
         }
+    }
+
+    @Override
+    public void registerIngredients(IModIngredientRegistration registration) {
+        registration.register(
+                GasStackJeiIngredient.TYPE,
+                List.of(new GasStack(GasRegistry.BIOGAS, 1)),
+                new GasStackJeiIngredientHelper(),
+                new GasStackJeiIngredientRenderer(),
+                GasStackJeiIngredient.CODEC
+        );
     }
 
     /**
@@ -82,7 +111,10 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
     private void registerFuelInfo(IRecipeRegistration registration) {
         registration.getIngredientManager().addIngredientsAtRuntime(
                 VanillaTypes.ITEM_STACK,
-                List.of(new ItemStack(ModItems.DRIED_FECES.get()))
+                List.of(
+                        new ItemStack(ModItems.DRIED_FECES.get()),
+                        new ItemStack(ModItems.DRIED_FECES_BLOCK_ITEM.get())
+                )
         );
     }
 

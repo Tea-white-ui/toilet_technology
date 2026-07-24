@@ -2,6 +2,16 @@
   "values": [
     "toilet_technology:iron_toilet",
     "toilet_technology:gold_toilet",
-    "toilet_technology:diamond_toilet"
+    "toilet_technology:diamond_toilet",
+    "toilet_technology:septic_tank_controller",
+    "toilet_technology:septic_tank_wall",
+    "toilet_technology:biogas_pond_controller",
+    "toilet_technology:biogas_pond_wall",
+    "toilet_technology:biogas_pond_gas_valve",
+    "toilet_technology:biogas_pond_item_input_port",
+    "toilet_technology:biogas_pond_fluid_input_port",
+    "toilet_technology:biogas_pond_item_output_port",
+    "toilet_technology:biogas_generator",
+    "toilet_technology:sewage_purifier"
   ]
 }

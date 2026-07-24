@@ -17,6 +17,7 @@ public class ModDataMapProvider extends DataMapProvider {
     protected void gather(HolderLookup.Provider provider) {
         // 注册燃料
         this.builder(NeoForgeDataMaps.FURNACE_FUELS)
-                .add(ModItems.DRIED_FECES, new FurnaceFuel(200), false);
+                .add(ModItems.DRIED_FECES, new FurnaceFuel(200), false)
+                .add(ModItems.DRIED_FECES_BLOCK_ITEM, new FurnaceFuel(800), false);
     }
 }

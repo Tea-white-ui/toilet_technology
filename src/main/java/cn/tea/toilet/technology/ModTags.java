@@ -24,15 +24,15 @@ public class ModTags {
         public static final TagKey<Block> ADVANCED_TOILETS = tag("advanced_toilets");
         /** 干燥设备方块标签（干燥架、干燥箱） */
         public static final TagKey<Block> DRYERS = tag("dryers");
+        /** 污水处理系统方块标签（化粪池控制器和墙体） */
+        public static final TagKey<Block> SEPTIC_TANKS = tag("septic_tanks");
+        /** 沼气池组成方块标签（控制器、墙体及各类端口） */
+        public static final TagKey<Block> BIOGAS_PONDS = tag("biogas_ponds");
+        /** 沼气生产与污水处理机器方块标签 */
+        public static final TagKey<Block> MACHINES = tag("machines");
         /** 热源方块标签（用于加速干燥过程） */
         public static final TagKey<Block> HEAT_SOURCES = tag("heat_sources");
 
-        /**
-         * 创建方块标签
-         * 
-         * @param name 标签名称
-         * @return 方块标签键
-         */
         private static TagKey<Block> tag(String name) {
             return BlockTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
         }
@@ -42,25 +42,23 @@ public class ModTags {
     public static class Items {
         /** 材料物品标签 */
         public static final TagKey<Item> MATERIALS = tag("materials");
-            /** 粪便相关物品标签 */
-            public static final TagKey<Item> FECES = tag("feces");
-
+        /** 粪便相关物品标签 */
+        public static final TagKey<Item> FECES = tag("feces");
         /** 建筑方块物品标签 */
         public static final TagKey<Item> BUILDING_BLOCKS_ITEM = tag("building_blocks_item");
         /** 马桶物品标签 */
         public static final TagKey<Item> TOILETS = tag("toilets");
         /** 干燥设备物品标签 */
         public static final TagKey<Item> DRYERS = tag("dryers");
+        /** 污水处理系统方块物品标签 */
+        public static final TagKey<Item> SEPTIC_TANKS = tag("septic_tanks");
+        /** 沼气池组成方块物品标签 */
+        public static final TagKey<Item> BIOGAS_PONDS = tag("biogas_ponds");
+        /** 沼气生产与污水处理机器物品标签 */
+        public static final TagKey<Item> MACHINES = tag("machines");
+        /** 液体或气体运输容器物品标签 */
+        public static final TagKey<Item> FLUID_CONTAINERS = tag("fluid_containers");
 
-
-
-
-        /**
-         * 创建物品标签
-         * 
-         * @param name 标签名称
-         * @return 物品标签键
-         */
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
         }

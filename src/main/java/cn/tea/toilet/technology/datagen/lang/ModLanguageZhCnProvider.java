@@ -17,6 +17,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.FECES.get(), "粪便");
         add(ModItems.FECES_BLOCK_ITEM.get(), "粪便块");
         add(ModItems.DRIED_FECES.get(),"干粪");
+        add(ModItems.DRIED_FECES_BLOCK_ITEM.get(), "干粪块");
         add(ModItems.BIOGAS_RESIDUE.get(), "沼渣");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"蹲坑");
         add(ModItems.OAK_TOILET_ITEM.get(), "木制厕所");
@@ -32,6 +33,13 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModBlocks.DRYING_BOX.get(), "干燥箱");
         add("fluid_type.toilet_technology.feces_liquid","粪液");
         add("jei.toilet_technology.drying.title", "物品干燥");
+        add("jei.toilet_technology.biogas.amount", "%s mB");
+        add("jei.toilet_technology.septic_tank_biogas.title", "化粪池发酵");
+        add("jei.toilet_technology.biogas_pond_biogas.title", "沼气池发酵");
+        add("jei.toilet_technology.biogas.output_scales_with_liquid", "粪液越多，产气越多：%s–%s mB / 批");
+        add("jei.toilet_technology.biogas.duration", "每批耗时：%s 秒");
+        add("jei.toilet_technology.biogas.generator_energy", "沼气发生机：%s FE / 批（产量 ×2）");
+        add("jei.toilet_technology.biogas.residue_probability", "%s%% 概率");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "化粪池控制器");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "化粪池壁");
         add(ModBlocks.BIOGAS_POND_CONTROLLER.get(), "沼气池控制器");

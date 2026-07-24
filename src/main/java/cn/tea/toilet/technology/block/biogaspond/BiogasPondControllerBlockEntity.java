@@ -108,12 +108,14 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         biogasProductionTicks = 0;
 
         BiogasGeneratorBlockEntity generator = findBiogasGenerator();
-        int gasMultiplier = generator == null ? 1 : 2;
+        boolean generatorCanSupplyEnergy = generator != null
+                && generator.energyStorage.getEnergyStored() >= GENERATOR_ENERGY_PER_BATCH;
         BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
-                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity(), gasMultiplier);
+                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity(), 2,
+                generatorCanSupplyEnergy);
         if (batch.gasProduced() == 0) return;
 
-        if (generator != null && !generator.consumeEnergy(GENERATOR_ENERGY_PER_BATCH)) return;
+        if (generatorCanSupplyEnergy && !generator.consumeEnergy(GENERATOR_ENERGY_PER_BATCH)) return;
 
         GasStack remainder = gasTank.insert(new GasStack(GasRegistry.BIOGAS, batch.gasProduced()), GasAction.EXECUTE);
         if (!remainder.isEmpty()) return;

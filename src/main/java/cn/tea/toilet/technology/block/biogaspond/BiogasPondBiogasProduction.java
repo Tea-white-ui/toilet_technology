@@ -36,6 +36,12 @@ public final class BiogasPondBiogasProduction {
                 ? Batch.NONE : new Batch(gasProduced, liquidConsumed);
     }
 
+    public static Batch planBatch(boolean containsFecesLiquid, int liquidAmount,
+            long gasAmount, long gasCapacity, int poweredGasMultiplier, boolean generatorCanSupplyEnergy) {
+        return planBatch(containsFecesLiquid, liquidAmount, gasAmount, gasCapacity,
+                generatorCanSupplyEnergy ? poweredGasMultiplier : 1);
+    }
+
     public record Batch(long gasProduced, int liquidConsumed) {
         public static final Batch NONE = new Batch(0, 0);
     }

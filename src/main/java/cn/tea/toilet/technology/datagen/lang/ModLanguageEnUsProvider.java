@@ -18,6 +18,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.FECES.get(), "Feces");
         add(ModItems.FECES_BLOCK_ITEM.get(), "Feces block");
         add(ModItems.DRIED_FECES.get(),"Dried feces");
+        add(ModItems.DRIED_FECES_BLOCK_ITEM.get(), "Dried feces block");
         add(ModItems.BIOGAS_RESIDUE.get(), "Biogas Residue");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"Squat Toilet");
         add(ModItems.OAK_TOILET_ITEM.get(), "Oak Toilet");
@@ -32,6 +33,13 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModBlocks.DRYING_RACK.get(), "Dryer_Rack");
         add(ModBlocks.DRYING_BOX.get(), "Drying Box");
         add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
+        add("jei.toilet_technology.biogas.amount", "%s mB");
+        add("jei.toilet_technology.septic_tank_biogas.title", "Septic Tank Fermentation");
+        add("jei.toilet_technology.biogas_pond_biogas.title", "Biogas Pond Fermentation");
+        add("jei.toilet_technology.biogas.output_scales_with_liquid", "More feces liquid produces more gas: %s–%s mB / batch");
+        add("jei.toilet_technology.biogas.duration", "Duration per batch: %s s");
+        add("jei.toilet_technology.biogas.generator_energy", "Biogas generator: %s FE / batch (output ×2)");
+        add("jei.toilet_technology.biogas.residue_probability", "%s%% chance");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "Septic Tank Controller");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "Septic Tank Wall");
         add(ModBlocks.BIOGAS_POND_CONTROLLER.get(), "Biogas Pond Controller");

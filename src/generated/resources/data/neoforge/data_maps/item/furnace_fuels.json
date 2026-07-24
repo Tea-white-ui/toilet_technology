@@ -2,6 +2,9 @@
   "values": {
     "toilet_technology:dried_feces": {
       "burn_time": 200
+    },
+    "toilet_technology:dried_feces_block": {
+      "burn_time": 800
     }
   }
 }

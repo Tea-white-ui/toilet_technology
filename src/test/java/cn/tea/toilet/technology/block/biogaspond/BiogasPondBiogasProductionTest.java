@@ -43,6 +43,15 @@ class BiogasPondBiogasProductionTest {
     }
 
     @Test
+    void fallsBackToBaseOutputWhenGeneratorCannotSupplyEnergy() {
+        BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
+                true, 32_001, 0, 128_000, 2, false);
+
+        assertEquals(50, batch.gasProduced());
+        assertEquals(25, batch.liquidConsumed());
+    }
+
+    @Test
     void refusesDoubledOutputWhenOnlyBaseOutputWouldFit() {
         assertEquals(BiogasPondBiogasProduction.Batch.NONE,
                 BiogasPondBiogasProduction.planBatch(true, 10_000, 127_970, 128_000, 2));

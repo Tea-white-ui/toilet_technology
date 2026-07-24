@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.datagen;
 
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -29,6 +30,15 @@ public class ModDryingRecipeProvider {
                 new ItemStack(ModItems.DRIED_FECES.get()), // 输出
                 600, // 干燥时间
                 "feces_to_dried_feces"
+        );
+
+        // 粪便块 → 干粪块 (100秒 = 2000 tick)
+        createDryingRecipe(
+                output,
+                Ingredient.of(ModBlocks.FECES_BLOCK.get()),
+                new ItemStack(ModBlocks.DRIED_FECES_BLOCK.get()),
+                2000,
+                "feces_block_to_dried_feces_block"
         );
 
         // 腐肉 → 皮革 (20秒 = 400 tick)

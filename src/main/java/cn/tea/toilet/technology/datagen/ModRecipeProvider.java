@@ -95,6 +95,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModItems.SEALING_COMPONENT.get()), has(ModItems.SEALING_COMPONENT.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.BIOGAS_POND_WALL.get(), 6)
+                .pattern("AMA")
+                .pattern("ASA")
+                .pattern("AMA")
+                .define('A', ModItems.ANTISEPTIC_BRICK_ITEM.get())
+                .define('M', ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get())
+                .define('S', ModItems.SEALING_COMPONENT.get())
+                .unlockedBy(getHasName(ModItems.ANTISEPTIC_BRICK_ITEM.get()), has(ModItems.ANTISEPTIC_BRICK_ITEM.get()))
+                .unlockedBy(getHasName(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get()), has(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get()))
+                .unlockedBy(getHasName(ModItems.SEALING_COMPONENT.get()), has(ModItems.SEALING_COMPONENT.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.FECES_BLOCK.get())
                 .pattern("##")
                 .pattern("##")

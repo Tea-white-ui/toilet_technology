@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "toilet_technology:antiseptic_brick"
+    },
+    "M": {
+      "item": "toilet_technology:multi_layer_sintered_metal_mesh"
+    },
+    "S": {
+      "item": "toilet_technology:sealing_component"
+    }
+  },
+  "pattern": [
+    "AMA",
+    "ASA",
+    "AMA"
+  ],
+  "result": {
+    "count": 6,
+    "id": "toilet_technology:biogas_pond_wall"
+  }
+}

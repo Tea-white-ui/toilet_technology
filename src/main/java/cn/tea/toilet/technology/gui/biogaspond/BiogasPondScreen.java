@@ -16,11 +16,11 @@ public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
     public BiogasPondScreen(BiogasPondMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         imageWidth = 175;
-        imageHeight = 197;
+        imageHeight = 198;
         titleLabelX = 5;
         titleLabelY = 5;
-        inventoryLabelX = 6;
-        inventoryLabelY = 104;
+        inventoryLabelX = 7;
+        inventoryLabelY = 105;
     }
 
     @Override public void render(@NotNull GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
@@ -31,8 +31,8 @@ public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
 
     @Override protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-        drawTank(graphics, 8, 20, 53, 34, menu.gasAmount(), BiogasPondControllerBlockEntity.GAS_CAPACITY, 0xFF7DBB6A);
-        drawTank(graphics, 8, 66, 53, 34, menu.liquidAmount(), BiogasPondControllerBlockEntity.LIQUID_CAPACITY, 0xFF4A91C8);
+        drawTank(graphics, 44, 23, 88, 31, menu.gasAmount(), BiogasPondControllerBlockEntity.GAS_CAPACITY, 0xFF7DBB6A);
+        drawTank(graphics, 44, 68, 88, 34, menu.liquidAmount(), BiogasPondControllerBlockEntity.LIQUID_CAPACITY, 0xFF4A91C8);
     }
 
     private void drawTank(GuiGraphics graphics, int x, int y, int width, int height, long amount, long capacity, int color) {
@@ -43,8 +43,8 @@ public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
 
     @Override protected void renderLabels(@NotNull GuiGraphics graphics, int mouseX, int mouseY) {
         graphics.drawString(font, title, titleLabelX, titleLabelY, 0x404040, false);
-        graphics.drawString(font, Component.translatable("gui.toilet_technology.gas", menu.gasAmount(), BiogasPondControllerBlockEntity.GAS_CAPACITY), 69, 17, 0x303030, false);
-        graphics.drawString(font, Component.translatable("gui.toilet_technology.liquid", menu.liquidAmount(), BiogasPondControllerBlockEntity.LIQUID_CAPACITY), 69, 32, 0x404040, false);
+        graphics.drawString(font, Component.translatable("gui.toilet_technology.gas", menu.gasAmount(), BiogasPondControllerBlockEntity.GAS_CAPACITY), 44, 13, 0x303030, false);
+        graphics.drawString(font, Component.translatable("gui.toilet_technology.liquid", menu.liquidAmount(), BiogasPondControllerBlockEntity.LIQUID_CAPACITY), 44, 56, 0x404040, false);
         graphics.drawString(font, playerInventoryTitle, inventoryLabelX, inventoryLabelY, 0x404040, false);
     }
 }

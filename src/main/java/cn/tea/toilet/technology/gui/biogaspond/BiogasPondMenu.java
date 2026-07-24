@@ -33,11 +33,11 @@ public class BiogasPondMenu extends AbstractContainerMenu {
         super(ModMenuTypes.BIOGAS_POND_MENU.get(), id);
         this.access = access;
         IItemHandler handler = controller == null ? new ItemStackHandler(CUSTOM_SLOTS) : controller.getMenuItems();
-        addSlot(new SlotItemHandler(handler, BiogasPondControllerBlockEntity.INPUT_SLOT, 116, 53));
-        addSlot(new OutputOnlySlot(handler, BiogasPondControllerBlockEntity.OUTPUT_SLOT, 152, 53));
+        addSlot(new SlotItemHandler(handler, BiogasPondControllerBlockEntity.INPUT_SLOT, 152, 51));
+        addSlot(new OutputOnlySlot(handler, BiogasPondControllerBlockEntity.OUTPUT_SLOT, 8, 86));
         for (int row = 0; row < 3; row++) for (int col = 0; col < 9; col++)
-            addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 116 + row * 18));
-        for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 174));
+            addSlot(new Slot(inventory, col + row * 9 + 9, 8 + col * 18, 117 + row * 18));
+        for (int col = 0; col < 9; col++) addSlot(new Slot(inventory, col, 8 + col * 18, 175));
         data = controller == null ? new SimpleContainerData(DATA_COUNT) : new ContainerData() {
             @Override public int get(int index) {
                 return switch (index) {

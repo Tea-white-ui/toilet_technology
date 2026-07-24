@@ -24,7 +24,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
     protected void addTags(HolderLookup.@NotNull Provider provider) {
         this.tag(ModTags.Blocks.BUILDING_BLOCKS)
                 .add(ModBlocks.FECES_BLOCK.get())
-                .add(ModBlocks.DRIED_FECES_BLOCK.get());
+                .add(ModBlocks.DRIED_FECES_BLOCK.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK.get());
 
         this.tag(ModTags.Blocks.TOILETS)
                 .add(ModBlocks.SQUAT_TOILET.get())
@@ -75,6 +76,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DRYING_BOX.get());
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
+                .add(ModBlocks.ANTISEPTIC_BRICK.get())
                 .add(ModBlocks.SQUAT_TOILET.get())
                 .add(ModBlocks.STONE_TOILET.get())
                 .add(ModBlocks.IRON_TOILET.get())
@@ -97,7 +99,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.SQUAT_TOILET.get());
 
         this.tag(BlockTags.NEEDS_STONE_TOOL)
-                .add(ModBlocks.STONE_TOILET.get());
+                .add(ModBlocks.STONE_TOILET.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK.get());
 
         this.tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.IRON_TOILET.get())

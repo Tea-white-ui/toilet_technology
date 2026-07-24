@@ -21,6 +21,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK.get(), 4)
+                .pattern("CNC")
+                .pattern("NCN")
+                .pattern("CNC")
+                .define('C', Items.CLAY)
+                .define('N', Items.IRON_NUGGET)
+                .unlockedBy(getHasName(Items.CLAY), has(Items.CLAY))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.FECES_BLOCK.get())
                 .pattern("##")
                 .pattern("##")

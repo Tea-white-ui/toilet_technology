@@ -26,7 +26,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         // 建筑方块物品
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)
                 .add(ModItems.FECES_BLOCK_ITEM.get())
-                .add(ModItems.DRIED_FECES_BLOCK_ITEM.get());
+                .add(ModItems.DRIED_FECES_BLOCK_ITEM.get())
+                .add(ModItems.ANTISEPTIC_BRICK_ITEM.get());
         this.tag(ModTags.Items.TOILETS)
                 .add(ModItems.SQUAT_TOILET_ITEM.get())
                 .add(ModItems.OAK_TOILET_ITEM.get())

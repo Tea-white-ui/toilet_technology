@@ -1,4 +1,5 @@
 {
+  "block.toilet_technology.antiseptic_brick": "防腐砖",
   "block.toilet_technology.biogas_generator": "沼气发生机",
   "block.toilet_technology.biogas_pond_controller": "沼气池控制器",
   "block.toilet_technology.biogas_pond_fluid_input_port": "沼气池液体输入端口",
@@ -27,8 +28,8 @@
   "gui.toilet_technology.gas": "气体：%s / %s mB",
   "gui.toilet_technology.liquid": "液体：%s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
-  "item.toilet_technology.biogas_tank": "沼气罐",
   "item.toilet_technology.biogas_residue": "沼渣",
+  "item.toilet_technology.biogas_tank": "沼气罐",
   "item.toilet_technology.dried_feces": "干粪",
   "item.toilet_technology.empty_biogas_tank": "空沼气罐",
   "item.toilet_technology.feces": "粪便",

@@ -60,6 +60,9 @@ public class ModItems {
     /** 干粪块方块物品 */
     public static final DeferredHolder<Item, BlockItem> DRIED_FECES_BLOCK_ITEM = ITEMS.register("dried_feces_block",
             () -> new BlockItem(ModBlocks.DRIED_FECES_BLOCK.get(), new Item.Properties()));
+    /** 防腐砖方块物品 */
+    public static final DeferredHolder<Item, BlockItem> ANTISEPTIC_BRICK_ITEM = ITEMS.register("antiseptic_brick",
+            () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK.get(), new Item.Properties()));
     // === 厕所 ===
     /** 蹲便器物品 */
     public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "C": {
+      "item": "minecraft:clay"
+    },
+    "N": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    "CNC",
+    "NCN",
+    "CNC"
+  ],
+  "result": {
+    "count": 4,
+    "id": "toilet_technology:antiseptic_brick"
+  }
+}

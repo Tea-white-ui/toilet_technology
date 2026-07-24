@@ -17,6 +17,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         // === 简单方块 ===
         simpleBlock(ModBlocks.FECES_BLOCK.get(), models().cubeAll("feces_block", modLoc("block/feces_block")));
         simpleBlock(ModBlocks.DRIED_FECES_BLOCK.get(), models().cubeAll("dried_feces_block", modLoc("block/dried_feces_block")));
+        simpleBlock(ModBlocks.ANTISEPTIC_BRICK.get(), models().cubeAll("antiseptic_brick", modLoc("block/antiseptic_brick")));
         simpleBlock(ModBlocks.BIOGAS_POND_WALL.get(), models().cubeAll("biogas_pond_wall", modLoc("block/biogas_pond_wall")));
         simpleBlock(ModBlocks.BIOGAS_POND_CONTROLLER.get(), models().cube(
                 "biogas_pond_controller",

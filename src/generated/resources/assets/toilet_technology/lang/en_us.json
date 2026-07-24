@@ -1,4 +1,5 @@
 {
+  "block.toilet_technology.antiseptic_brick": "Antiseptic Brick",
   "block.toilet_technology.biogas_generator": "Biogas Generator",
   "block.toilet_technology.biogas_pond_controller": "Biogas Pond Controller",
   "block.toilet_technology.biogas_pond_fluid_input_port": "Biogas Pond Fluid Input Port",
@@ -27,8 +28,8 @@
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
   "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
-  "item.toilet_technology.biogas_tank": "Biogas Tank",
   "item.toilet_technology.biogas_residue": "Biogas Residue",
+  "item.toilet_technology.biogas_tank": "Biogas Tank",
   "item.toilet_technology.dried_feces": "Dried feces",
   "item.toilet_technology.empty_biogas_tank": "Empty Biogas Tank",
   "item.toilet_technology.feces": "Feces",

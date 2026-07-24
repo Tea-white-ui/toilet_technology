@@ -55,6 +55,13 @@ public class ModBlocks {
             .pushReaction(PushReaction.NORMAL)
     ));
 
+    /** 防腐砖：坚固的建筑方块。 */
+    public static final DeferredHolder<Block, Block> ANTISEPTIC_BRICK = BLOCKS.register("antiseptic_brick", () -> new Block(Block.Properties.of()
+            .strength(2.0f, 6.0f)
+            .sound(SoundType.MUD_BRICKS)
+            .pushReaction(PushReaction.BLOCK)
+    ));
+
     // === 厕所 ===
     /** 蹲便器：基础马桶，使用时直接掉落粪便物品 */
     public static final DeferredHolder<Block, Block> SQUAT_TOILET = BLOCKS.register("squat_toilet", () -> new SquatToiletBlock(Block.Properties.of()

@@ -18,6 +18,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.FECES_BLOCK_ITEM.get(), "粪便块");
         add(ModItems.DRIED_FECES.get(),"干粪");
         add(ModItems.DRIED_FECES_BLOCK_ITEM.get(), "干粪块");
+        add(ModItems.ANTISEPTIC_BRICK_ITEM.get(), "防腐砖");
         add(ModItems.BIOGAS_RESIDUE.get(), "沼渣");
         add(ModItems.SQUAT_TOILET_ITEM.get(),"蹲坑");
         add(ModItems.OAK_TOILET_ITEM.get(), "木制厕所");

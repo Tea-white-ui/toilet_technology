@@ -57,6 +57,14 @@ public class ModItems {
         public static final DeferredHolder<Item, Item> SEALING_COMPONENT = ITEMS.register("sealing_component",
                 () -> new Item(new Item.Properties()));
 
+        /** 金属网：用于制作机器和其他结构的材料 */
+        public static final DeferredHolder<Item, Item> METAL_MESH = ITEMS.register("metal_mesh",
+                () -> new Item(new Item.Properties()));
+
+        /** 多层烧结金属网：由金属网熔炼制成的高级材料 */
+        public static final DeferredHolder<Item, Item> MULTI_LAYER_SINTERED_METAL_MESH = ITEMS.register("multi_layer_sintered_metal_mesh",
+                () -> new Item(new Item.Properties()));
+
     // === 方块物品 ===
     /** 粪便方块物品 */
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",

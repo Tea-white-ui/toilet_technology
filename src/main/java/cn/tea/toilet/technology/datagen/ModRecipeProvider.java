@@ -1,10 +1,12 @@
 package cn.tea.toilet.technology.datagen;
 
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -43,6 +45,36 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('R', Items.REDSTONE)
                 .unlockedBy(getHasName(Items.SLIME_BALL), has(Items.SLIME_BALL))
                 .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.METAL_MESH.get(), 4)
+                .pattern("I I")
+                .pattern(" I ")
+                .pattern("I I")
+                .define('I', Items.IRON_INGOT)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .save(output);
+
+        SimpleCookingRecipeBuilder.smelting(
+                        Ingredient.of(ModItems.METAL_MESH.get()),
+                        RecipeCategory.MISC,
+                        ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get(),
+                        0.1F,
+                        200
+                )
+                .unlockedBy(getHasName(ModItems.METAL_MESH.get()), has(ModItems.METAL_MESH.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(
+                        ToiletTechnology.MOD_ID, "multi_layer_sintered_metal_mesh_from_smelting"));
+
+        SimpleCookingRecipeBuilder.blasting(
+                        Ingredient.of(ModItems.METAL_MESH.get()),
+                        RecipeCategory.MISC,
+                        ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get(),
+                        0.1F,
+                        100
+                )
+                .unlockedBy(getHasName(ModItems.METAL_MESH.get()), has(ModItems.METAL_MESH.get()))
+                .save(output, ResourceLocation.fromNamespaceAndPath(
+                        ToiletTechnology.MOD_ID, "multi_layer_sintered_metal_mesh_from_blasting"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK.get(), 4)
                 .pattern("CNC")

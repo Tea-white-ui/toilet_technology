@@ -19,6 +19,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DRIED_FECES.get());
         basicItem(ModItems.BIOGAS_RESIDUE.get());
         basicItem(ModItems.SEALING_COMPONENT.get());
+        basicItem(ModItems.METAL_MESH.get());
+        basicItem(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
         basicItem(ModItems.FECES_LIQUID_BUCKET.get());
         basicItem(ModItems.BIOGAS_TANK.get());
         basicItem(ModItems.EMPTY_BIOGAS_TANK.get());

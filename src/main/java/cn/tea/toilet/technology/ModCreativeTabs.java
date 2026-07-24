@@ -59,6 +59,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BIOGAS_GENERATOR_ITEM.get());
                         output.accept(ModItems.SEWAGE_PURIFIER_ITEM.get());
                         output.accept(ModItems.SEALING_COMPONENT.get());
+                        output.accept(ModItems.METAL_MESH.get());
+                        output.accept(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
 
                     })
                     .build());

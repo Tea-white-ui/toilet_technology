@@ -64,6 +64,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.MATERIALS)
                 .addTag(ModTags.Items.FECES)
                 .add(ModItems.BIOGAS_RESIDUE.get())
-                .add(ModItems.SEALING_COMPONENT.get());
+                .add(ModItems.SEALING_COMPONENT.get())
+                .add(ModItems.METAL_MESH.get())
+                .add(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
     }
 }

@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.chemical.ModChemicals;
+import cn.tea.toilet.technology.fluid.ModFluids;
 import mekanism.api.Action;
 import mekanism.api.AutomationType;
 import mekanism.api.chemical.BasicChemicalTank;
@@ -31,6 +32,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
 
     private boolean structureValid;
     private int validationCooldown;
+    private int biogasProductionTicks;
     public final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return slot == INPUT_SLOT; }
         @Override protected void onContentsChanged(int slot) { setChanged(); }
@@ -78,7 +80,38 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     public IChemicalHandler getAutomationChemicals() { return automationChemicals; }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BiogasPondControllerBlockEntity entity) {
-        if (!level.isClientSide() && --entity.validationCooldown <= 0) entity.revalidateStructure();
+        if (level.isClientSide()) return;
+        if (--entity.validationCooldown <= 0) entity.revalidateStructure();
+        if (entity.structureValid) {
+            entity.produceBiogas();
+        } else {
+            entity.biogasProductionTicks = BiogasPondBiogasProduction.nextProgress(
+                    entity.biogasProductionTicks, false);
+        }
+    }
+
+    private void produceBiogas() {
+        net.neoforged.neoforge.fluids.FluidStack liquid = liquidTank.getFluid();
+        boolean containsFecesLiquid = liquid.is(ModFluids.FECES_LIQUID.get())
+                || liquid.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        if (!containsFecesLiquid || liquid.isEmpty()) {
+            biogasProductionTicks = 0;
+            return;
+        }
+
+        biogasProductionTicks = BiogasPondBiogasProduction.nextProgress(biogasProductionTicks, true);
+        if (biogasProductionTicks < BiogasPondBiogasProduction.INTERVAL_TICKS) return;
+        biogasProductionTicks = 0;
+
+        BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
+                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity());
+        if (batch.gasProduced() == 0) return;
+
+        ChemicalStack remainder = gasTank.insert(new ChemicalStack(ModChemicals.BIOGAS, batch.gasProduced()),
+                Action.EXECUTE, AutomationType.INTERNAL);
+        if (!remainder.isEmpty()) return;
+        if (batch.liquidConsumed() > 0) liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
+        setChanged();
     }
 
     @Override protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
@@ -86,6 +119,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         tag.put("Items", items.serializeNBT(registries));
         tag.put("LiquidTank", liquidTank.writeToNBT(registries, new CompoundTag()));
         tag.put("GasTank", gasTank.serializeNBT(registries));
+        tag.putInt("BiogasProductionTicks", biogasProductionTicks);
     }
 
     @Override protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
@@ -93,6 +127,8 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         if (tag.contains("Items")) items.deserializeNBT(registries, tag.getCompound("Items"));
         if (tag.contains("LiquidTank")) liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
         if (tag.contains("GasTank")) gasTank.deserializeNBT(registries, tag.getCompound("GasTank"));
+        biogasProductionTicks = Math.max(0, Math.min(
+                tag.getInt("BiogasProductionTicks"), BiogasPondBiogasProduction.INTERVAL_TICKS - 1));
         structureValid = false;
         validationCooldown = 1;
     }

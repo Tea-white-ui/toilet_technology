@@ -10,8 +10,11 @@ public final class BiogasPondStructure {
 
     public static boolean validate(Level level, BlockPos controllerPos) {
         BiogasPondPattern.Layout layout = BiogasPondPattern.layout();
+        int biogasGenerators = 0;
         for (BiogasPondPattern.Cell cell : layout.walls()) {
-            if (!isShellBlock(level.getBlockState(offset(controllerPos, cell)))) return false;
+            BlockState state = level.getBlockState(offset(controllerPos, cell));
+            if (!isShellBlock(state)) return false;
+            if (state.is(ModBlocks.BIOGAS_GENERATOR.get()) && ++biogasGenerators > 1) return false;
         }
         for (BiogasPondPattern.Cell cell : layout.air()) {
             if (!level.getBlockState(offset(controllerPos, cell)).isAir()) return false;
@@ -20,7 +23,9 @@ public final class BiogasPondStructure {
     }
 
     public static boolean isShellBlock(BlockState state) {
-        return state.is(ModBlocks.BIOGAS_POND_WALL.get()) || state.getBlock() instanceof BiogasPondPortBlock;
+        return state.is(ModBlocks.BIOGAS_POND_WALL.get())
+                || state.is(ModBlocks.BIOGAS_GENERATOR.get())
+                || state.getBlock() instanceof BiogasPondPortBlock;
     }
 
     public static void revalidateNearby(Level level, BlockPos changedPos) {

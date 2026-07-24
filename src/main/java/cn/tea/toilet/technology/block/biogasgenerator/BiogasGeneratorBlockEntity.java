@@ -33,6 +33,12 @@ public class BiogasGeneratorBlockEntity extends BlockEntity {
             energy -= BiogasGeneratorOperation.ENERGY_PER_TICK;
         }
 
+        private boolean consumeEnergy(int amount) {
+            if (amount <= 0 || energy < amount) return false;
+            energy -= amount;
+            return true;
+        }
+
         private void restoreEnergy(int storedEnergy) {
             energy = storedEnergy;
         }
@@ -40,6 +46,12 @@ public class BiogasGeneratorBlockEntity extends BlockEntity {
 
     public BiogasGeneratorBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BIOGAS_GENERATOR.get(), pos, state);
+    }
+
+    public boolean consumeEnergy(int amount) {
+        if (!energyStorage.consumeEnergy(amount)) return false;
+        setChanged();
+        return true;
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BiogasGeneratorBlockEntity entity) {

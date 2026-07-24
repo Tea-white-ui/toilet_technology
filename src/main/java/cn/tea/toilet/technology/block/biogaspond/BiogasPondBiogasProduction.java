@@ -19,11 +19,18 @@ public final class BiogasPondBiogasProduction {
 
     public static Batch planBatch(boolean containsFecesLiquid, int liquidAmount,
             long gasAmount, long gasCapacity) {
+        return planBatch(containsFecesLiquid, liquidAmount, gasAmount, gasCapacity, 1);
+    }
+
+    public static Batch planBatch(boolean containsFecesLiquid, int liquidAmount,
+            long gasAmount, long gasCapacity, int gasMultiplier) {
         if (!containsFecesLiquid || liquidAmount <= 0) return Batch.NONE;
+        if (gasMultiplier < 1) return Batch.NONE;
 
         boolean highOutput = liquidAmount > HIGH_LIQUID_THRESHOLD;
-        long gasProduced = liquidAmount < LOW_LIQUID_THRESHOLD ? LOW_LIQUID_GAS_OUTPUT
+        long baseGasProduced = liquidAmount < LOW_LIQUID_THRESHOLD ? LOW_LIQUID_GAS_OUTPUT
                 : highOutput ? HIGH_GAS_OUTPUT : BASE_GAS_OUTPUT;
+        long gasProduced = baseGasProduced * gasMultiplier;
         int liquidConsumed = highOutput ? HIGH_LIQUID_COST : 0;
         return liquidAmount < liquidConsumed || gasCapacity - gasAmount < gasProduced
                 ? Batch.NONE : new Batch(gasProduced, liquidConsumed);

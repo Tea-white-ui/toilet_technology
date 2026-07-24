@@ -34,6 +34,21 @@ class BiogasPondBiogasProductionTest {
     }
 
     @Test
+    void doublesGasOutputWithoutChangingLiquidConsumptionWhenGeneratorIsPowered() {
+        BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
+                true, 32_001, 0, 128_000, 2);
+
+        assertEquals(100, batch.gasProduced());
+        assertEquals(25, batch.liquidConsumed());
+    }
+
+    @Test
+    void refusesDoubledOutputWhenOnlyBaseOutputWouldFit() {
+        assertEquals(BiogasPondBiogasProduction.Batch.NONE,
+                BiogasPondBiogasProduction.planBatch(true, 10_000, 127_970, 128_000, 2));
+    }
+
+    @Test
     void productionIntervalIsFiveGameTicks() {
         assertEquals(5, BiogasPondBiogasProduction.INTERVAL_TICKS);
     }

@@ -1,6 +1,8 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasRegistry;
@@ -23,6 +25,7 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 public class BiogasPondControllerBlockEntity extends BlockEntity {
+    public static final int GENERATOR_ENERGY_PER_BATCH = 128;
     public static final int GAS_CAPACITY = 128_000;
     public static final int LIQUID_CAPACITY = 64_000;
     public static final int INPUT_SLOT = 0;
@@ -104,14 +107,29 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         if (biogasProductionTicks < BiogasPondBiogasProduction.INTERVAL_TICKS) return;
         biogasProductionTicks = 0;
 
+        BiogasGeneratorBlockEntity generator = findBiogasGenerator();
+        int gasMultiplier = generator == null ? 1 : 2;
         BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
-                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity());
+                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity(), gasMultiplier);
         if (batch.gasProduced() == 0) return;
+
+        if (generator != null && !generator.consumeEnergy(GENERATOR_ENERGY_PER_BATCH)) return;
 
         GasStack remainder = gasTank.insert(new GasStack(GasRegistry.BIOGAS, batch.gasProduced()), GasAction.EXECUTE);
         if (!remainder.isEmpty()) return;
         if (batch.liquidConsumed() > 0) liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
         setChanged();
+    }
+
+    private BiogasGeneratorBlockEntity findBiogasGenerator() {
+        for (BiogasPondPattern.Cell cell : BiogasPondPattern.layout().walls()) {
+            BlockPos generatorPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
+            if (level.getBlockState(generatorPos).is(ModBlocks.BIOGAS_GENERATOR.get())
+                    && level.getBlockEntity(generatorPos) instanceof BiogasGeneratorBlockEntity generator) {
+                return generator;
+            }
+        }
+        return null;
     }
 
     @Override protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {

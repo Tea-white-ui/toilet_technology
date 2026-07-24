@@ -59,6 +59,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("message.toilet_technology.biogas_pond_invalid", "The 5×5×5 biogas pond structure is incomplete (the 3×3×3 interior must be hollow)");
         add("gui.toilet_technology.gas", "Gas: %s / %s mB");
         add("gui.toilet_technology.liquid", "Liquid: %s / %s mB");
+        add("gui.toilet_technology.pressure", "Pressure");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("gas.toilet_technology.biogas", "Biogas");
         add("chemical.toilet_technology.biogas", "Biogas");

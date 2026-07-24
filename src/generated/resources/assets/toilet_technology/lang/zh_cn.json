@@ -27,6 +27,7 @@
   "gas.toilet_technology.biogas": "沼气",
   "gui.toilet_technology.gas": "气体：%s / %s mB",
   "gui.toilet_technology.liquid": "液体：%s / %s mB",
+  "gui.toilet_technology.pressure": "压力",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
   "item.toilet_technology.biogas_residue": "沼渣",
   "item.toilet_technology.biogas_tank": "沼气罐",

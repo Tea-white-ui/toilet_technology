@@ -27,6 +27,7 @@
   "gas.toilet_technology.biogas": "Biogas",
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
   "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
+  "gui.toilet_technology.pressure": "Pressure",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
   "item.toilet_technology.biogas_residue": "Biogas Residue",
   "item.toilet_technology.biogas_tank": "Biogas Tank",

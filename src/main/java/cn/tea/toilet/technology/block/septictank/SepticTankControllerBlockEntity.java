@@ -142,6 +142,9 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         if (batch.liquidConsumed() > 0) {
             liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
         }
+        if (SepticTankBiogasProduction.shouldProduceResidue(level.random.nextInt(100))) {
+            machineInsertResidue();
+        }
         setChanged();
     }
 
@@ -192,6 +195,16 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             ItemStack combined = existing.copy();
             combined.grow(stack.getCount());
             items.setStackInSlot(slot, combined);
+        }
+    }
+
+    private void machineInsertResidue() {
+        ItemStack residue = new ItemStack(ModItems.BIOGAS_RESIDUE.get());
+        for (int slot = ITEM_OUTPUT_START; slot < SepticTankInventoryLayout.ITEM_OUTPUT_END; slot++) {
+            if (canMachineInsertOutput(slot, residue)) {
+                machineInsertOutput(slot, residue);
+                return;
+            }
         }
     }
 

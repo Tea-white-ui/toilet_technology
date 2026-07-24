@@ -3,6 +3,8 @@ package cn.tea.toilet.technology.block.septictank;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class SepticTankBiogasProductionTest {
 
@@ -55,6 +57,14 @@ class SepticTankBiogasProductionTest {
     @Test
     void productionIntervalIsFiveGameTicks() {
         assertEquals(5, SepticTankBiogasProduction.INTERVAL_TICKS);
+    }
+
+    @Test
+    void residueProductionUsesFivePercentOfOneHundredPossibleRolls() {
+        assertTrue(SepticTankBiogasProduction.shouldProduceResidue(0));
+        assertTrue(SepticTankBiogasProduction.shouldProduceResidue(4));
+        assertFalse(SepticTankBiogasProduction.shouldProduceResidue(5));
+        assertFalse(SepticTankBiogasProduction.shouldProduceResidue(99));
     }
 
     @Test

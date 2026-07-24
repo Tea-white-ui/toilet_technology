@@ -30,7 +30,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('I', Items.IRON_INGOT)
                 .define('O', Items.OBSERVER)
                 .define('R', Items.REDSTONE)
-                .define('B', Items.BUCKET)
+                .define('B', ModBlocks.SEPTIC_TANK_WALL.get())
                 .define('C', Items.COPPER_INGOT)
                 .define('S', Items.SLIME_BALL)
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))

@@ -3,7 +3,7 @@
   "category": "redstone",
   "key": {
     "B": {
-      "item": "minecraft:bucket"
+      "item": "toilet_technology:septic_tank_wall"
     },
     "C": {
       "item": "minecraft:copper_ingot"

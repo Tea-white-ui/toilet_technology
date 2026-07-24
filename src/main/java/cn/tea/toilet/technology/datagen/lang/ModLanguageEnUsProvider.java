@@ -47,6 +47,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("gui.toilet_technology.gas", "Gas: %s / %s mB");
         add("gui.toilet_technology.liquid", "Liquid: %s / %s mB");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
+        add("gas.toilet_technology.biogas", "Biogas");
         add("chemical.toilet_technology.biogas", "Biogas");
         add("tooltip.toilet_technology.biogas_bucket.amount", "Stores: %s / %s mB of biogas");
         add("tooltip.toilet_technology.biogas_bucket.sealed", "Sealed container: cannot be placed in the world");

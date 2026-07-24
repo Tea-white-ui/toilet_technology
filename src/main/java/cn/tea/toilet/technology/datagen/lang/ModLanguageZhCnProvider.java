@@ -47,6 +47,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("gui.toilet_technology.gas", "气体：%s / %s mB");
         add("gui.toilet_technology.liquid", "液体：%s / %s mB");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
+        add("gas.toilet_technology.biogas", "沼气");
         add("chemical.toilet_technology.biogas", "沼气");
         add("tooltip.toilet_technology.biogas_bucket.amount", "储存：%s / %s mB 沼气");
         add("tooltip.toilet_technology.biogas_bucket.sealed", "密封容器：无法在世界中放置");

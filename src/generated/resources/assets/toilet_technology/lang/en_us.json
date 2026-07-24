@@ -22,6 +22,7 @@
   "block.toilet_technology.stone_toilet": "Stone Toilet",
   "chemical.toilet_technology.biogas": "Biogas",
   "fluid_type.toilet_technology.feces_liquid": "Feces Liquid",
+  "gas.toilet_technology.biogas": "Biogas",
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
   "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",

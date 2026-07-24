@@ -22,6 +22,7 @@
   "block.toilet_technology.stone_toilet": "石制厕所",
   "chemical.toilet_technology.biogas": "沼气",
   "fluid_type.toilet_technology.feces_liquid": "粪液",
+  "gas.toilet_technology.biogas": "沼气",
   "gui.toilet_technology.gas": "气体：%s / %s mB",
   "gui.toilet_technology.liquid": "液体：%s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",

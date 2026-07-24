@@ -34,6 +34,7 @@
   "item.toilet_technology.empty_biogas_tank": "Empty Biogas Tank",
   "item.toilet_technology.feces": "Feces",
   "item.toilet_technology.feces_liquid_bucket": "Feces Liquid Bucket",
+  "item.toilet_technology.sealing_component": "Sealing Component",
   "itemGroup.toilet_technology": "toilet technology",
   "jei.toilet_technology.biogas.amount": "%s mB",
   "jei.toilet_technology.biogas.duration": "Duration per batch: %s s",

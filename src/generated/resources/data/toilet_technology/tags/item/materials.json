@@ -1,6 +1,7 @@
 {
   "values": [
     "#toilet_technology:feces",
-    "toilet_technology:biogas_residue"
+    "toilet_technology:biogas_residue",
+    "toilet_technology:sealing_component"
   ]
 }

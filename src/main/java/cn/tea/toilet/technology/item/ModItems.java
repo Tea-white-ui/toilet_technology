@@ -53,6 +53,10 @@ public class ModItems {
         public static final DeferredHolder<Item, Item> BIOGAS_RESIDUE = ITEMS.register("biogas_residue",
                 () -> new Item(new Item.Properties()));
 
+        /** 密封组件：用于合成化粪池壁的密封材料 */
+        public static final DeferredHolder<Item, Item> SEALING_COMPONENT = ITEMS.register("sealing_component",
+                () -> new Item(new Item.Properties()));
+
     // === 方块物品 ===
     /** 粪便方块物品 */
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",

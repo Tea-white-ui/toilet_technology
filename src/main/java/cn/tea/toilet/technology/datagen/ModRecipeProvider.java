@@ -21,6 +21,29 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEPTIC_TANK_CONTROLLER.get())
+                .pattern("IOI")
+                .pattern("RBR")
+                .pattern("CSC")
+                .define('I', Items.IRON_INGOT)
+                .define('O', Items.OBSERVER)
+                .define('R', Items.REDSTONE)
+                .define('B', Items.BUCKET)
+                .define('C', Items.COPPER_INGOT)
+                .define('S', Items.SLIME_BALL)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SEALING_COMPONENT.get(), 4)
+                .pattern("SCS")
+                .pattern("CRC")
+                .pattern("SCS")
+                .define('S', Items.SLIME_BALL)
+                .define('C', Items.COPPER_INGOT)
+                .define('R', Items.REDSTONE)
+                .unlockedBy(getHasName(Items.SLIME_BALL), has(Items.SLIME_BALL))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK.get(), 4)
                 .pattern("CNC")
                 .pattern("NCN")
@@ -28,6 +51,16 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('C', Items.CLAY)
                 .define('N', Items.IRON_NUGGET)
                 .unlockedBy(getHasName(Items.CLAY), has(Items.CLAY))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SEPTIC_TANK_WALL.get(), 8)
+                .pattern("AAA")
+                .pattern("ABA")
+                .pattern("AAA")
+                .define('A', ModItems.ANTISEPTIC_BRICK_ITEM.get())
+                .define('B', ModItems.SEALING_COMPONENT.get())
+                .unlockedBy(getHasName(ModItems.ANTISEPTIC_BRICK_ITEM.get()), has(ModItems.ANTISEPTIC_BRICK_ITEM.get()))
+                .unlockedBy(getHasName(ModItems.SEALING_COMPONENT.get()), has(ModItems.SEALING_COMPONENT.get()))
                 .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.FECES_BLOCK.get())

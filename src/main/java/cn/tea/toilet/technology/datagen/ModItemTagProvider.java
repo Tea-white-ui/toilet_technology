@@ -63,6 +63,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         // === 标签嵌套 ===
         this.tag(ModTags.Items.MATERIALS)
                 .addTag(ModTags.Items.FECES)
-                .add(ModItems.BIOGAS_RESIDUE.get());
+                .add(ModItems.BIOGAS_RESIDUE.get())
+                .add(ModItems.SEALING_COMPONENT.get());
     }
 }

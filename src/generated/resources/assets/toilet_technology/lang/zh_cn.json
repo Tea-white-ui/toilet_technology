@@ -34,6 +34,7 @@
   "item.toilet_technology.empty_biogas_tank": "空沼气罐",
   "item.toilet_technology.feces": "粪便",
   "item.toilet_technology.feces_liquid_bucket": "粪桶",
+  "item.toilet_technology.sealing_component": "密封组件",
   "itemGroup.toilet_technology": "厕所技艺",
   "jei.toilet_technology.biogas.amount": "%s mB",
   "jei.toilet_technology.biogas.duration": "每批耗时：%s 秒",

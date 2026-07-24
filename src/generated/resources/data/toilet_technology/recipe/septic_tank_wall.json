@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "A": {
+      "item": "toilet_technology:antiseptic_brick"
+    },
+    "B": {
+      "item": "toilet_technology:sealing_component"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "ABA",
+    "AAA"
+  ],
+  "result": {
+    "count": 8,
+    "id": "toilet_technology:septic_tank_wall"
+  }
+}

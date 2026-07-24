@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_antiseptic_brick": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:antiseptic_brick"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_sealing_component": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:sealing_component"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "toilet_technology:septic_tank_wall"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_antiseptic_brick",
+      "has_sealing_component"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "toilet_technology:septic_tank_wall"
+    ]
+  }
+}

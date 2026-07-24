@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.septictank.SepticTankBiogasProduction;
 import cn.tea.toilet.technology.chemical.ModChemicals;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
@@ -100,6 +101,8 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     public IChemicalHandler getAutomationChemicals() { return automationChemicals; }
 
     private static boolean isFilledFluidContainer(ItemStack stack) {
+        var contained = FluidUtil.getFluidContained(stack);
+        if (contained.isEmpty() || !isAllowedLiquid(contained.get())) return false;
         return FluidUtil.getFluidHandler(stack)
                 .map(handler -> handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE))
                 .filter(SepticTankControllerBlockEntity::isAllowedLiquid)
@@ -151,18 +154,15 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     private void convertWaterWithFeces() {
         FluidStack fluid = liquidTank.getFluid();
         boolean containsWater = fluid.is(Fluids.WATER) || fluid.is(Fluids.FLOWING_WATER);
-        boolean[] fecesInputs = new boolean[SepticTankInventoryLayout.ITEM_INPUT_END];
+        if (!containsWater || fluid.isEmpty()) return;
         for (int slot = ITEM_INPUT_START; slot < SepticTankInventoryLayout.ITEM_INPUT_END; slot++) {
-            fecesInputs[slot] = items.getStackInSlot(slot).is(ModItems.FECES.get());
+            if (items.getStackInSlot(slot).is(ModItems.FECES.get())) {
+                liquidTank.setFluid(new FluidStack(ModFluids.FECES_LIQUID.get(), fluid.getAmount()));
+                items.extractItem(slot, 1, false);
+                setChanged();
+                return;
+            }
         }
-
-        int inputSlot = SepticTankWaterConversion.findInputSlot(
-                fecesInputs, containsWater, fluid.getAmount());
-        if (inputSlot < 0) return;
-
-        liquidTank.setFluid(new FluidStack(ModFluids.FECES_LIQUID.get(), fluid.getAmount()));
-        items.extractItem(inputSlot, 1, false);
-        setChanged();
     }
 
     private void processFluidContainer() {

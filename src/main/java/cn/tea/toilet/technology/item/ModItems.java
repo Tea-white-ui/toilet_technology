@@ -56,6 +56,10 @@ public class ModItems {
  )
  );
 
+        /** 沼渣物品：沼气生产的副产物 */
+        public static final DeferredHolder<Item, Item> BIOGAS_RESIDUE = ITEMS.register("biogas_residue",
+                () -> new Item(new Item.Properties()));
+
     // === 方块物品 ===
     /** 粪便方块物品 */
     public static final DeferredHolder<Item, BlockItem> FECES_BLOCK_ITEM = ITEMS.register("feces_block",

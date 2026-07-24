@@ -31,6 +31,7 @@ public class ModCreativeTabs {
                         // === 材料 ===
                         output.accept(ModItems.FECES.get());
                         output.accept(ModItems.DRIED_FECES.get());
+                        output.accept(ModItems.BIOGAS_RESIDUE.get());
                         // === 方块物品 ===
                         output.accept(ModItems.FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.SQUAT_TOILET_ITEM.get());

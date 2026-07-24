@@ -11,10 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "toilet_technology:septic_tank_wall"
+          "name": "toilet_technology:septic_tank_controller"
         }
       ],
       "rolls": 1.0
     }
-  ]
+  ],
+  "random_sequence": "toilet_technology:blocks/septic_tank_controller"
 }

@@ -54,6 +54,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BIOGAS_POND_FLUID_INPUT_PORT_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_ITEM_OUTPUT_PORT_ITEM.get());
                         output.accept(ModItems.BIOGAS_GENERATOR_ITEM.get());
+                        output.accept(ModItems.SEWAGE_PURIFIER_ITEM.get());
 
                     })
                     .build());

@@ -41,6 +41,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), "Biogas Pond Fluid Input Port");
         add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "Biogas Pond Item Output Port");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "Biogas Generator");
+        add(ModBlocks.SEWAGE_PURIFIER.get(), "Sewage Purifier");
         add("message.toilet_technology.septic_tank_invalid", "The 3×4×3 septic tank structure is incomplete");
         add("message.toilet_technology.biogas_pond_invalid", "The 5×5×5 biogas pond structure is incomplete (the 3×3×3 interior must be hollow)");
         add("gui.toilet_technology.gas", "Gas: %s / %s mB");

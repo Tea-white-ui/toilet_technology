@@ -112,6 +112,8 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> BIOGAS_GENERATOR_ITEM = ITEMS.register("biogas_generator",
             () -> new BlockItem(ModBlocks.BIOGAS_GENERATOR.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> SEWAGE_PURIFIER_ITEM = ITEMS.register("sewage_purifier",
+            () -> new BlockItem(ModBlocks.SEWAGE_PURIFIER.get(), new Item.Properties()));
 
     // === 桶 ===
     /** 粪便液体桶：用于存储和运输粪便液体，使用后返回空桶 */

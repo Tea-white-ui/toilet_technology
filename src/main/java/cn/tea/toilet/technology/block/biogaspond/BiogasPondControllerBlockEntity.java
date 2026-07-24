@@ -37,7 +37,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return slot == INPUT_SLOT; }
         @Override protected void onContentsChanged(int slot) { setChanged(); }
     };
-    public final FluidTank liquidTank = new FluidTank(LIQUID_CAPACITY) {
+    public final FluidTank liquidTank = new FluidTank(LIQUID_CAPACITY, BiogasPondControllerBlockEntity::isFecesLiquid) {
         @Override protected void onContentsChanged() { setChanged(); }
     };
     public final IChemicalTank gasTank = BasicChemicalTank.createModern(
@@ -74,6 +74,9 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     }
 
     public boolean isStructureValid() { return structureValid; }
+    public static boolean isFecesLiquid(net.neoforged.neoforge.fluids.FluidStack stack) {
+        return stack.is(ModFluids.FECES_LIQUID.get()) || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
+    }
     public IItemHandler getMenuItems() { return automationItems; }
     public IItemHandler getAutomationItems() { return automationItems; }
     public IFluidHandler getAutomationFluids() { return automationFluids; }
@@ -92,8 +95,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
 
     private void produceBiogas() {
         net.neoforged.neoforge.fluids.FluidStack liquid = liquidTank.getFluid();
-        boolean containsFecesLiquid = liquid.is(ModFluids.FECES_LIQUID.get())
-                || liquid.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        boolean containsFecesLiquid = isFecesLiquid(liquid);
         if (!containsFecesLiquid || liquid.isEmpty()) {
             biogasProductionTicks = 0;
             return;
@@ -153,7 +155,9 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         @Override public int getTanks() { return 1; }
         @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack getFluidInTank(int tank) { return liquidTank.getFluid(); }
         @Override public int getTankCapacity(int tank) { return LIQUID_CAPACITY; }
-        @Override public boolean isFluidValid(int tank, @NotNull net.neoforged.neoforge.fluids.FluidStack stack) { return structureValid; }
+        @Override public boolean isFluidValid(int tank, @NotNull net.neoforged.neoforge.fluids.FluidStack stack) {
+            return tank == 0 && structureValid && isFecesLiquid(stack);
+        }
         @Override public int fill(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return structureValid ? liquidTank.fill(stack, action) : 0; }
         @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return structureValid ? liquidTank.drain(stack, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
         @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(int amount, FluidAction action) { return structureValid ? liquidTank.drain(amount, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }

@@ -56,6 +56,7 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.DRYING_RACK.get());
         this.dropSelf(ModBlocks.DRYING_BOX.get());
         this.dropSelf(ModBlocks.BIOGAS_GENERATOR.get());
+        this.dropSelf(ModBlocks.SEWAGE_PURIFIER.get());
         this.dropSelf(ModBlocks.SEPTIC_TANK_CONTROLLER.get());
         this.dropSelf(ModBlocks.SEPTIC_TANK_WALL.get());
         this.dropSelf(ModBlocks.BIOGAS_POND_CONTROLLER.get());

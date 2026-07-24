@@ -124,7 +124,9 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
             return controller == null || tank != 0 ? FluidStack.EMPTY : controller.liquidTank.getFluid();
         }
         @Override public int getTankCapacity(int tank) { return tank == 0 ? BiogasPondControllerBlockEntity.LIQUID_CAPACITY : 0; }
-        @Override public boolean isFluidValid(int tank, @NotNull FluidStack stack) { return controller() != null && tank == 0; }
+        @Override public boolean isFluidValid(int tank, @NotNull FluidStack stack) {
+            return controller() != null && tank == 0 && BiogasPondControllerBlockEntity.isFecesLiquid(stack);
+        }
         @Override public int fill(FluidStack stack, FluidAction action) {
             BiogasPondControllerBlockEntity controller = controller();
             return controller == null ? 0 : controller.liquidTank.fill(stack, action);

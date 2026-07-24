@@ -154,6 +154,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEWAGE_PURIFIER.get())
+                .pattern("IPI")
+                .pattern("CBC")
+                .pattern("IHI")
+                .define('I', Items.IRON_INGOT)
+                .define('P', Items.PISTON)
+                .define('C', Items.COPPER_INGOT)
+                .define('B', Items.BUCKET)
+                .define('H', Items.HOPPER)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .save(output);
+
         // 添加干燥配方
         ModDryingRecipeProvider.addRecipes(output);
     }

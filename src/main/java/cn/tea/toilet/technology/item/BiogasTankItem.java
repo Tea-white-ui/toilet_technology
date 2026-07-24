@@ -11,11 +11,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import org.jetbrains.annotations.NotNull;
 
-/** A sealed, non-placeable bucket containing a fixed 1,000 mB of biogas. */
-public final class BiogasBucketItem extends Item {
+/** A sealed, non-placeable tank containing a fixed 1,000 mB of biogas. */
+public final class BiogasTankItem extends Item {
     public static final long CAPACITY = 1_000;
 
-    public BiogasBucketItem(Properties properties) {
+    public BiogasTankItem(Properties properties) {
         super(properties);
     }
 
@@ -27,8 +27,8 @@ public final class BiogasBucketItem extends Item {
     public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
             @NotNull List<Component> tooltip, @NotNull TooltipFlag flag) {
         super.appendHoverText(stack, context, tooltip, flag);
-        tooltip.add(Component.translatable("tooltip.toilet_technology.biogas_bucket.amount", storedAmount(stack), CAPACITY));
-        tooltip.add(Component.translatable("tooltip.toilet_technology.biogas_bucket.sealed"));
+        tooltip.add(Component.translatable("tooltip.toilet_technology.biogas_tank.amount", storedAmount(stack), CAPACITY));
+        tooltip.add(Component.translatable("tooltip.toilet_technology.biogas_tank.sealed"));
     }
 
     @Override

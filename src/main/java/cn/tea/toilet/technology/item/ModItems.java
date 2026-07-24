@@ -111,7 +111,7 @@ public class ModItems {
     public static final DeferredHolder<Item, BlockItem> SEWAGE_PURIFIER_ITEM = ITEMS.register("sewage_purifier",
             () -> new BlockItem(ModBlocks.SEWAGE_PURIFIER.get(), new Item.Properties()));
 
-    // === 桶 ===
+    // === 罐 ===
     /** 粪便液体桶：用于存储和运输粪便液体，使用后返回空桶 */
     public static final DeferredHolder<Item, Item> FECES_LIQUID_BUCKET = ITEMS.register("feces_liquid_bucket",
             () -> new BucketItem(ModFluids.FECES_LIQUID.get(), new Item.Properties()
@@ -120,11 +120,15 @@ public class ModItems {
             ));
 
     /**
-     * A sealed 1,000 mB transport container. It deliberately is not a BucketItem, so using it can never
+     * A sealed 1,000 mB transport tank. It deliberately is not a BucketItem, so using it can never
      * place gas as a world fluid. Optional compatibility lets Mekanism automation drain it.
      */
-    public static final DeferredHolder<Item, Item> BIOGAS_BUCKET = ITEMS.register("biogas_bucket",
-            () -> new BiogasBucketItem(new Item.Properties().stacksTo(1).durability((int) BiogasBucketItem.CAPACITY)));
+    public static final DeferredHolder<Item, Item> BIOGAS_TANK = ITEMS.register("biogas_tank",
+            () -> new BiogasTankItem(new Item.Properties().stacksTo(1).durability((int) BiogasTankItem.CAPACITY)));
+
+    /** 空沼气罐：用于后续装填沼气。 */
+    public static final DeferredHolder<Item, Item> EMPTY_BIOGAS_TANK = ITEMS.register("empty_biogas_tank",
+            () -> new Item(new Item.Properties().stacksTo(1)));
 
 
 

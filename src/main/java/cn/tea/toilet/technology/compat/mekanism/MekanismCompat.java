@@ -7,7 +7,7 @@ import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
-import cn.tea.toilet.technology.item.BiogasBucketItem;
+import cn.tea.toilet.technology.item.BiogasTankItem;
 import cn.tea.toilet.technology.item.ModItems;
 import mekanism.api.Action;
 import mekanism.api.MekanismAPI;
@@ -53,8 +53,8 @@ public final class MekanismCompat {
                 (entity, side) -> entity.getPortType() == cn.tea.toilet.technology.block.biogaspond.BiogasPondPortType.GAS_OUTPUT
                         ? adapt(entity.getGasHandler(side)) : null);
         event.registerItem(CHEMICAL_ITEM,
-                (stack, ignored) -> adapt(((BiogasBucketItem) stack.getItem()).createGasHandler(stack)),
-                ModItems.BIOGAS_BUCKET.get());
+                (stack, ignored) -> adapt(((BiogasTankItem) stack.getItem()).createGasHandler(stack)),
+                ModItems.BIOGAS_TANK.get());
     }
 
     private static IChemicalHandler adapt(IGasHandler handler) {

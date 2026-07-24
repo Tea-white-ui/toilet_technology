@@ -27,9 +27,10 @@
   "gui.toilet_technology.gas": "气体：%s / %s mB",
   "gui.toilet_technology.liquid": "液体：%s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
-  "item.toilet_technology.biogas_bucket": "沼气桶",
+  "item.toilet_technology.biogas_tank": "沼气罐",
   "item.toilet_technology.biogas_residue": "沼渣",
   "item.toilet_technology.dried_feces": "干粪",
+  "item.toilet_technology.empty_biogas_tank": "空沼气罐",
   "item.toilet_technology.feces": "粪便",
   "item.toilet_technology.feces_liquid_bucket": "粪桶",
   "itemGroup.toilet_technology": "厕所技艺",
@@ -43,6 +44,6 @@
   "jei.toilet_technology.septic_tank_biogas.title": "化粪池发酵",
   "message.toilet_technology.biogas_pond_invalid": "5×5×5 沼气池结构不完整（内部必须为 3×3×3 空心）",
   "message.toilet_technology.septic_tank_invalid": "3×4×3 化粪池结构不完整",
-  "tooltip.toilet_technology.biogas_bucket.amount": "储存：%s / %s mB 沼气",
-  "tooltip.toilet_technology.biogas_bucket.sealed": "密封容器：无法在世界中放置"
+  "tooltip.toilet_technology.biogas_tank.amount": "储存：%s / %s mB 沼气",
+  "tooltip.toilet_technology.biogas_tank.sealed": "密封容器：无法在世界中放置"
 }

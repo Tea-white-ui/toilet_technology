@@ -115,9 +115,9 @@ public class ToiletTechnology {
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SEWAGE_PURIFIER.get(),
                 (blockEntity, side) -> blockEntity.getEnergyStorage(side));
         event.registerItem(GasCapabilities.ITEM,
-                (stack, ignored) -> ((cn.tea.toilet.technology.item.BiogasBucketItem) stack.getItem())
+                (stack, ignored) -> ((cn.tea.toilet.technology.item.BiogasTankItem) stack.getItem())
                         .createGasHandler(stack),
-                ModItems.BIOGAS_BUCKET.get());
+                ModItems.BIOGAS_TANK.get());
     }
 
     /**

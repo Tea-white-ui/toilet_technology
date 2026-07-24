@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generate placeholder textures for biogas and its sealed bucket container."""
+"""Generate placeholder textures for biogas and its sealed tank container."""
 
 from pathlib import Path
 import struct
@@ -40,7 +40,7 @@ def biogas_texture() -> list[list[tuple[int, int, int, int]]]:
     return pixels
 
 
-def bucket_texture() -> list[list[tuple[int, int, int, int]]]:
+def tank_texture() -> list[list[tuple[int, int, int, int]]]:
     transparent = (0, 0, 0, 0)
     pixels = [[transparent for _ in range(16)] for _ in range(16)]
     dark, steel, light = (54, 61, 60, 255), (126, 139, 132, 255), (201, 211, 195, 255)
@@ -65,7 +65,7 @@ def bucket_texture() -> list[list[tuple[int, int, int, int]]]:
 def main() -> None:
     targets = {
         TEXTURES / "block/biogas.png": biogas_texture(),
-        TEXTURES / "item/biogas_bucket.png": bucket_texture(),
+        TEXTURES / "item/biogas_tank.png": tank_texture(),
     }
     for path, pixels in targets.items():
         write_png(path, pixels)

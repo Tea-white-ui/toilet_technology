@@ -27,9 +27,10 @@
   "gui.toilet_technology.gas": "Gas: %s / %s mB",
   "gui.toilet_technology.liquid": "Liquid: %s / %s mB",
   "gui.toilet_technology.tank_amount": "%s / %s mB",
-  "item.toilet_technology.biogas_bucket": "Biogas Bucket",
+  "item.toilet_technology.biogas_tank": "Biogas Tank",
   "item.toilet_technology.biogas_residue": "Biogas Residue",
   "item.toilet_technology.dried_feces": "Dried feces",
+  "item.toilet_technology.empty_biogas_tank": "Empty Biogas Tank",
   "item.toilet_technology.feces": "Feces",
   "item.toilet_technology.feces_liquid_bucket": "Feces Liquid Bucket",
   "itemGroup.toilet_technology": "toilet technology",
@@ -42,6 +43,6 @@
   "jei.toilet_technology.septic_tank_biogas.title": "Septic Tank Fermentation",
   "message.toilet_technology.biogas_pond_invalid": "The 5×5×5 biogas pond structure is incomplete (the 3×3×3 interior must be hollow)",
   "message.toilet_technology.septic_tank_invalid": "The 3×4×3 septic tank structure is incomplete",
-  "tooltip.toilet_technology.biogas_bucket.amount": "Stores: %s / %s mB of biogas",
-  "tooltip.toilet_technology.biogas_bucket.sealed": "Sealed container: cannot be placed in the world"
+  "tooltip.toilet_technology.biogas_tank.amount": "Stores: %s / %s mB of biogas",
+  "tooltip.toilet_technology.biogas_tank.sealed": "Sealed container: cannot be placed in the world"
 }

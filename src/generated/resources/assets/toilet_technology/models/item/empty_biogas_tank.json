@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "toilet_technology:item/biogas_bucket"
+    "layer0": "toilet_technology:item/empty_biogas_tank"
   }
 }

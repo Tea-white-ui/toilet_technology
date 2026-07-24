@@ -19,7 +19,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.DRIED_FECES.get());
         basicItem(ModItems.BIOGAS_RESIDUE.get());
         basicItem(ModItems.FECES_LIQUID_BUCKET.get());
-        basicItem(ModItems.BIOGAS_BUCKET.get());
+        basicItem(ModItems.BIOGAS_TANK.get());
+        basicItem(ModItems.EMPTY_BIOGAS_TANK.get());
         // === 方块物品 ===
         getBuilder("feces_block")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/feces_block")));

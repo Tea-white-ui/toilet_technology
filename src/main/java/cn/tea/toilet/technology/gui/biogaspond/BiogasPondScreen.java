@@ -2,8 +2,8 @@ package cn.tea.toilet.technology.gui.biogaspond;
 
 import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
+import cn.tea.toilet.technology.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -66,13 +66,13 @@ public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
         drawTiledTank(graphics, sprite, tint, x, y, width, height, fillHeight);
     }
 
-    private void drawChemicalTank(GuiGraphics graphics, ChemicalStack stack, int x, int y, int width, int height, long capacity) {
+    private void drawChemicalTank(GuiGraphics graphics, GasStack stack, int x, int y, int width, int height, long capacity) {
         int fillHeight = BiogasPondChemicalDisplay.fillHeight(stack.getAmount(), capacity, height);
         if (stack.isEmpty() || fillHeight == 0) return;
 
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(stack.getChemical().getIcon());
-        drawTiledTank(graphics, sprite, stack.getChemical().getTint() | 0xFF000000, x, y, width, height, fillHeight);
+                .apply(stack.gas().texture());
+        drawTiledTank(graphics, sprite, stack.gas().tint() | 0xFF000000, x, y, width, height, fillHeight);
     }
 
     private void drawTiledTank(GuiGraphics graphics, TextureAtlasSprite sprite, int tint, int x, int y, int width, int height, int fillHeight) {
@@ -95,7 +95,7 @@ public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
 
     private void renderTankTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         if (isHovering(TANK_X, GAS_TANK_Y, TANK_WIDTH, GAS_TANK_HEIGHT, mouseX, mouseY)) {
-            ChemicalStack gas = menu.gasStack();
+            GasStack gas = menu.gasStack();
             if (!gas.isEmpty()) graphics.renderTooltip(font, List.of(
                     gas.getTextComponent(),
                     Component.translatable("gui.toilet_technology.tank_amount", gas.getAmount(), BiogasPondControllerBlockEntity.GAS_CAPACITY)

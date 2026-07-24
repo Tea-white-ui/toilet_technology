@@ -1,0 +1,22 @@
+package cn.tea.toilet.technology.gas;
+
+import cn.tea.toilet.technology.ToiletTechnology;
+import java.util.List;
+import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
+
+public final class GasRegistry {
+    public static final Gas BIOGAS = new Gas(
+            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "biogas"),
+            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "block/biogas"),
+            0x87965B);
+    private static final List<Gas> GASES = List.of(BIOGAS);
+
+    private GasRegistry() { }
+
+    public static int id(Gas gas) { return GASES.indexOf(gas); }
+    public static @Nullable Gas byId(int id) { return id >= 0 && id < GASES.size() ? GASES.get(id) : null; }
+    public static @Nullable Gas byId(@Nullable ResourceLocation id) {
+        return id == null ? null : GASES.stream().filter(gas -> gas.id().equals(id)).findFirst().orElse(null);
+    }
+}

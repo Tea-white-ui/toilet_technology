@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
-import cn.tea.toilet.technology.chemical.ModChemicals;
+import cn.tea.toilet.technology.gas.GasCapabilities;
 import cn.tea.toilet.technology.event.PlayerToiletHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
@@ -11,9 +11,7 @@ import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.world.level.block.Blocks;
-import mekanism.api.chemical.IChemicalHandler;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.capabilities.BlockCapability;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
@@ -26,6 +24,7 @@ import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
@@ -35,8 +34,6 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 public class ToiletTechnology {
 
     public static final String MOD_ID = "toilet_technology";
-    private static final BlockCapability<IChemicalHandler, Direction> MEKANISM_CHEMICAL_CAPABILITY =
-            BlockCapability.createSided(ResourceLocation.fromNamespaceAndPath("mekanism", "chemical_handler"), IChemicalHandler.class);
 
     public static final Logger LOGGER = LogUtils.getLogger();
 
@@ -51,7 +48,7 @@ public class ToiletTechnology {
         // 注册网络包处理器
         modEventBus.addListener(this::registerPayloadHandlers);
         ModFluids.register(modEventBus);
-        ModChemicals.register(modEventBus);
+
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
         ModItems.register(modEventBus);
@@ -61,11 +58,22 @@ public class ToiletTechnology {
         ModRecipeSerializers.register(modEventBus);
         ModRecipeTypes.register(modEventBus);
         ModAttachments.register(modEventBus);
+        registerOptionalMekanismCompat(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new PlayerToiletHandler());
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
+    }
+
+    private static void registerOptionalMekanismCompat(IEventBus modEventBus) {
+        if (!ModList.get().isLoaded("mekanism")) return;
+        try {
+            Class<?> compat = Class.forName("cn.tea.toilet.technology.compat.mekanism.MekanismCompat");
+            compat.getMethod("register", IEventBus.class).invoke(null, modEventBus);
+        } catch (ReflectiveOperationException exception) {
+            LOGGER.error("Failed to initialize optional Mekanism compatibility", exception);
+        }
     }
 
     private void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -93,24 +101,22 @@ public class ToiletTechnology {
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationItems() : null);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationFluids() : null);
-        event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY,
+        event.registerBlockEntity(GasCapabilities.BLOCK,
                 ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
-                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationChemicals() : null);
-        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
-                (blockEntity, side) -> blockEntity.getItemHandler(side));
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationGases() : null);
+        event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
+                (blockEntity, side) -> blockEntity.getGasHandler(side));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
                 (blockEntity, side) -> blockEntity.getFluidHandler(side));
-        event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY, ModBlockEntities.BIOGAS_POND_PORT.get(),
-                (blockEntity, side) -> blockEntity.getChemicalHandler(side));
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.BIOGAS_GENERATOR.get(),
                 (blockEntity, side) -> blockEntity.energyStorage);
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.SEWAGE_PURIFIER.get(),
                 (blockEntity, side) -> blockEntity.getFluidHandler(side));
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.SEWAGE_PURIFIER.get(),
                 (blockEntity, side) -> blockEntity.getEnergyStorage(side));
-        event.registerItem(ModItems.CHEMICAL_ITEM_CAPABILITY,
+        event.registerItem(GasCapabilities.ITEM,
                 (stack, ignored) -> ((cn.tea.toilet.technology.item.BiogasBucketItem) stack.getItem())
-                        .createChemicalHandler(stack),
+                        .createGasHandler(stack),
                 ModItems.BIOGAS_BUCKET.get());
     }
 

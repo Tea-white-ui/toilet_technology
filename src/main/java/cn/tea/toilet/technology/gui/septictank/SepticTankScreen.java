@@ -1,8 +1,8 @@
 package cn.tea.toilet.technology.gui.septictank;
 
 import cn.tea.toilet.technology.ToiletTechnology;
+import cn.tea.toilet.technology.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
-import mekanism.api.chemical.ChemicalStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -78,12 +78,12 @@ public class SepticTankScreen extends AbstractContainerScreen<SepticTankMenu> {
         RenderSystem.disableBlend();
     }
 
-    private void drawChemicalTank(GuiGraphics graphics, ChemicalStack stack, int x, int y, int width, int height, long capacity) {
+    private void drawChemicalTank(GuiGraphics graphics, GasStack stack, int x, int y, int width, int height, long capacity) {
         int fillHeight = SepticTankChemicalDisplay.fillHeight(stack.getAmount(), capacity, height);
         if (stack.isEmpty() || fillHeight == 0) return;
         TextureAtlasSprite sprite = Minecraft.getInstance().getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-                .apply(stack.getChemical().getIcon());
-        int tint = stack.getChemical().getTint();
+                .apply(stack.gas().texture());
+        int tint = stack.gas().tint();
         float red = (tint >>> 16 & 0xFF) / 255.0F;
         float green = (tint >>> 8 & 0xFF) / 255.0F;
         float blue = (tint & 0xFF) / 255.0F;
@@ -102,7 +102,7 @@ public class SepticTankScreen extends AbstractContainerScreen<SepticTankMenu> {
 
     private void renderTankTooltip(GuiGraphics graphics, int mouseX, int mouseY) {
         if (isHovering(TANK_X, GAS_TANK_Y, TANK_WIDTH, TANK_HEIGHT, mouseX, mouseY)) {
-            ChemicalStack gas = menu.gasStack();
+            GasStack gas = menu.gasStack();
             if (!gas.isEmpty()) graphics.renderTooltip(font, List.of(
                     gas.getTextComponent(),
                     Component.translatable("gui.toilet_technology.tank_amount", gas.getAmount(), menu.gasCapacity())

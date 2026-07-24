@@ -1,14 +1,13 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.chemical.ModChemicals;
+import cn.tea.toilet.technology.gas.BasicGasTank;
+import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.gas.GasRegistry;
+import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.gas.IGasHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
-import mekanism.api.Action;
-import mekanism.api.AutomationType;
-import mekanism.api.chemical.BasicChemicalTank;
-import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.IChemicalHandler;
-import mekanism.api.chemical.IChemicalTank;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -40,11 +39,11 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     public final FluidTank liquidTank = new FluidTank(LIQUID_CAPACITY, BiogasPondControllerBlockEntity::isFecesLiquid) {
         @Override protected void onContentsChanged() { setChanged(); }
     };
-    public final IChemicalTank gasTank = BasicChemicalTank.createModern(
-            GAS_CAPACITY, stack -> stack.is(ModChemicals.BIOGAS.get()), this::setChanged);
+    public final BasicGasTank gasTank = new BasicGasTank(
+            GAS_CAPACITY, stack -> stack.is(GasRegistry.BIOGAS), this::setChanged);
     private final IItemHandler automationItems = new GatedItemHandler();
     private final IFluidHandler automationFluids = new GatedFluidHandler();
-    private final IChemicalHandler automationChemicals = new GatedChemicalHandler();
+    private final IGasHandler automationGases = new GatedGasHandler();
 
     public BiogasPondControllerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BIOGAS_POND_CONTROLLER.get(), pos, state);
@@ -80,7 +79,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     public IItemHandler getMenuItems() { return automationItems; }
     public IItemHandler getAutomationItems() { return automationItems; }
     public IFluidHandler getAutomationFluids() { return automationFluids; }
-    public IChemicalHandler getAutomationChemicals() { return automationChemicals; }
+    public IGasHandler getAutomationGases() { return automationGases; }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BiogasPondControllerBlockEntity entity) {
         if (level.isClientSide()) return;
@@ -109,8 +108,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
                 true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity());
         if (batch.gasProduced() == 0) return;
 
-        ChemicalStack remainder = gasTank.insert(new ChemicalStack(ModChemicals.BIOGAS, batch.gasProduced()),
-                Action.EXECUTE, AutomationType.INTERNAL);
+        GasStack remainder = gasTank.insert(new GasStack(GasRegistry.BIOGAS, batch.gasProduced()), GasAction.EXECUTE);
         if (!remainder.isEmpty()) return;
         if (batch.liquidConsumed() > 0) liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
         setChanged();
@@ -120,7 +118,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.put("Items", items.serializeNBT(registries));
         tag.put("LiquidTank", liquidTank.writeToNBT(registries, new CompoundTag()));
-        tag.put("GasTank", gasTank.serializeNBT(registries));
+        tag.put("GasTank", gasTank.serializeNBT());
         tag.putInt("BiogasProductionTicks", biogasProductionTicks);
     }
 
@@ -128,7 +126,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         super.loadAdditional(tag, registries);
         if (tag.contains("Items")) items.deserializeNBT(registries, tag.getCompound("Items"));
         if (tag.contains("LiquidTank")) liquidTank.readFromNBT(registries, tag.getCompound("LiquidTank"));
-        if (tag.contains("GasTank")) gasTank.deserializeNBT(registries, tag.getCompound("GasTank"));
+        if (tag.contains("GasTank")) gasTank.deserializeNBT(tag.getCompound("GasTank"));
         biogasProductionTicks = Math.max(0, Math.min(
                 tag.getInt("BiogasProductionTicks"), BiogasPondBiogasProduction.INTERVAL_TICKS - 1));
         structureValid = false;
@@ -163,13 +161,13 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(int amount, FluidAction action) { return structureValid ? liquidTank.drain(amount, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
     }
 
-    private class GatedChemicalHandler implements IChemicalHandler {
-        @Override public int getChemicalTanks() { return 1; }
-        @Override public ChemicalStack getChemicalInTank(int tank) { return tank == 0 ? gasTank.getStack() : ChemicalStack.EMPTY; }
-        @Override public void setChemicalInTank(int tank, ChemicalStack stack) { }
-        @Override public long getChemicalTankCapacity(int tank) { return tank == 0 ? GAS_CAPACITY : 0; }
-        @Override public boolean isValid(int tank, ChemicalStack stack) { return tank == 0 && structureValid && gasTank.isValid(stack); }
-        @Override public ChemicalStack insertChemical(int tank, ChemicalStack stack, Action action) { return tank == 0 && structureValid ? gasTank.insert(stack, action, AutomationType.EXTERNAL) : stack; }
-        @Override public ChemicalStack extractChemical(int tank, long amount, Action action) { return tank == 0 && structureValid ? gasTank.extract(amount, action, AutomationType.EXTERNAL) : ChemicalStack.EMPTY; }
+    private class GatedGasHandler implements IGasHandler {
+        @Override public int getGasTanks() { return 1; }
+        @Override public GasStack getGasInTank(int tank) { return tank == 0 ? gasTank.getStack() : GasStack.EMPTY; }
+        @Override public void setGasInTank(int tank, GasStack stack) { }
+        @Override public long getGasTankCapacity(int tank) { return tank == 0 ? GAS_CAPACITY : 0; }
+        @Override public boolean isValid(int tank, GasStack stack) { return tank == 0 && structureValid && gasTank.isValid(stack); }
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return tank == 0 && structureValid ? gasTank.insert(stack, action) : stack; }
+        @Override public GasStack extractGas(int tank, long amount, GasAction action) { return tank == 0 && structureValid ? gasTank.extract(amount, action) : GasStack.EMPTY; }
     }
 }

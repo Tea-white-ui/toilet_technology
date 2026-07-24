@@ -3,9 +3,9 @@ package cn.tea.toilet.technology.gui.septictank;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
-import mekanism.api.MekanismAPI;
-import mekanism.api.chemical.Chemical;
-import mekanism.api.chemical.ChemicalStack;
+import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.gas.GasRegistry;
+import cn.tea.toilet.technology.gas.GasStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -78,15 +78,15 @@ public class SepticTankMenu extends AbstractContainerMenu {
     public int gasCapacity() { return SepticTankControllerBlockEntity.TANK_CAPACITY; }
     public boolean structureValid() { return data.get(DATA_STRUCTURE_VALID) != 0; }
     public FluidStack liquidStack() { return displayStack(DATA_LIQUID_TYPE, liquidAmount()); }
-    public ChemicalStack gasStack() { return displayChemicalStack(DATA_GAS_TYPE, gasAmount()); }
+    public GasStack gasStack() { return displayGasStack(DATA_GAS_TYPE, gasAmount()); }
 
     private static int fluidWireValue(FluidStack stack) {
         return stack.isEmpty() ? 0 : SepticTankFluidDisplay.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
     }
 
-    private static int chemicalWireValue(ChemicalStack stack) {
+    private static int chemicalWireValue(GasStack stack) {
         return stack.isEmpty() ? 0 : SepticTankChemicalDisplay.encodeRegistryId(
-                MekanismAPI.CHEMICAL_REGISTRY.getId(stack.getChemical()));
+                GasRegistry.id(stack.gas()));
     }
 
     private FluidStack displayStack(int dataIndex, int amount) {
@@ -96,12 +96,11 @@ public class SepticTankMenu extends AbstractContainerMenu {
         return new FluidStack(fluid, amount);
     }
 
-    private ChemicalStack displayChemicalStack(int dataIndex, long amount) {
+    private GasStack displayGasStack(int dataIndex, long amount) {
         int registryId = SepticTankChemicalDisplay.decodeRegistryId(data.get(dataIndex) & 0xFFFF);
-        if (registryId < 0 || amount <= 0) return ChemicalStack.EMPTY;
-        Chemical chemical = MekanismAPI.CHEMICAL_REGISTRY.byId(registryId);
-        return chemical == null ? ChemicalStack.EMPTY
-                : new ChemicalStack(MekanismAPI.CHEMICAL_REGISTRY.wrapAsHolder(chemical), amount);
+        if (registryId < 0 || amount <= 0) return GasStack.EMPTY;
+        Gas gas = GasRegistry.byId(registryId);
+        return gas == null ? GasStack.EMPTY : new GasStack(gas, amount);
     }
 
     @Override public boolean stillValid(@NotNull Player player) {

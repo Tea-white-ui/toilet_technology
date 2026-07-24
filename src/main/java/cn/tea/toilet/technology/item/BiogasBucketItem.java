@@ -1,10 +1,10 @@
 package cn.tea.toilet.technology.item;
 
-import cn.tea.toilet.technology.chemical.ModChemicals;
+import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.gas.GasRegistry;
+import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.gas.IGasHandler;
 import java.util.List;
-import mekanism.api.Action;
-import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.IChemicalHandler;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -19,7 +19,7 @@ public final class BiogasBucketItem extends Item {
         super(properties);
     }
 
-    public IChemicalHandler createChemicalHandler(ItemStack container) {
+    public IGasHandler createGasHandler(ItemStack container) {
         return new Handler(container);
     }
 
@@ -40,41 +40,41 @@ public final class BiogasBucketItem extends Item {
         return Math.max(0, CAPACITY - container.getDamageValue());
     }
 
-    private static final class Handler implements IChemicalHandler {
+    private static final class Handler implements IGasHandler {
         private final ItemStack container;
 
         private Handler(ItemStack container) {
             this.container = container;
         }
 
-        private ChemicalStack contents() {
+        private GasStack contents() {
             long amount = storedAmount(container);
             return container.isEmpty() || amount == 0
-                    ? ChemicalStack.EMPTY
-                    : new ChemicalStack(ModChemicals.BIOGAS, amount);
+                    ? GasStack.EMPTY
+                    : new GasStack(GasRegistry.BIOGAS, amount);
         }
 
-        @Override public int getChemicalTanks() { return 1; }
-        @Override public ChemicalStack getChemicalInTank(int tank) {
-            return tank == 0 ? contents() : ChemicalStack.EMPTY;
+        @Override public int getGasTanks() { return 1; }
+        @Override public GasStack getGasInTank(int tank) {
+            return tank == 0 ? contents() : GasStack.EMPTY;
         }
-        @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
+        @Override public void setGasInTank(int tank, GasStack stack) {
             // Sealed disposable container: arbitrary replacement and refilling are intentionally unsupported.
         }
-        @Override public long getChemicalTankCapacity(int tank) { return tank == 0 ? CAPACITY : 0; }
-        @Override public boolean isValid(int tank, ChemicalStack stack) {
-            return tank == 0 && stack.is(ModChemicals.BIOGAS.get());
+        @Override public long getGasTankCapacity(int tank) { return tank == 0 ? CAPACITY : 0; }
+        @Override public boolean isValid(int tank, GasStack stack) {
+            return tank == 0 && stack.is(GasRegistry.BIOGAS);
         }
-        @Override public ChemicalStack insertChemical(int tank, ChemicalStack stack, Action action) {
-            if (tank != 0 || stack.isEmpty() || !stack.is(ModChemicals.BIOGAS.get())) return stack;
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
+            if (tank != 0 || stack.isEmpty() || !stack.is(GasRegistry.BIOGAS)) return stack;
             long accepted = Math.min(CAPACITY - storedAmount(container), stack.getAmount());
             if (accepted <= 0) return stack;
             if (action.execute()) container.setDamageValue((int) (CAPACITY - storedAmount(container) - accepted));
             return stack.copyWithAmount(stack.getAmount() - accepted);
         }
-        @Override public ChemicalStack extractChemical(int tank, long amount, Action action) {
-            ChemicalStack stored = contents();
-            if (tank != 0 || amount <= 0 || stored.isEmpty()) return ChemicalStack.EMPTY;
+        @Override public GasStack extractGas(int tank, long amount, GasAction action) {
+            GasStack stored = contents();
+            if (tank != 0 || amount <= 0 || stored.isEmpty()) return GasStack.EMPTY;
             long extracted = Math.min(amount, stored.getAmount());
             if (action.execute()) container.setDamageValue((int) (CAPACITY - storedAmount(container) + extracted));
             return stored.copyWithAmount(extracted);

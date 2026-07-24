@@ -1,10 +1,9 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import mekanism.api.Action;
-import mekanism.api.AutomationType;
-import mekanism.api.chemical.ChemicalStack;
-import mekanism.api.chemical.IChemicalHandler;
+import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.gas.IGasHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -24,7 +23,7 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
     @Nullable private BlockPos controllerPos;
     private final IItemHandler itemHandler = new PortItemHandler();
     private final IFluidHandler fluidHandler = new PortFluidHandler();
-    private final IChemicalHandler chemicalHandler = new PortChemicalHandler();
+    private final IGasHandler gasHandler = new PortGasHandler();
 
     public BiogasPondPortBlockEntity(BlockPos pos, BlockState state, BiogasPondPortType portType) {
         super(ModBlockEntities.BIOGAS_POND_PORT.get(), pos, state);
@@ -76,8 +75,8 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
     }
 
     @Nullable
-    public IChemicalHandler getChemicalHandler(@Nullable Direction side) {
-        return portType == BiogasPondPortType.GAS_OUTPUT && allowsCapabilityFrom(side) ? chemicalHandler : null;
+    public IGasHandler getGasHandler(@Nullable Direction side) {
+        return portType == BiogasPondPortType.GAS_OUTPUT && allowsCapabilityFrom(side) ? gasHandler : null;
     }
 
     @Override
@@ -135,20 +134,19 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
         @Override public @NotNull FluidStack drain(int amount, FluidAction action) { return FluidStack.EMPTY; }
     }
 
-    private class PortChemicalHandler implements IChemicalHandler {
-        @Override public int getChemicalTanks() { return 1; }
-        @Override public ChemicalStack getChemicalInTank(int tank) {
+    private class PortGasHandler implements IGasHandler {
+        @Override public int getGasTanks() { return 1; }
+        @Override public GasStack getGasInTank(int tank) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? ChemicalStack.EMPTY : controller.gasTank.getStack();
+            return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.getStack();
         }
-        @Override public void setChemicalInTank(int tank, ChemicalStack stack) { }
-        @Override public long getChemicalTankCapacity(int tank) { return tank == 0 ? BiogasPondControllerBlockEntity.GAS_CAPACITY : 0; }
-        @Override public boolean isValid(int tank, ChemicalStack stack) { return false; }
-        @Override public ChemicalStack insertChemical(int tank, ChemicalStack stack, Action action) { return stack; }
-        @Override public ChemicalStack extractChemical(int tank, long amount, Action action) {
+        @Override public void setGasInTank(int tank, GasStack stack) { }
+        @Override public long getGasTankCapacity(int tank) { return tank == 0 ? BiogasPondControllerBlockEntity.GAS_CAPACITY : 0; }
+        @Override public boolean isValid(int tank, GasStack stack) { return false; }
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return stack; }
+        @Override public GasStack extractGas(int tank, long amount, GasAction action) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? ChemicalStack.EMPTY
-                    : controller.gasTank.extract(amount, action, AutomationType.EXTERNAL);
+            return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.extract(amount, action);
         }
     }
 }

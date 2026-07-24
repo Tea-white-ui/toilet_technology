@@ -8,6 +8,7 @@ import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
+import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
@@ -64,6 +65,7 @@ public class ToiletTechnologyClient {
     static void onRegisterMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModMenuTypes.DRYING_BOX_MENU.get(), DryingBoxScreen::new);
         event.register(ModMenuTypes.SEPTIC_TANK_MENU.get(), SepticTankScreen::new);
+        event.register(ModMenuTypes.BIOGAS_POND_MENU.get(), BiogasPondScreen::new);
     }
 
     @SubscribeEvent

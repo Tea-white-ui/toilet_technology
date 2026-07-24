@@ -1,5 +1,7 @@
 {
   "block.toilet_technology.biogas_generator": "沼气发生机",
+  "block.toilet_technology.biogas_pond_controller": "沼气池控制器",
+  "block.toilet_technology.biogas_pond_wall": "沼气池壁",
   "block.toilet_technology.diamond_toilet": "钻石厕所",
   "block.toilet_technology.drying_box": "干燥箱",
   "block.toilet_technology.drying_rack": "干燥架",
@@ -25,6 +27,7 @@
   "item.toilet_technology.feces_liquid_bucket": "粪桶",
   "itemGroup.toilet_technology": "厕所技艺",
   "jei.toilet_technology.drying.title": "物品干燥",
+  "message.toilet_technology.biogas_pond_invalid": "5×5×5 沼气池结构不完整（内部必须为 3×3×3 空心）",
   "message.toilet_technology.septic_tank_invalid": "3×4×3 化粪池结构不完整",
   "tooltip.toilet_technology.biogas_bucket.amount": "储存：%s / %s mB 沼气",
   "tooltip.toilet_technology.biogas_bucket.sealed": "密封容器：无法在世界中放置"

@@ -47,6 +47,10 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/septic_tank_controller")));
         getBuilder("septic_tank_wall")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/septic_tank_wall")));
+        getBuilder("biogas_pond_controller")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_controller")));
+        getBuilder("biogas_pond_wall")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_wall")));
 
     }
 }

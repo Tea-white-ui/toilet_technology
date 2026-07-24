@@ -96,6 +96,12 @@ public class ToiletTechnology {
         event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY,
                 ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
                 (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationChemicals() : null);
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.BIOGAS_POND_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationItems() : null);
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.BIOGAS_POND_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationFluids() : null);
+        event.registerBlockEntity(MEKANISM_CHEMICAL_CAPABILITY, ModBlockEntities.BIOGAS_POND_CONTROLLER.get(),
+                (blockEntity, side) -> blockEntity.isStructureValid() ? blockEntity.getAutomationChemicals() : null);
         event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.BIOGAS_GENERATOR.get(),
                 (blockEntity, side) -> blockEntity.energyStorage);
         event.registerItem(ModItems.CHEMICAL_ITEM_CAPABILITY,

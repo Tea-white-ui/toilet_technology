@@ -6,6 +6,8 @@ import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlock;
 import cn.tea.toilet.technology.block.septictank.SepticTankWallBlock;
+import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlock;
+import cn.tea.toilet.technology.block.biogaspond.BiogasPondWallBlock;
 import cn.tea.toilet.technology.block.toilet.*;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -144,6 +146,10 @@ public class ModBlocks {
             () -> new SepticTankControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> SEPTIC_TANK_WALL = BLOCKS.register("septic_tank_wall",
             () -> new SepticTankWallBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> BIOGAS_POND_CONTROLLER = BLOCKS.register("biogas_pond_controller",
+            () -> new BiogasPondControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> BIOGAS_POND_WALL = BLOCKS.register("biogas_pond_wall",
+            () -> new BiogasPondWallBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> BIOGAS_GENERATOR = BLOCKS.register("biogas_generator",
             () -> new BiogasGeneratorBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
 

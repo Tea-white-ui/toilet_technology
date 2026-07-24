@@ -47,6 +47,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DRYING_BOX_ITEM.get());
                         output.accept(ModItems.SEPTIC_TANK_CONTROLLER_ITEM.get());
                         output.accept(ModItems.SEPTIC_TANK_WALL_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_CONTROLLER_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_WALL_ITEM.get());
                         output.accept(ModItems.BIOGAS_GENERATOR_ITEM.get());
 
                     })

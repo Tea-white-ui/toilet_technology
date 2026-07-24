@@ -15,6 +15,12 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         // === 简单方块 ===
         simpleBlock(ModBlocks.FECES_BLOCK.get(), models().cubeAll("feces_block", modLoc("block/feces_block")));
+        simpleBlock(ModBlocks.BIOGAS_POND_WALL.get(), models().cubeAll("biogas_pond_wall", modLoc("block/biogas_pond_wall")));
+        simpleBlock(ModBlocks.BIOGAS_POND_CONTROLLER.get(), models().cube(
+                "biogas_pond_controller",
+                modLoc("block/biogas_pond_controller"), modLoc("block/biogas_pond_controller_top"),
+                modLoc("block/biogas_pond_controller"), modLoc("block/biogas_pond_controller"),
+                modLoc("block/biogas_pond_controller"), modLoc("block/biogas_pond_controller")));
         // === 自定义模型 ===
         horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
         horizontalBlock(ModBlocks.OAK_TOILET.get(), models().getExistingFile(modLoc("block/oak_toilet")));

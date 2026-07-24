@@ -5,6 +5,7 @@ import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
+import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
@@ -71,6 +72,11 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SepticTankControllerBlockEntity>> SEPTIC_TANK_CONTROLLER =
             BLOCK_ENTITIES.register("septic_tank_controller", () -> BlockEntityType.Builder.of(
                     SepticTankControllerBlockEntity::new, ModBlocks.SEPTIC_TANK_CONTROLLER.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiogasPondControllerBlockEntity>> BIOGAS_POND_CONTROLLER =
+            BLOCK_ENTITIES.register("biogas_pond_controller", () -> BlockEntityType.Builder.of(
+                    BiogasPondControllerBlockEntity::new, ModBlocks.BIOGAS_POND_CONTROLLER.get()
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiogasGeneratorBlockEntity>> BIOGAS_GENERATOR =

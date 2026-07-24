@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "toilet_technology:biogas_pond_wall"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IWI",
+    " H "
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:biogas_pond_item_input_port"
+  }
+}

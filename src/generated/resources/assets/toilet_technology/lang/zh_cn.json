@@ -1,6 +1,10 @@
 {
   "block.toilet_technology.biogas_generator": "沼气发生机",
   "block.toilet_technology.biogas_pond_controller": "沼气池控制器",
+  "block.toilet_technology.biogas_pond_fluid_input_port": "沼气池液体输入端口",
+  "block.toilet_technology.biogas_pond_gas_valve": "沼气池气阀",
+  "block.toilet_technology.biogas_pond_item_input_port": "沼气池物品输入端口",
+  "block.toilet_technology.biogas_pond_item_output_port": "沼气池物品输出端口",
   "block.toilet_technology.biogas_pond_wall": "沼气池壁",
   "block.toilet_technology.diamond_toilet": "钻石厕所",
   "block.toilet_technology.drying_box": "干燥箱",

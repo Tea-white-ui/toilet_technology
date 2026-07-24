@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "item": "minecraft:chest"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "toilet_technology:biogas_pond_wall"
+    }
+  },
+  "pattern": [
+    " C ",
+    "IWI",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:biogas_pond_item_output_port"
+  }
+}

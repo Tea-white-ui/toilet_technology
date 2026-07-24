@@ -115,6 +115,45 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModBlocks.FECES_BLOCK.get()), has(ModBlocks.FECES_BLOCK.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_GAS_VALVE.get())
+                .pattern(" I ")
+                .pattern("IWI")
+                .pattern(" I ")
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get())
+                .pattern(" I ")
+                .pattern("IWI")
+                .pattern(" H ")
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .define('H', Items.HOPPER)
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get())
+                .pattern(" I ")
+                .pattern("IWI")
+                .pattern(" B ")
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .define('B', Items.BUCKET)
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get())
+                .pattern(" C ")
+                .pattern("IWI")
+                .pattern(" I ")
+                .define('C', Items.CHEST)
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
         // 添加干燥配方
         ModDryingRecipeProvider.addRecipes(output);
     }

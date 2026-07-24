@@ -49,6 +49,10 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SEPTIC_TANK_WALL_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_CONTROLLER_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_WALL_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_GAS_VALVE_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_ITEM_INPUT_PORT_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_FLUID_INPUT_PORT_ITEM.get());
+                        output.accept(ModItems.BIOGAS_POND_ITEM_OUTPUT_PORT_ITEM.get());
                         output.accept(ModItems.BIOGAS_GENERATOR_ITEM.get());
 
                     })

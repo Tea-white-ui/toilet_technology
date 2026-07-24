@@ -102,6 +102,14 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.BIOGAS_POND_CONTROLLER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_WALL_ITEM = ITEMS.register("biogas_pond_wall",
             () -> new BlockItem(ModBlocks.BIOGAS_POND_WALL.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_GAS_VALVE_ITEM = ITEMS.register("biogas_pond_gas_valve",
+            () -> new BlockItem(ModBlocks.BIOGAS_POND_GAS_VALVE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_ITEM_INPUT_PORT_ITEM = ITEMS.register("biogas_pond_item_input_port",
+            () -> new BlockItem(ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_FLUID_INPUT_PORT_ITEM = ITEMS.register("biogas_pond_fluid_input_port",
+            () -> new BlockItem(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_ITEM_OUTPUT_PORT_ITEM = ITEMS.register("biogas_pond_item_output_port",
+            () -> new BlockItem(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> BIOGAS_GENERATOR_ITEM = ITEMS.register("biogas_generator",
             () -> new BlockItem(ModBlocks.BIOGAS_GENERATOR.get(), new Item.Properties()));
 

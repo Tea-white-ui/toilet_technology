@@ -36,6 +36,10 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "化粪池壁");
         add(ModBlocks.BIOGAS_POND_CONTROLLER.get(), "沼气池控制器");
         add(ModBlocks.BIOGAS_POND_WALL.get(), "沼气池壁");
+        add(ModBlocks.BIOGAS_POND_GAS_VALVE.get(), "沼气池气阀");
+        add(ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get(), "沼气池物品输入端口");
+        add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), "沼气池液体输入端口");
+        add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "沼气池物品输出端口");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "沼气发生机");
         add("message.toilet_technology.septic_tank_invalid", "3×4×3 化粪池结构不完整");
         add("message.toilet_technology.biogas_pond_invalid", "5×5×5 沼气池结构不完整（内部必须为 3×3×3 空心）");

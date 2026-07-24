@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_biogas_pond_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:biogas_pond_wall"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "toilet_technology:biogas_pond_gas_valve"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_biogas_pond_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "toilet_technology:biogas_pond_gas_valve"
+    ]
+  }
+}

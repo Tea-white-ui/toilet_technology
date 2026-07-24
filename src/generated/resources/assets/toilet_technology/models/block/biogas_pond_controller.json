@@ -4,6 +4,7 @@
     "down": "toilet_technology:block/biogas_pond_controller",
     "east": "toilet_technology:block/biogas_pond_controller",
     "north": "toilet_technology:block/biogas_pond_controller",
+    "particle": "toilet_technology:block/biogas_pond_controller",
     "south": "toilet_technology:block/biogas_pond_controller",
     "up": "toilet_technology:block/biogas_pond_controller_top",
     "west": "toilet_technology:block/biogas_pond_controller"

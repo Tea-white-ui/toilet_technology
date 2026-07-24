@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "down": "toilet_technology:block/biogas_pond_wall",
+    "east": "toilet_technology:block/biogas_pond_wall",
+    "north": "toilet_technology:block/biogas_pond_wall",
+    "particle": "toilet_technology:block/biogas_pond_wall",
+    "south": "toilet_technology:block/biogas_pond_wall",
+    "up": "toilet_technology:block/biogas_pond_gas_valve_front",
+    "west": "toilet_technology:block/biogas_pond_wall"
+  }
+}

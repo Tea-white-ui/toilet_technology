@@ -56,8 +56,19 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
+        synchronizePorts(valid);
         validationCooldown = 20;
         return valid;
+    }
+
+    private void synchronizePorts(boolean valid) {
+        for (BiogasPondPattern.Cell cell : BiogasPondPattern.layout().walls()) {
+            BlockPos portPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
+            if (level.getBlockEntity(portPos) instanceof BiogasPondPortBlockEntity port) {
+                if (valid) port.bindController(worldPosition);
+                else port.unbindController();
+            }
+        }
     }
 
     public boolean isStructureValid() { return structureValid; }

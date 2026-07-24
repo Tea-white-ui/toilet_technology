@@ -20,7 +20,7 @@ import java.util.Optional;
 
 public class SepticTankScreen extends AbstractContainerScreen<SepticTankMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "textures/gui/container/septic_tank.png");
-    private static final float CAPACITY_TEXT_SCALE = 0.80F;
+    private static final float CAPACITY_TEXT_SCALE = 0.65F;
     private static final int TANK_X = 8;
     private static final int TANK_WIDTH = 53;
     private static final int TANK_HEIGHT = 34;

@@ -51,6 +51,14 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_controller")));
         getBuilder("biogas_pond_wall")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_wall")));
+        getBuilder("biogas_pond_gas_valve")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_gas_valve")));
+        getBuilder("biogas_pond_item_input_port")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_item_input_port")));
+        getBuilder("biogas_pond_fluid_input_port")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_fluid_input_port")));
+        getBuilder("biogas_pond_item_output_port")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_pond_item_output_port")));
 
     }
 }

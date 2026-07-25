@@ -1,0 +1,8 @@
+{
+  "values": {
+    "toilet_technology:biogas": {
+      "burn_time": 20,
+      "energy": 200
+    }
+  }
+}

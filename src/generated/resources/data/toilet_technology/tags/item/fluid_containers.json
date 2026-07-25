@@ -1,5 +1,6 @@
 {
   "values": [
-    "toilet_technology:feces_liquid_bucket"
+    "toilet_technology:feces_liquid_bucket",
+    "toilet_technology:wastewater_bucket"
   ]
 }

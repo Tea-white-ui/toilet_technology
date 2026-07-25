@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
 import cn.tea.toilet.technology.client.GasTankItemRenderer;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.fluid.WastewaterFluidType;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
@@ -97,5 +98,31 @@ public class ToiletTechnologyClient {
                 RenderSystem.setShaderFogEnd(6f);
             }
         }, ModFluids.FECES_LIQUID_TYPE.get());
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            private static final Vector3f FOG_COLOR = new Vector3f(0.18f, 0.31f, 0.28f);
+
+            @Override
+            public @NotNull ResourceLocation getStillTexture() {
+                return WastewaterFluidType.STILL_TEXTURE;
+            }
+
+            @Override
+            public @NotNull ResourceLocation getFlowingTexture() {
+                return WastewaterFluidType.FLOWING_TEXTURE;
+            }
+
+            @Override
+            public @NotNull Vector3f modifyFogColor(@NotNull Camera camera, float partialTick, @NotNull ClientLevel level,
+                                                    int renderDistance, float darkenWorldAmount, @NotNull Vector3f fluidFogColor) {
+                return FOG_COLOR;
+            }
+
+            @Override
+            public void modifyFogRender(@NotNull Camera camera, FogRenderer.@NotNull FogMode mode, float renderDistance,
+                                        float partialTick, float nearDistance, float farDistance, @NotNull FogShape shape) {
+                RenderSystem.setShaderFogStart(1f);
+                RenderSystem.setShaderFogEnd(8f);
+            }
+        }, ModFluids.WASTEWATER_TYPE.get());
     }
 }

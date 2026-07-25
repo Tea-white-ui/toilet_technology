@@ -31,11 +31,14 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.DIAMOND_TOILET_ITEM.get(), "钻石厕所");
         add(ModItems.NETHERITE_TOILET_ITEM.get(), "下届合金厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
+        add(ModItems.WASTEWATER_BUCKET.get(), "废水桶");
         add(ModItems.GAS_TANK.get(), "气罐");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
+        add(ModBlocks.WASTEWATER_BLOCK.get(), "废水");
         add(ModBlocks.DRYING_RACK.get(), "干燥架");
         add(ModBlocks.DRYING_BOX.get(), "干燥箱");
         add("fluid_type.toilet_technology.feces_liquid","粪液");
+        add("fluid_type.toilet_technology.wastewater", "废水");
         add("jei.toilet_technology.drying.title", "物品干燥");
         add("jei.toilet_technology.biogas.amount", "%s mB");
         add("jei.toilet_technology.septic_tank_biogas.title", "化粪池发酵");

@@ -207,6 +207,17 @@ public class ModBlocks {
                     .sound(SoundType.EMPTY)
             ));
 
+    /** 废水方块：不可碰撞、不可破坏的流体方块。 */
+    public static final DeferredHolder<Block, LiquidBlock> WASTEWATER_BLOCK = BLOCKS.register("wastewater_block",
+            () -> new LiquidBlock(ModFluids.WASTEWATER.get(), Block.Properties.of()
+                    .noCollission()
+                    .strength(100.0f)
+                    .noLootTable()
+                    .liquid()
+                    .replaceable()
+                    .sound(SoundType.EMPTY)
+            ));
+
     /**
      * 注册所有方块到事件总线
      * 

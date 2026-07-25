@@ -32,11 +32,14 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.DIAMOND_TOILET_ITEM.get(),"Diamond Toilet");
         add(ModItems.NETHERITE_TOILET_ITEM.get(),"Netherite Toilet");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
+        add(ModItems.WASTEWATER_BUCKET.get(), "Wastewater Bucket");
         add(ModItems.GAS_TANK.get(), "Gas Tank");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
+        add(ModBlocks.WASTEWATER_BLOCK.get(), "Wastewater");
         add(ModBlocks.DRYING_RACK.get(), "Dryer_Rack");
         add(ModBlocks.DRYING_BOX.get(), "Drying Box");
         add("fluid_type.toilet_technology.feces_liquid","Feces Liquid");
+        add("fluid_type.toilet_technology.wastewater", "Wastewater");
         add("jei.toilet_technology.biogas.amount", "%s mB");
         add("jei.toilet_technology.septic_tank_biogas.title", "Septic Tank Fermentation");
         add("jei.toilet_technology.biogas_pond_biogas.title", "Biogas Pond Fermentation");

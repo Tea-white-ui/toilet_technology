@@ -50,6 +50,28 @@ public class ModFluids {
             .block(ModBlocks.FECES_LIQUID_BLOCK)
             .bucket(ModItems.FECES_LIQUID_BUCKET);
 
+    /** 废水流体类型：密度与粘度均接近水，可游泳。 */
+    public static final DeferredHolder<FluidType, FluidType> WASTEWATER_TYPE = FLUID_TYPES.register("wastewater",
+            () -> new WastewaterFluidType(FluidType.Properties.create()
+                    .density(1000)
+                    .viscosity(1000)
+                    .canSwim(true)
+            ));
+
+    /** 废水源方块：静止状态的流体。 */
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Source> WASTEWATER = FLUIDS.register("wastewater",
+            () -> new BaseFlowingFluid.Source(ModFluids.WASTEWATER_PROPERTIES));
+
+    /** 废水流动方块：流动状态的流体。 */
+    public static final DeferredHolder<Fluid, BaseFlowingFluid.Flowing> WASTEWATER_FLOWING = FLUIDS.register("wastewater_flowing",
+            () -> new BaseFlowingFluid.Flowing(ModFluids.WASTEWATER_PROPERTIES));
+
+    /** 废水流体属性配置：关联流体方块和废水桶。 */
+    public static final BaseFlowingFluid.Properties WASTEWATER_PROPERTIES = new BaseFlowingFluid.Properties(
+            WASTEWATER_TYPE, WASTEWATER, WASTEWATER_FLOWING)
+            .block(ModBlocks.WASTEWATER_BLOCK)
+            .bucket(ModItems.WASTEWATER_BUCKET);
+
     /**
      * 注册所有流体类型和流体实例到事件总线
      * 

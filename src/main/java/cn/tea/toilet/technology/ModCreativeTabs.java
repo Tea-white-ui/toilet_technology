@@ -47,6 +47,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DIAMOND_TOILET_ITEM.get());
                         output.accept(ModItems.NETHERITE_TOILET_ITEM.get());
                         output.accept(ModItems.FECES_LIQUID_BUCKET.get());
+                        output.accept(ModItems.WASTEWATER_BUCKET.get());
                         output.accept(ModItems.GAS_TANK.get());
                         output.accept(GasTankItem.createFilledStack(new GasStack(GasRegistry.BIOGAS, GasTankItem.CAPACITY)));
                         output.accept(GasTankItem.createFilledStack(new GasStack(GasRegistry.METHANE, GasTankItem.CAPACITY)));

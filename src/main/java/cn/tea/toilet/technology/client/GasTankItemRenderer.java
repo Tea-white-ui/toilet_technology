@@ -27,7 +27,6 @@ public final class GasTankItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static final int WINDOW_TOP = 4;
     private static final int WINDOW_RIGHT = 12;
     private static final int WINDOW_BOTTOM = 13;
-    private static final int GAS_ALPHA = 112;
     private static final float PIXEL = 1.0F / 16.0F;
     private static final float CONTENTS_Z = 0.001F;
     private static final float FRAME_Z = 0.003F;
@@ -70,7 +69,7 @@ public final class GasTankItemRenderer extends BlockEntityWithoutLevelRenderer {
         int green = tint >>> 8 & 0xFF;
         int blue = tint & 0xFF;
         addQuad(consumer, pose, minX, minY, maxX, maxY, CONTENTS_Z, u0, v0, u1, v1,
-                red, green, blue, GAS_ALPHA, packedLight, packedOverlay);
+                red, green, blue, 255, packedLight, packedOverlay);
     }
 
     private static void drawFullSprite(PoseStack poseStack, MultiBufferSource buffers, ResourceLocation texture,

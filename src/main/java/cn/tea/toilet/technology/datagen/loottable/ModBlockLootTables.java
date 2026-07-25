@@ -69,6 +69,8 @@ public class ModBlockLootTables extends BlockLootSubProvider {
         this.dropSelf(ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get());
         this.dropSelf(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get());
         this.dropSelf(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get());
+        this.dropSelf(ModBlocks.ABSORPTION_TOWER_BOTTOM.get());
+        this.dropSelf(ModBlocks.ABSORPTION_TOWER_BODY.get());
     }
 
     @Override

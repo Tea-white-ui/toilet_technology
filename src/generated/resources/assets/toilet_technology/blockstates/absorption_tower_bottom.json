@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "toilet_technology:block/absorption_tower_bottom",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "toilet_technology:block/absorption_tower_bottom"
+    },
+    "facing=south": {
+      "model": "toilet_technology:block/absorption_tower_bottom",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toilet_technology:block/absorption_tower_bottom",
+      "y": 270
+    }
+  }
+}

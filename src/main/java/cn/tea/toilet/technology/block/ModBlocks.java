@@ -14,6 +14,8 @@ import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlock;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortBlock;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortType;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondWallBlock;
+import cn.tea.toilet.technology.block.absorptiontower.AbsorptionTowerBodyBlock;
+import cn.tea.toilet.technology.block.absorptiontower.AbsorptionTowerBottomBlock;
 import cn.tea.toilet.technology.block.toilet.*;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -187,6 +189,10 @@ public class ModBlocks {
             () -> new BiogasGeneratorBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> SEWAGE_PURIFIER = BLOCKS.register("sewage_purifier",
             () -> new SewagePurifierBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> ABSORPTION_TOWER_BOTTOM = BLOCKS.register("absorption_tower_bottom",
+            () -> new AbsorptionTowerBottomBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> ABSORPTION_TOWER_BODY = BLOCKS.register("absorption_tower_body",
+            () -> new AbsorptionTowerBodyBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
 
 
     // === 流体 ===

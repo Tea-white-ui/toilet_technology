@@ -24,6 +24,7 @@ public final class ModCapabilities {
         registerDryingHandlers(event);
         registerSepticTankHandlers(event);
         registerBiogasPondHandlers(event);
+        registerAbsorptionTowerHandlers(event);
         registerMachineHandlers(event);
         registerItemHandlers(event);
     }
@@ -56,6 +57,17 @@ public final class ModCapabilities {
                 (blockEntity, side) -> blockEntity.getGasHandler(side));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
                 (blockEntity, side) -> blockEntity.getFluidHandler(side));
+    }
+
+    private static void registerAbsorptionTowerHandlers(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.ABSORPTION_TOWER_BOTTOM.get(),
+                (blockEntity, side) -> blockEntity.getFluidHandler(side));
+        event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.ABSORPTION_TOWER_BOTTOM.get(),
+                (blockEntity, side) -> blockEntity.getGasHandler(side));
+        event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.ABSORPTION_TOWER_BODY.get(),
+                (blockEntity, side) -> blockEntity.getFluidHandler(side));
+        event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.ABSORPTION_TOWER_BODY.get(),
+                (blockEntity, side) -> blockEntity.getGasHandler(side));
     }
 
     private static void registerMachineHandlers(RegisterCapabilitiesEvent event) {

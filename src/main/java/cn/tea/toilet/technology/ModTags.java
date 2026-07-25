@@ -28,6 +28,8 @@ public class ModTags {
         public static final TagKey<Block> SEPTIC_TANKS = tag("septic_tanks");
         /** 沼气池组成方块标签（控制器、墙体及各类端口） */
         public static final TagKey<Block> BIOGAS_PONDS = tag("biogas_ponds");
+        /** 吸收塔组成方块标签（塔底与塔体） */
+        public static final TagKey<Block> ABSORPTION_TOWERS = tag("absorption_towers");
         /** 沼气生产与污水处理机器方块标签 */
         public static final TagKey<Block> MACHINES = tag("machines");
         /** 热源方块标签（用于加速干燥过程） */
@@ -54,6 +56,8 @@ public class ModTags {
         public static final TagKey<Item> SEPTIC_TANKS = tag("septic_tanks");
         /** 沼气池组成方块物品标签 */
         public static final TagKey<Item> BIOGAS_PONDS = tag("biogas_ponds");
+        /** 吸收塔组成方块物品标签 */
+        public static final TagKey<Item> ABSORPTION_TOWERS = tag("absorption_towers");
         /** 沼气生产与污水处理机器物品标签 */
         public static final TagKey<Item> MACHINES = tag("machines");
         /** 液体或气体运输容器物品标签 */

@@ -54,6 +54,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.BIOGAS_POND_FLUID_INPUT_PORT_ITEM.get())
                 .add(ModItems.BIOGAS_POND_ITEM_OUTPUT_PORT_ITEM.get());
 
+        this.tag(ModTags.Items.ABSORPTION_TOWERS)
+                .add(ModItems.ABSORPTION_TOWER_BOTTOM_ITEM.get())
+                .add(ModItems.ABSORPTION_TOWER_BODY_ITEM.get());
+
         this.tag(ModTags.Items.MACHINES)
                 .add(ModItems.BIOGAS_GENERATOR_ITEM.get())
                 .add(ModItems.SEWAGE_PURIFIER_ITEM.get());

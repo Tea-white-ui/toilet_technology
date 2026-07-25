@@ -9,6 +9,8 @@ import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity
 import cn.tea.toilet.technology.block.septictank.SepticTankPortBlockEntity;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortBlockEntity;
+import cn.tea.toilet.technology.block.absorptiontower.AbsorptionTowerBottomBlockEntity;
+import cn.tea.toilet.technology.block.absorptiontower.AbsorptionTowerBodyBlockEntity;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlockEntity;
@@ -108,6 +110,16 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SewagePurifierBlockEntity>> SEWAGE_PURIFIER =
             BLOCK_ENTITIES.register("sewage_purifier", () -> BlockEntityType.Builder.of(
                     SewagePurifierBlockEntity::new, ModBlocks.SEWAGE_PURIFIER.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AbsorptionTowerBottomBlockEntity>> ABSORPTION_TOWER_BOTTOM =
+            BLOCK_ENTITIES.register("absorption_tower_bottom", () -> BlockEntityType.Builder.of(
+                    AbsorptionTowerBottomBlockEntity::new, ModBlocks.ABSORPTION_TOWER_BOTTOM.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AbsorptionTowerBodyBlockEntity>> ABSORPTION_TOWER_BODY =
+            BLOCK_ENTITIES.register("absorption_tower_body", () -> BlockEntityType.Builder.of(
+                    AbsorptionTowerBodyBlockEntity::new, ModBlocks.ABSORPTION_TOWER_BODY.get()
             ).build(null));
 
     /**

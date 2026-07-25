@@ -18,6 +18,8 @@
     "toilet_technology:biogas_pond_fluid_input_port",
     "toilet_technology:biogas_pond_item_output_port",
     "toilet_technology:biogas_generator",
-    "toilet_technology:sewage_purifier"
+    "toilet_technology:sewage_purifier",
+    "toilet_technology:absorption_tower_bottom",
+    "toilet_technology:absorption_tower_body"
   ]
 }

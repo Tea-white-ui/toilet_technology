@@ -57,6 +57,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get());
 
+        this.tag(ModTags.Blocks.ABSORPTION_TOWERS)
+                .add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
+                .add(ModBlocks.ABSORPTION_TOWER_BODY.get());
+
         this.tag(ModTags.Blocks.MACHINES)
                 .add(ModBlocks.BIOGAS_GENERATOR.get())
                 .add(ModBlocks.SEWAGE_PURIFIER.get());
@@ -96,7 +100,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_GENERATOR.get())
-                .add(ModBlocks.SEWAGE_PURIFIER.get());
+                .add(ModBlocks.SEWAGE_PURIFIER.get())
+                .add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
+                .add(ModBlocks.ABSORPTION_TOWER_BODY.get());
 
         // === 挖掘等级 ===
         this.tag(Tags.Blocks.NEEDS_WOOD_TOOL)
@@ -121,7 +127,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_GENERATOR.get())
-                .add(ModBlocks.SEWAGE_PURIFIER.get());
+                .add(ModBlocks.SEWAGE_PURIFIER.get())
+                .add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
+                .add(ModBlocks.ABSORPTION_TOWER_BODY.get());
 
         this.tag(BlockTags.NEEDS_DIAMOND_TOOL)
                 .add(ModBlocks.NETHERITE_TOILET.get());

@@ -47,6 +47,8 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("jei.toilet_technology.biogas.residue_probability", "%s%% 概率");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "化粪池控制器");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "化粪池壁");
+        add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "化粪池液体输入接口");
+        add(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), "化粪池气阀");
         add(ModBlocks.BIOGAS_POND_CONTROLLER.get(), "沼气池控制器");
         add(ModBlocks.BIOGAS_POND_WALL.get(), "沼气池壁");
         add(ModBlocks.BIOGAS_POND_GAS_VALVE.get(), "沼气池气阀");

@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.block.sewagepurifier.SewagePurifierBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlockEntity;
+import cn.tea.toilet.technology.block.septictank.SepticTankPortBlockEntity;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortBlockEntity;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
@@ -74,6 +75,14 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SepticTankControllerBlockEntity>> SEPTIC_TANK_CONTROLLER =
             BLOCK_ENTITIES.register("septic_tank_controller", () -> BlockEntityType.Builder.of(
                     SepticTankControllerBlockEntity::new, ModBlocks.SEPTIC_TANK_CONTROLLER.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<SepticTankPortBlockEntity>> SEPTIC_TANK_PORT =
+            BLOCK_ENTITIES.register("septic_tank_port", () -> BlockEntityType.Builder.of(
+                    (pos, state) -> new SepticTankPortBlockEntity(pos, state,
+                            ((cn.tea.toilet.technology.block.septictank.SepticTankPortBlock) state.getBlock()).getPortType()),
+                    ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(),
+                    ModBlocks.SEPTIC_TANK_GAS_VALVE.get()
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<BiogasPondControllerBlockEntity>> BIOGAS_POND_CONTROLLER =

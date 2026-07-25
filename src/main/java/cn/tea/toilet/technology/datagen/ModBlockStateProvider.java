@@ -34,6 +34,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         biogasPondPort(ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get(), "biogas_pond_item_input_port");
         biogasPondPort(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), "biogas_pond_fluid_input_port");
         biogasPondPort(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "biogas_pond_item_output_port");
+        septicTankPort(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "septic_tank_liquid_input_port");
+        septicTankPort(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), "septic_tank_gas_valve");
         // === 自定义模型 ===
         horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
         horizontalBlock(ModBlocks.OAK_TOILET.get(), models().getExistingFile(modLoc("block/oak_toilet")));
@@ -47,6 +49,15 @@ public class ModBlockStateProvider extends BlockStateProvider {
         horizontalBlock(ModBlocks.BIOGAS_GENERATOR.get(), models().getExistingFile(modLoc("block/biogas_generator")));
         horizontalBlock(ModBlocks.SEWAGE_PURIFIER.get(), models().getExistingFile(modLoc("block/sewage_purifier")));
 
+    }
+
+    private void septicTankPort(net.minecraft.world.level.block.Block block, String name) {
+        ModelFile model = models().cube(name,
+                modLoc("block/septic_tank_wall"), modLoc("block/septic_tank_wall"),
+                modLoc("block/septic_tank_controller_front"), modLoc("block/septic_tank_wall"),
+                modLoc("block/septic_tank_wall"), modLoc("block/septic_tank_wall"))
+                .texture("particle", modLoc("block/septic_tank_wall"));
+        horizontalBlock(block, model);
     }
 
     private void biogasPondPort(net.minecraft.world.level.block.Block block, String name) {

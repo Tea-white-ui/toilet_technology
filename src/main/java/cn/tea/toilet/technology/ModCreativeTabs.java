@@ -50,6 +50,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.DRYING_BOX_ITEM.get());
                         output.accept(ModItems.SEPTIC_TANK_CONTROLLER_ITEM.get());
                         output.accept(ModItems.SEPTIC_TANK_WALL_ITEM.get());
+                        output.accept(ModItems.SEPTIC_TANK_LIQUID_INPUT_PORT_ITEM.get());
+                        output.accept(ModItems.SEPTIC_TANK_GAS_VALVE_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_CONTROLLER_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_WALL_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_GAS_VALVE_ITEM.get());

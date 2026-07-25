@@ -109,6 +109,11 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> SEPTIC_TANK_WALL_ITEM = ITEMS.register("septic_tank_wall",
             () -> new BlockItem(ModBlocks.SEPTIC_TANK_WALL.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> SEPTIC_TANK_LIQUID_INPUT_PORT_ITEM = ITEMS.register("septic_tank_liquid_input_port",
+            () -> new BlockItem(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> SEPTIC_TANK_GAS_VALVE_ITEM = ITEMS.register("septic_tank_gas_valve",
+            () -> new BlockItem(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), new Item.Properties()));
+
     public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_CONTROLLER_ITEM = ITEMS.register("biogas_pond_controller",
             () -> new BlockItem(ModBlocks.BIOGAS_POND_CONTROLLER.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> BIOGAS_POND_WALL_ITEM = ITEMS.register("biogas_pond_wall",

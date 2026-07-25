@@ -12,7 +12,7 @@ public final class SepticTankStructure {
     public static boolean validate(Level level, BlockPos controllerPos, Direction facing) {
         SepticTankPattern.Layout layout = SepticTankPattern.layout(toPatternFacing(facing));
         for (SepticTankPattern.Cell cell : layout.walls()) {
-            if (!level.getBlockState(offset(controllerPos, cell)).is(ModBlocks.SEPTIC_TANK_WALL.get())) {
+            if (!isShellBlock(level.getBlockState(offset(controllerPos, cell)))) {
                 return false;
             }
         }
@@ -22,6 +22,22 @@ public final class SepticTankStructure {
             }
         }
         return true;
+    }
+
+    private static boolean isShellBlock(net.minecraft.world.level.block.state.BlockState state) {
+        return state.is(ModBlocks.SEPTIC_TANK_WALL.get())
+                || state.getBlock() instanceof SepticTankPortBlock;
+    }
+
+    public static void revalidateNearby(Level level, BlockPos changedPos) {
+        for (SepticTankPattern.Facing facing : SepticTankPattern.Facing.values()) {
+            for (SepticTankPattern.Cell cell : SepticTankPattern.layout(facing).walls()) {
+                BlockPos controllerPos = changedPos.subtract(new BlockPos(cell.x(), cell.y(), cell.z()));
+                if (level.getBlockEntity(controllerPos) instanceof SepticTankControllerBlockEntity controller) {
+                    controller.revalidateStructure();
+                }
+            }
+        }
     }
 
     public static boolean contains(SepticTankPattern.Layout layout, BlockPos controllerPos, BlockPos target) {

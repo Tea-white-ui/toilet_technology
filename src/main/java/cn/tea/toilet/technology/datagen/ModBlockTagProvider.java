@@ -45,7 +45,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(ModTags.Blocks.SEPTIC_TANKS)
                 .add(ModBlocks.SEPTIC_TANK_CONTROLLER.get())
-                .add(ModBlocks.SEPTIC_TANK_WALL.get());
+                .add(ModBlocks.SEPTIC_TANK_WALL.get())
+                .add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get())
+                .add(ModBlocks.SEPTIC_TANK_GAS_VALVE.get());
 
         this.tag(ModTags.Blocks.BIOGAS_PONDS)
                 .add(ModBlocks.BIOGAS_POND_CONTROLLER.get())
@@ -85,6 +87,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.NETHERITE_TOILET.get())
                 .add(ModBlocks.SEPTIC_TANK_CONTROLLER.get())
                 .add(ModBlocks.SEPTIC_TANK_WALL.get())
+                .add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get())
+                .add(ModBlocks.SEPTIC_TANK_GAS_VALVE.get())
                 .add(ModBlocks.BIOGAS_POND_CONTROLLER.get())
                 .add(ModBlocks.BIOGAS_POND_WALL.get())
                 .add(ModBlocks.BIOGAS_POND_GAS_VALVE.get())
@@ -108,6 +112,8 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.DIAMOND_TOILET.get())
                 .add(ModBlocks.SEPTIC_TANK_CONTROLLER.get())
                 .add(ModBlocks.SEPTIC_TANK_WALL.get())
+                .add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get())
+                .add(ModBlocks.SEPTIC_TANK_GAS_VALVE.get())
                 .add(ModBlocks.BIOGAS_POND_CONTROLLER.get())
                 .add(ModBlocks.BIOGAS_POND_WALL.get())
                 .add(ModBlocks.BIOGAS_POND_GAS_VALVE.get())

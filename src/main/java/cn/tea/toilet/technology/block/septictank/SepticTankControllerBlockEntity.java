@@ -73,7 +73,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         };
     }
 
-    private static boolean isAllowedLiquid(FluidStack stack) {
+    public static boolean isAllowedLiquid(FluidStack stack) {
         return stack.is(Fluids.WATER)
                 || stack.is(Fluids.FLOWING_WATER)
                 || stack.is(ModFluids.FECES_LIQUID.get())
@@ -90,8 +90,25 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
+        synchronizePorts(valid);
         validationCooldown = 20;
         return valid;
+    }
+
+    private void synchronizePorts(boolean valid) {
+        SepticTankPattern.Facing facing = switch (getBlockState().getValue(SepticTankControllerBlock.FACING)) {
+            case SOUTH -> SepticTankPattern.Facing.SOUTH;
+            case WEST -> SepticTankPattern.Facing.WEST;
+            case EAST -> SepticTankPattern.Facing.EAST;
+            default -> SepticTankPattern.Facing.NORTH;
+        };
+        for (SepticTankPattern.Cell cell : SepticTankPattern.layout(facing).walls()) {
+            BlockPos portPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
+            if (level.getBlockEntity(portPos) instanceof SepticTankPortBlockEntity port) {
+                if (valid) port.bindController(worldPosition);
+                else port.unbindController();
+            }
+        }
     }
 
     public boolean isStructureValid() { return structureValid; }

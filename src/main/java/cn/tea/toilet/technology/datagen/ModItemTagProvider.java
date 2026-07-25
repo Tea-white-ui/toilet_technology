@@ -42,7 +42,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
 
         this.tag(ModTags.Items.SEPTIC_TANKS)
                 .add(ModItems.SEPTIC_TANK_CONTROLLER_ITEM.get())
-                .add(ModItems.SEPTIC_TANK_WALL_ITEM.get());
+                .add(ModItems.SEPTIC_TANK_WALL_ITEM.get())
+                .add(ModItems.SEPTIC_TANK_LIQUID_INPUT_PORT_ITEM.get())
+                .add(ModItems.SEPTIC_TANK_GAS_VALVE_ITEM.get());
 
         this.tag(ModTags.Items.BIOGAS_PONDS)
                 .add(ModItems.BIOGAS_POND_CONTROLLER_ITEM.get())

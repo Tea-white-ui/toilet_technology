@@ -47,6 +47,8 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("jei.toilet_technology.biogas.residue_probability", "%s%% chance");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "Septic Tank Controller");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "Septic Tank Wall");
+        add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "Septic Tank Liquid Input Port");
+        add(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), "Septic Tank Gas Valve");
         add(ModBlocks.BIOGAS_POND_CONTROLLER.get(), "Biogas Pond Controller");
         add(ModBlocks.BIOGAS_POND_WALL.get(), "Biogas Pond Wall");
         add(ModBlocks.BIOGAS_POND_GAS_VALVE.get(), "Biogas Pond Gas Valve");

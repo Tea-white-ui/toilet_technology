@@ -18,6 +18,8 @@
   "block.toilet_technology.netherite_toilet": "Netherite Toilet",
   "block.toilet_technology.oak_toilet": "Oak Toilet",
   "block.toilet_technology.septic_tank_controller": "Septic Tank Controller",
+  "block.toilet_technology.septic_tank_gas_valve": "Septic Tank Gas Valve",
+  "block.toilet_technology.septic_tank_liquid_input_port": "Septic Tank Liquid Input Port",
   "block.toilet_technology.septic_tank_wall": "Septic Tank Wall",
   "block.toilet_technology.sewage_purifier": "Sewage Purifier",
   "block.toilet_technology.squat_toilet": "Squat Toilet",

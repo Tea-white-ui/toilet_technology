@@ -7,6 +7,9 @@ import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
 import cn.tea.toilet.technology.block.septictank.SepticTankControllerBlock;
 import cn.tea.toilet.technology.block.septictank.SepticTankWallBlock;
+import cn.tea.toilet.technology.block.septictank.SepticTankPortBlock;
+import cn.tea.toilet.technology.block.septictank.SepticTankPortType;
+
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlock;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortBlock;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondPortType;
@@ -164,6 +167,10 @@ public class ModBlocks {
             () -> new SepticTankControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> SEPTIC_TANK_WALL = BLOCKS.register("septic_tank_wall",
             () -> new SepticTankWallBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> SEPTIC_TANK_LIQUID_INPUT_PORT = BLOCKS.register("septic_tank_liquid_input_port",
+            () -> new SepticTankPortBlock(SepticTankPortType.LIQUID_INPUT, Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    public static final DeferredHolder<Block, Block> SEPTIC_TANK_GAS_VALVE = BLOCKS.register("septic_tank_gas_valve",
+            () -> new SepticTankPortBlock(SepticTankPortType.GAS_OUTPUT, Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> BIOGAS_POND_CONTROLLER = BLOCKS.register("biogas_pond_controller",
             () -> new BiogasPondControllerBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> BIOGAS_POND_WALL = BLOCKS.register("biogas_pond_wall",

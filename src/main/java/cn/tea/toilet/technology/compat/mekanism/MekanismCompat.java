@@ -46,9 +46,8 @@ public final class MekanismCompat {
     }
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
-        event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(),
-                (entity, side) -> entity.isStructureValid()
-                        ? new ChemicalHandlerAdapter(entity.getAutomationGases()) : null);
+        event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.SEPTIC_TANK_PORT.get(),
+                (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
                 (entity, side) -> entity.getPortType() == cn.tea.toilet.technology.block.biogaspond.BiogasPondPortType.GAS_OUTPUT
                         ? adapt(entity.getGasHandler(side)) : null);

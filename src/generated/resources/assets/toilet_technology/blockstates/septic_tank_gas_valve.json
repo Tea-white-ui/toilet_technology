@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "toilet_technology:block/septic_tank_gas_valve",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "toilet_technology:block/septic_tank_gas_valve"
+    },
+    "facing=south": {
+      "model": "toilet_technology:block/septic_tank_gas_valve",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toilet_technology:block/septic_tank_gas_valve",
+      "y": 270
+    }
+  }
+}

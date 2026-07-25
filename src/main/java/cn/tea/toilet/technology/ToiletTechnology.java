@@ -3,7 +3,6 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.gas.GasCapabilities;
 import cn.tea.toilet.technology.event.PlayerToiletHandler;
-import cn.tea.toilet.technology.event.TankBatSpawnHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
@@ -63,7 +62,6 @@ public class ToiletTechnology {
 
         NeoForge.EVENT_BUS.register(this);
         NeoForge.EVENT_BUS.register(new PlayerToiletHandler());
-        NeoForge.EVENT_BUS.register(new TankBatSpawnHandler());
 
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }

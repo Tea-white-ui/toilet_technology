@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.block.TankInteriorLighting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;
@@ -17,7 +18,7 @@ public final class SepticTankStructure {
             }
         }
         for (SepticTankPattern.Cell cell : layout.air()) {
-            if (!level.getBlockState(offset(controllerPos, cell)).isAir()) {
+            if (!TankInteriorLighting.isInteriorState(level.getBlockState(offset(controllerPos, cell)))) {
                 return false;
             }
         }
@@ -42,6 +43,12 @@ public final class SepticTankStructure {
 
     public static boolean contains(SepticTankPattern.Layout layout, BlockPos controllerPos, BlockPos target) {
         return layout.all().stream().map(cell -> offset(controllerPos, cell)).anyMatch(target::equals);
+    }
+
+    public static java.util.List<BlockPos> interiorPositions(BlockPos controllerPos, Direction facing) {
+        return SepticTankPattern.layout(toPatternFacing(facing)).air().stream()
+                .map(cell -> offset(controllerPos, cell))
+                .toList();
     }
 
     private static BlockPos offset(BlockPos origin, SepticTankPattern.Cell cell) {

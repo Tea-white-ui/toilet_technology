@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.TankInteriorLighting;
 import cn.tea.toilet.technology.block.septictank.SepticTankBiogasProduction;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
@@ -90,6 +91,13 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
+        if (valid) {
+            TankInteriorLighting.apply(level, SepticTankStructure.interiorPositions(
+                    worldPosition, state.getValue(SepticTankControllerBlock.FACING)));
+        } else {
+            TankInteriorLighting.clear(level, SepticTankStructure.interiorPositions(
+                    worldPosition, state.getValue(SepticTankControllerBlock.FACING)));
+        }
         synchronizePorts(valid);
         validationCooldown = 20;
         return valid;
@@ -112,6 +120,12 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     }
 
     public boolean isStructureValid() { return structureValid; }
+    public void clearInteriorLighting() {
+        if (level != null && !level.isClientSide()) {
+            TankInteriorLighting.clear(level, SepticTankStructure.interiorPositions(
+                    worldPosition, getBlockState().getValue(SepticTankControllerBlock.FACING)));
+        }
+    }
     public IItemHandler getAutomationItems() { return automationItems; }
     public IItemHandler getMenuItems() { return menuItems; }
     public IFluidHandler getAutomationFluids() { return automationFluids; }

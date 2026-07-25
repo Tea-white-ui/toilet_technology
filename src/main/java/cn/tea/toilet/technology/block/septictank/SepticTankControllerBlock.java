@@ -81,6 +81,7 @@ public class SepticTankControllerBlock extends BaseEntityBlock {
     @Override
     protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof SepticTankControllerBlockEntity controller) {
+            controller.clearInteriorLighting();
             for (int i = 0; i < controller.items.getSlots(); i++) {
                 ItemStack dropped = controller.items.extractItem(i, Integer.MAX_VALUE, false);
                 if (!dropped.isEmpty()) Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), dropped);

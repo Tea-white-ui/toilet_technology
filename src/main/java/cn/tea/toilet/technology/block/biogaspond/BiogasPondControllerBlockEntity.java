@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.block.TankInteriorLighting;
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
@@ -63,6 +64,11 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
+        if (valid) {
+            TankInteriorLighting.apply(level, BiogasPondStructure.interiorPositions(worldPosition));
+        } else {
+            TankInteriorLighting.clear(level, BiogasPondStructure.interiorPositions(worldPosition));
+        }
         synchronizePorts(valid);
         validationCooldown = 20;
         return valid;
@@ -79,6 +85,11 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     }
 
     public boolean isStructureValid() { return structureValid; }
+    public void clearInteriorLighting() {
+        if (level != null && !level.isClientSide()) {
+            TankInteriorLighting.clear(level, BiogasPondStructure.interiorPositions(worldPosition));
+        }
+    }
     public static boolean isFecesLiquid(net.neoforged.neoforge.fluids.FluidStack stack) {
         return stack.is(ModFluids.FECES_LIQUID.get()) || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
     }

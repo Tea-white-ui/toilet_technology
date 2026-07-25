@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.block.TankInteriorLighting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -19,7 +20,7 @@ public final class BiogasPondStructure {
             if (state.is(ModBlocks.BIOGAS_GENERATOR.get()) && ++biogasGenerators > MAX_BIOGAS_GENERATORS) return false;
         }
         for (BiogasPondPattern.Cell cell : layout.air()) {
-            if (!level.getBlockState(offset(controllerPos, cell)).isAir()) return false;
+            if (!TankInteriorLighting.isInteriorState(level.getBlockState(offset(controllerPos, cell)))) return false;
         }
         return true;
     }
@@ -37,6 +38,12 @@ public final class BiogasPondStructure {
                 controller.revalidateStructure();
             }
         }
+    }
+
+    public static java.util.List<BlockPos> interiorPositions(BlockPos controllerPos) {
+        return BiogasPondPattern.layout().air().stream()
+                .map(cell -> offset(controllerPos, cell))
+                .toList();
     }
 
     private static BlockPos offset(BlockPos origin, BiogasPondPattern.Cell cell) {

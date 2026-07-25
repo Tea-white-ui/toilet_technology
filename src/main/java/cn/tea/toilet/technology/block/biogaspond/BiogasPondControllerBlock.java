@@ -67,6 +67,7 @@ public class BiogasPondControllerBlock extends BaseEntityBlock {
     @Override
     protected void onRemove(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull BlockState newState, boolean movedByPiston) {
         if (!state.is(newState.getBlock()) && level.getBlockEntity(pos) instanceof BiogasPondControllerBlockEntity controller) {
+            controller.clearInteriorLighting();
             for (int slot = 0; slot < controller.items.getSlots(); slot++) {
                 ItemStack dropped = controller.items.extractItem(slot, Integer.MAX_VALUE, false);
                 if (!dropped.isEmpty()) Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), dropped);

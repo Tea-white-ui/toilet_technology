@@ -67,6 +67,15 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.GAS_TANK.get(), 4)
+                .pattern("I I")
+                .pattern("PPP")
+                .pattern("PPP")
+                .define('I', Items.IRON_INGOT)
+                .define('P', Items.GLASS_PANE)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .save(output);
+
         SimpleCookingRecipeBuilder.smelting(
                         Ingredient.of(ModItems.METAL_MESH.get()),
                         RecipeCategory.MISC,
@@ -265,7 +274,30 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ABSORPTION_TOWER_BODY.get(), 4)
+                .pattern("I I")
+                .pattern("MWM")
+                .pattern("I I")
+                .define('I', Items.IRON_INGOT)
+                .define('M', ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get())
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
+                .pattern("IGI")
+                .pattern("MBM")
+                .pattern("IWI")
+                .define('I', Items.IRON_INGOT)
+                .define('G', ModItems.GAS_TANK.get())
+                .define('M', ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get())
+                .define('B', ModBlocks.ABSORPTION_TOWER_BODY.get())
+                .define('W', ModBlocks.BIOGAS_POND_WALL.get())
+                .unlockedBy(getHasName(ModItems.GAS_TANK.get()), has(ModItems.GAS_TANK.get()))
+                .save(output);
+
         // 添加干燥配方
         ModDryingRecipeProvider.addRecipes(output);
+
     }
 }

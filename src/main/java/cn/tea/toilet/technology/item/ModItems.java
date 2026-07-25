@@ -150,9 +150,9 @@ public class ModItems {
                     .stacksTo(1)
             ));
 
-    /** A reusable 1,000 mB gas transport tank that can hold any one registered gas type. */
+    /** A reusable gas transport tank that can hold any one registered gas type. */
     public static final DeferredHolder<Item, Item> GAS_TANK = ITEMS.register("gas_tank",
-            () -> new GasTankItem(new Item.Properties().stacksTo(1)));
+            () -> new GasTankItem(new Item.Properties().stacksTo(4)));
 
 
 

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "toilet_technology:multi_layer_sintered_metal_mesh"
+    },
+    "W": {
+      "item": "toilet_technology:biogas_pond_wall"
+    }
+  },
+  "pattern": [
+    "I I",
+    "MWM",
+    "I I"
+  ],
+  "result": {
+    "count": 4,
+    "id": "toilet_technology:absorption_tower_body"
+  }
+}

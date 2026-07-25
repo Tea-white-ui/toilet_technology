@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "P": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "pattern": [
+    "I I",
+    "PPP",
+    "PPP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "toilet_technology:gas_tank"
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "B": {
+      "item": "toilet_technology:absorption_tower_body"
+    },
+    "G": {
+      "item": "toilet_technology:gas_tank"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "toilet_technology:multi_layer_sintered_metal_mesh"
+    },
+    "W": {
+      "item": "toilet_technology:biogas_pond_wall"
+    }
+  },
+  "pattern": [
+    "IGI",
+    "MBM",
+    "IWI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:absorption_tower_bottom"
+  }
+}

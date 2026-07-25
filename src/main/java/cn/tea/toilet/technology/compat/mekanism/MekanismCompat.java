@@ -51,6 +51,10 @@ public final class MekanismCompat {
         event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
                 (entity, side) -> entity.getPortType() == cn.tea.toilet.technology.block.biogaspond.BiogasPondPortType.GAS_OUTPUT
                         ? adapt(entity.getGasHandler(side)) : null);
+        event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.ABSORPTION_TOWER_BOTTOM.get(),
+                (entity, side) -> adapt(entity.getGasHandler(side)));
+        event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.ABSORPTION_TOWER_BODY.get(),
+                (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerItem(CHEMICAL_ITEM,
                 (stack, ignored) -> adapt(((BiogasTankItem) stack.getItem()).createGasHandler(stack)),
                 ModItems.BIOGAS_TANK.get());

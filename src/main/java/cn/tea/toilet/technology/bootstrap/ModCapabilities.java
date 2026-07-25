@@ -2,7 +2,7 @@ package cn.tea.toilet.technology.bootstrap;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.gas.GasCapabilities;
-import cn.tea.toilet.technology.item.BiogasTankItem;
+import cn.tea.toilet.technology.item.GasTankItem;
 import cn.tea.toilet.technology.item.ModItems;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -81,7 +81,7 @@ public final class ModCapabilities {
 
     private static void registerItemHandlers(RegisterCapabilitiesEvent event) {
         event.registerItem(GasCapabilities.ITEM,
-                (stack, ignored) -> ((BiogasTankItem) stack.getItem()).createGasHandler(stack),
-                ModItems.BIOGAS_TANK.get());
+                (stack, ignored) -> ((GasTankItem) stack.getItem()).createGasHandler(stack),
+                ModItems.GAS_TANK.get());
     }
 }

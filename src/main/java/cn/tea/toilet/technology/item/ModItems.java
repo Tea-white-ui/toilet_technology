@@ -143,16 +143,9 @@ public class ModItems {
                     .stacksTo(1)
             ));
 
-    /**
-     * A sealed 1,000 mB transport tank. It deliberately is not a BucketItem, so using it can never
-     * place gas as a world fluid. Optional compatibility lets Mekanism automation drain it.
-     */
-    public static final DeferredHolder<Item, Item> BIOGAS_TANK = ITEMS.register("biogas_tank",
-            () -> new BiogasTankItem(new Item.Properties().stacksTo(1).durability((int) BiogasTankItem.CAPACITY)));
-
-    /** 空沼气罐：用于后续装填沼气。 */
-    public static final DeferredHolder<Item, Item> EMPTY_BIOGAS_TANK = ITEMS.register("empty_biogas_tank",
-            () -> new Item(new Item.Properties().stacksTo(1)));
+    /** A reusable 1,000 mB gas transport tank that can hold any one registered gas type. */
+    public static final DeferredHolder<Item, Item> GAS_TANK = ITEMS.register("gas_tank",
+            () -> new GasTankItem(new Item.Properties().stacksTo(1)));
 
 
 

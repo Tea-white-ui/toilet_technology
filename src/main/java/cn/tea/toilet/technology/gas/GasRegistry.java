@@ -10,7 +10,11 @@ public final class GasRegistry {
             ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "biogas"),
             ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block/biogas"),
             0x87965B);
-    private static final List<Gas> GASES = List.of(BIOGAS);
+    public static final Gas METHANE = new Gas(
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "methane"),
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block/methane"),
+            0x8EE6F2);
+    private static final List<Gas> GASES = List.of(BIOGAS, METHANE);
 
     private GasRegistry() { }
 

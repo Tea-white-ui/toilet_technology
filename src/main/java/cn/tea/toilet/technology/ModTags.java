@@ -60,8 +60,10 @@ public class ModTags {
         public static final TagKey<Item> ABSORPTION_TOWERS = tag("absorption_towers");
         /** 沼气生产与污水处理机器物品标签 */
         public static final TagKey<Item> MACHINES = tag("machines");
-        /** 液体或气体运输容器物品标签 */
+        /** 液体运输容器物品标签 */
         public static final TagKey<Item> FLUID_CONTAINERS = tag("fluid_containers");
+        /** 气体运输容器物品标签 */
+        public static final TagKey<Item> GAS_CONTAINERS = tag("gas_containers");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, name));

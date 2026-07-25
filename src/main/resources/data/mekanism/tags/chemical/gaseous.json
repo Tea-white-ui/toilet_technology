@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "toilet_technology:biogas"
+    "toilet_technology:biogas",
+    "toilet_technology:methane"
   ]
 }

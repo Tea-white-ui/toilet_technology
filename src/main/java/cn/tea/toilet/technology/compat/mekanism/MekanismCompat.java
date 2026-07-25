@@ -4,10 +4,11 @@ import cn.tea.toilet.technology.ModConstants;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 
 import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
-import cn.tea.toilet.technology.item.BiogasTankItem;
+import cn.tea.toilet.technology.item.GasTankItem;
 import cn.tea.toilet.technology.item.ModItems;
 import mekanism.api.Action;
 import mekanism.api.MekanismAPI;
@@ -23,6 +24,7 @@ import net.neoforged.neoforge.capabilities.ItemCapability;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import org.jetbrains.annotations.Nullable;
 
 /** Optional Mekanism bridge. This class is loaded only when Mekanism is present. */
 public final class MekanismCompat {
@@ -37,6 +39,9 @@ public final class MekanismCompat {
     private static final DeferredHolder<Chemical, Chemical> BIOGAS = CHEMICALS.register(
             "biogas", () -> new Chemical(ChemicalBuilder.builder(GasRegistry.BIOGAS.texture())
                     .tint(GasRegistry.BIOGAS.tint())));
+    private static final DeferredHolder<Chemical, Chemical> METHANE = CHEMICALS.register(
+            "methane", () -> new Chemical(ChemicalBuilder.builder(GasRegistry.METHANE.texture())
+                    .tint(GasRegistry.METHANE.tint())));
 
     private MekanismCompat() { }
 
@@ -56,8 +61,8 @@ public final class MekanismCompat {
         event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.ABSORPTION_TOWER_BODY.get(),
                 (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerItem(CHEMICAL_ITEM,
-                (stack, ignored) -> adapt(((BiogasTankItem) stack.getItem()).createGasHandler(stack)),
-                ModItems.BIOGAS_TANK.get());
+                (stack, ignored) -> adapt(((GasTankItem) stack.getItem()).createGasHandler(stack)),
+                ModItems.GAS_TANK.get());
     }
 
     private static IChemicalHandler adapt(IGasHandler handler) {
@@ -73,33 +78,50 @@ public final class MekanismCompat {
 
         @Override public ChemicalStack getChemicalInTank(int tank) {
             GasStack stack = delegate.getGasInTank(tank);
-            return stack.isEmpty() ? ChemicalStack.EMPTY : new ChemicalStack(BIOGAS, stack.amount());
+            Chemical chemical = chemicalFor(stack.gas());
+            return stack.isEmpty() || chemical == null ? ChemicalStack.EMPTY : new ChemicalStack(chemical, stack.amount());
         }
 
         @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
-            if (!stack.isEmpty() && stack.is(BIOGAS.get())) {
-                delegate.setGasInTank(tank, new GasStack(GasRegistry.BIOGAS, stack.getAmount()));
+            Gas gas = gasFor(stack);
+            if (gas != null) {
+                delegate.setGasInTank(tank, new GasStack(gas, stack.getAmount()));
             }
         }
 
         @Override public long getChemicalTankCapacity(int tank) { return delegate.getGasTankCapacity(tank); }
 
         @Override public boolean isValid(int tank, ChemicalStack stack) {
-            return stack.is(BIOGAS.get()) && delegate.isValid(tank, new GasStack(GasRegistry.BIOGAS, 1));
+            Gas gas = gasFor(stack);
+            return gas != null && delegate.isValid(tank, new GasStack(gas, 1));
         }
 
         @Override public ChemicalStack insertChemical(int tank, ChemicalStack stack, Action action) {
-            if (!stack.is(BIOGAS.get())) return stack;
+            Gas gas = gasFor(stack);
+            if (gas == null) return stack;
             GasStack remainder = delegate.insertGas(tank,
-                    new GasStack(GasRegistry.BIOGAS, stack.getAmount()),
+                    new GasStack(gas, stack.getAmount()),
                     action == Action.EXECUTE ? GasAction.EXECUTE : GasAction.SIMULATE);
-            return remainder.isEmpty() ? ChemicalStack.EMPTY : new ChemicalStack(BIOGAS, remainder.amount());
+            return remainder.isEmpty() ? ChemicalStack.EMPTY : new ChemicalStack(stack.getChemical(), remainder.amount());
         }
 
         @Override public ChemicalStack extractChemical(int tank, long amount, Action action) {
             GasStack extracted = delegate.extractGas(tank, amount,
                     action == Action.EXECUTE ? GasAction.EXECUTE : GasAction.SIMULATE);
-            return extracted.isEmpty() ? ChemicalStack.EMPTY : new ChemicalStack(BIOGAS, extracted.amount());
+            Chemical chemical = chemicalFor(extracted.gas());
+            return extracted.isEmpty() || chemical == null ? ChemicalStack.EMPTY : new ChemicalStack(chemical, extracted.amount());
+        }
+
+        private static @Nullable Gas gasFor(ChemicalStack stack) {
+            if (stack.is(BIOGAS.get())) return GasRegistry.BIOGAS;
+            if (stack.is(METHANE.get())) return GasRegistry.METHANE;
+            return null;
+        }
+
+        private static @Nullable Chemical chemicalFor(@Nullable Gas gas) {
+            if (GasRegistry.BIOGAS.equals(gas)) return BIOGAS.get();
+            if (GasRegistry.METHANE.equals(gas)) return METHANE.get();
+            return null;
         }
     }
 }

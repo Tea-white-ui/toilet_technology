@@ -32,8 +32,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.DIAMOND_TOILET_ITEM.get(),"Diamond Toilet");
         add(ModItems.NETHERITE_TOILET_ITEM.get(),"Netherite Toilet");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "Feces Liquid Bucket");
-        add(ModItems.BIOGAS_TANK.get(), "Biogas Tank");
-        add(ModItems.EMPTY_BIOGAS_TANK.get(), "Empty Biogas Tank");
+        add(ModItems.GAS_TANK.get(), "Gas Tank");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "Feces Liquid");
         add(ModBlocks.DRYING_RACK.get(), "Dryer_Rack");
         add(ModBlocks.DRYING_BOX.get(), "Drying Box");
@@ -67,8 +66,9 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("gas.toilet_technology.biogas", "Biogas");
         add("chemical.toilet_technology.biogas", "Biogas");
-        add("tooltip.toilet_technology.biogas_tank.amount", "Stores: %s / %s mB of biogas");
-        add("tooltip.toilet_technology.biogas_tank.sealed", "Sealed container: cannot be placed in the world");
+        add("tooltip.toilet_technology.gas_tank.empty", "Empty");
+        add("tooltip.toilet_technology.gas_tank.amount", "Stores: %s %s / %s mB");
+        add("tooltip.toilet_technology.gas_tank.sealed", "Sealed container: cannot be placed in the world");
 
 
 

@@ -63,8 +63,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.SEWAGE_PURIFIER_ITEM.get());
 
         this.tag(ModTags.Items.FLUID_CONTAINERS)
-                .add(ModItems.FECES_LIQUID_BUCKET.get())
-                .add(ModItems.BIOGAS_TANK.get());
+                .add(ModItems.FECES_LIQUID_BUCKET.get());
+        this.tag(ModTags.Items.GAS_CONTAINERS)
+                .add(ModItems.GAS_TANK.get());
 
         // === 标签嵌套 ===
         this.tag(ModTags.Items.MATERIALS)

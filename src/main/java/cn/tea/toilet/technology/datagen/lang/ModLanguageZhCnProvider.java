@@ -31,8 +31,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModItems.DIAMOND_TOILET_ITEM.get(), "钻石厕所");
         add(ModItems.NETHERITE_TOILET_ITEM.get(), "下届合金厕所");
         add(ModItems.FECES_LIQUID_BUCKET.get(), "粪桶");
-        add(ModItems.BIOGAS_TANK.get(), "沼气罐");
-        add(ModItems.EMPTY_BIOGAS_TANK.get(), "空沼气罐");
+        add(ModItems.GAS_TANK.get(), "气罐");
         add(ModBlocks.FECES_LIQUID_BLOCK.get(), "粪液");
         add(ModBlocks.DRYING_RACK.get(), "干燥架");
         add(ModBlocks.DRYING_BOX.get(), "干燥箱");
@@ -66,9 +65,12 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("gui.toilet_technology.pressure", "压力");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("gas.toilet_technology.biogas", "沼气");
+        add("gas.toilet_technology.methane", "甲烷");
         add("chemical.toilet_technology.biogas", "沼气");
-        add("tooltip.toilet_technology.biogas_tank.amount", "储存：%s / %s mB 沼气");
-        add("tooltip.toilet_technology.biogas_tank.sealed", "密封容器：无法在世界中放置");
+        add("chemical.toilet_technology.methane", "甲烷");
+        add("tooltip.toilet_technology.gas_tank.empty", "空");
+        add("tooltip.toilet_technology.gas_tank.amount", "储存：%s %s / %s mB");
+        add("tooltip.toilet_technology.gas_tank.sealed", "密封容器：无法在世界中放置");
 
     }
 }

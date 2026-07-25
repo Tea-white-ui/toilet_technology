@@ -39,7 +39,29 @@ class BiogasPondBiogasProductionTest {
                 true, 32_001, 0, 128_000, 2);
 
         assertEquals(100, batch.gasProduced());
-        assertEquals(25, batch.liquidConsumed());
+        assertEquals(50, batch.liquidConsumed());
+    }
+
+    @Test
+    void scalesGasAndLiquidConsumptionForTwoAndThreeGenerators() {
+        BiogasPondBiogasProduction.Batch twoGenerators = BiogasPondBiogasProduction.planBatch(
+                true, 32_001, 0, 128_000, 4);
+        BiogasPondBiogasProduction.Batch threeGenerators = BiogasPondBiogasProduction.planBatch(
+                true, 32_001, 0, 128_000, 6);
+
+        assertEquals(200, twoGenerators.gasProduced());
+        assertEquals(100, twoGenerators.liquidConsumed());
+        assertEquals(300, threeGenerators.gasProduced());
+        assertEquals(150, threeGenerators.liquidConsumed());
+    }
+
+    @Test
+    void doesNotConsumeLiquidAtExactlyThirtyTwoBuckets() {
+        BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
+                true, 32_000, 0, 128_000, 6);
+
+        assertEquals(120, batch.gasProduced());
+        assertEquals(0, batch.liquidConsumed());
     }
 
     @Test

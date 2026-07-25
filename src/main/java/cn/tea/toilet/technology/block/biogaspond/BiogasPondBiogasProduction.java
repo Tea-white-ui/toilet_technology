@@ -31,7 +31,7 @@ public final class BiogasPondBiogasProduction {
         long baseGasProduced = liquidAmount < LOW_LIQUID_THRESHOLD ? LOW_LIQUID_GAS_OUTPUT
                 : highOutput ? HIGH_GAS_OUTPUT : BASE_GAS_OUTPUT;
         long gasProduced = baseGasProduced * gasMultiplier;
-        int liquidConsumed = highOutput ? HIGH_LIQUID_COST : 0;
+        int liquidConsumed = highOutput ? HIGH_LIQUID_COST * gasMultiplier : 0;
         return liquidAmount < liquidConsumed || gasCapacity - gasAmount < gasProduced
                 ? Batch.NONE : new Batch(gasProduced, liquidConsumed);
     }

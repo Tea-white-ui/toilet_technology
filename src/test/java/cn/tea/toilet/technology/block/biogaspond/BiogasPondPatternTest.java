@@ -36,4 +36,9 @@ class BiogasPondPatternTest {
 
         assertEquals(125, new HashSet<>(layout.all()).size());
     }
+
+    @Test
+    void supportsUpToThreeBiogasGenerators() {
+        assertEquals(3, BiogasPondStructure.MAX_BIOGAS_GENERATORS);
+    }
 }

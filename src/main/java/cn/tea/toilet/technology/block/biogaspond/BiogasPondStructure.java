@@ -6,6 +6,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public final class BiogasPondStructure {
+    public static final int MAX_BIOGAS_GENERATORS = 3;
+
     private BiogasPondStructure() { }
 
     public static boolean validate(Level level, BlockPos controllerPos) {
@@ -14,7 +16,7 @@ public final class BiogasPondStructure {
         for (BiogasPondPattern.Cell cell : layout.walls()) {
             BlockState state = level.getBlockState(offset(controllerPos, cell));
             if (!isShellBlock(state)) return false;
-            if (state.is(ModBlocks.BIOGAS_GENERATOR.get()) && ++biogasGenerators > 1) return false;
+            if (state.is(ModBlocks.BIOGAS_GENERATOR.get()) && ++biogasGenerators > MAX_BIOGAS_GENERATORS) return false;
         }
         for (BiogasPondPattern.Cell cell : layout.air()) {
             if (!level.getBlockState(offset(controllerPos, cell)).isAir()) return false;

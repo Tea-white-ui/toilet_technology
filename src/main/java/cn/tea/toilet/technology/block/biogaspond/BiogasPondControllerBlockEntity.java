@@ -24,6 +24,9 @@ import net.neoforged.neoforge.items.IItemHandlerModifiable;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BiogasPondControllerBlockEntity extends BlockEntity {
     public static final int GENERATOR_ENERGY_PER_BATCH = 128;
     public static final int GAS_CAPACITY = 128_000;
@@ -107,15 +110,21 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         if (biogasProductionTicks < BiogasPondBiogasProduction.INTERVAL_TICKS) return;
         biogasProductionTicks = 0;
 
-        BiogasGeneratorBlockEntity generator = findBiogasGenerator();
-        boolean generatorCanSupplyEnergy = generator != null
-                && generator.energyStorage.getEnergyStored() >= GENERATOR_ENERGY_PER_BATCH;
+        List<BiogasGeneratorBlockEntity> generators = findBiogasGenerators();
+        boolean generatorsCanSupplyEnergy = !generators.isEmpty()
+                && generators.stream().allMatch(generator ->
+                generator.energyStorage.getEnergyStored() >= GENERATOR_ENERGY_PER_BATCH);
+        int gasMultiplier = generators.isEmpty() ? 1 : generators.size() * 2;
         BiogasPondBiogasProduction.Batch batch = BiogasPondBiogasProduction.planBatch(
-                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity(), 2,
-                generatorCanSupplyEnergy);
+                true, liquid.getAmount(), gasTank.getStored(), gasTank.getCapacity(), gasMultiplier,
+                generatorsCanSupplyEnergy);
         if (batch.gasProduced() == 0) return;
 
-        if (generatorCanSupplyEnergy && !generator.consumeEnergy(GENERATOR_ENERGY_PER_BATCH)) return;
+        if (generatorsCanSupplyEnergy) {
+            for (BiogasGeneratorBlockEntity generator : generators) {
+                if (!generator.consumeEnergy(GENERATOR_ENERGY_PER_BATCH)) return;
+            }
+        }
 
         GasStack remainder = gasTank.insert(new GasStack(GasRegistry.BIOGAS, batch.gasProduced()), GasAction.EXECUTE);
         if (!remainder.isEmpty()) return;
@@ -123,15 +132,16 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         setChanged();
     }
 
-    private BiogasGeneratorBlockEntity findBiogasGenerator() {
+    private List<BiogasGeneratorBlockEntity> findBiogasGenerators() {
+        List<BiogasGeneratorBlockEntity> generators = new ArrayList<>();
         for (BiogasPondPattern.Cell cell : BiogasPondPattern.layout().walls()) {
             BlockPos generatorPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
             if (level.getBlockState(generatorPos).is(ModBlocks.BIOGAS_GENERATOR.get())
                     && level.getBlockEntity(generatorPos) instanceof BiogasGeneratorBlockEntity generator) {
-                return generator;
+                generators.add(generator);
             }
         }
-        return null;
+        return generators;
     }
 
     @Override protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {

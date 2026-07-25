@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:block/cube",
   "textures": {
-    "down": "toilet_technology:block/septic_tank_wall",
-    "east": "toilet_technology:block/septic_tank_wall",
-    "north": "toilet_technology:block/septic_tank_controller_front",
-    "particle": "toilet_technology:block/septic_tank_wall",
-    "south": "toilet_technology:block/septic_tank_wall",
-    "up": "toilet_technology:block/septic_tank_wall",
-    "west": "toilet_technology:block/septic_tank_wall"
+    "down": "toilet_technology:block/septic_tank_gas_valve",
+    "east": "toilet_technology:block/septic_tank_gas_valve",
+    "north": "toilet_technology:block/septic_tank_gas_valve",
+    "particle": "toilet_technology:block/septic_tank_gas_valve",
+    "south": "toilet_technology:block/septic_tank_gas_valve",
+    "up": "toilet_technology:block/septic_tank_gas_valve_front",
+    "west": "toilet_technology:block/septic_tank_gas_valve"
   }
 }

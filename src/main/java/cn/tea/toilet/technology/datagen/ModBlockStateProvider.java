@@ -34,8 +34,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         biogasPondPort(ModBlocks.BIOGAS_POND_ITEM_INPUT_PORT.get(), "biogas_pond_item_input_port");
         biogasPondPort(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), "biogas_pond_fluid_input_port");
         biogasPondPort(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "biogas_pond_item_output_port");
-        septicTankPort(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "septic_tank_liquid_input_port");
-        septicTankPort(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), "septic_tank_gas_valve");
+        septicTankPort(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "septic_tank_liquid_input_port", false);
+        septicTankPort(ModBlocks.SEPTIC_TANK_GAS_VALVE.get(), "septic_tank_gas_valve", true);
         // === 自定义模型 ===
         horizontalBlock(ModBlocks.SQUAT_TOILET.get(), models().getExistingFile(modLoc("block/squat_toilet")));
         horizontalBlock(ModBlocks.OAK_TOILET.get(), models().getExistingFile(modLoc("block/oak_toilet")));
@@ -51,12 +51,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
     }
 
-    private void septicTankPort(net.minecraft.world.level.block.Block block, String name) {
+    private void septicTankPort(net.minecraft.world.level.block.Block block, String name, boolean topFunctionFace) {
+        net.minecraft.resources.ResourceLocation side = modLoc("block/" + name);
+        net.minecraft.resources.ResourceLocation functionFace = modLoc("block/" + name + "_front");
         ModelFile model = models().cube(name,
-                modLoc("block/septic_tank_wall"), modLoc("block/septic_tank_wall"),
-                modLoc("block/septic_tank_controller_front"), modLoc("block/septic_tank_wall"),
-                modLoc("block/septic_tank_wall"), modLoc("block/septic_tank_wall"))
-                .texture("particle", modLoc("block/septic_tank_wall"));
+                side, topFunctionFace ? functionFace : side,
+                topFunctionFace ? side : functionFace, side, side, side)
+                .texture("particle", side);
         horizontalBlock(block, model);
     }
 

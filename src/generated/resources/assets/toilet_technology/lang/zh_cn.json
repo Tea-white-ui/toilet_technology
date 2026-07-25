@@ -34,6 +34,7 @@
   "gas.toilet_technology.biogas": "沼气",
   "gas.toilet_technology.methane": "甲烷",
   "gui.toilet_technology.gas": "气体：%s / %s mB",
+  "gui.toilet_technology.absorption_tower": "吸收塔",
   "gui.toilet_technology.liquid": "液体：%s / %s mB",
   "gui.toilet_technology.pressure": "压力",
   "gui.toilet_technology.tank_amount": "%s / %s mB",

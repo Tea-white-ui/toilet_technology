@@ -65,6 +65,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("message.toilet_technology.biogas_pond_invalid", "5×5×5 沼气池结构不完整（内部必须为 3×3×3 空心）");
         add("gui.toilet_technology.gas", "气体：%s / %s mB");
         add("gui.toilet_technology.liquid", "液体：%s / %s mB");
+        add("gui.toilet_technology.absorption_tower", "吸收塔");
         add("gui.toilet_technology.pressure", "压力");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("gas.toilet_technology.biogas", "沼气");

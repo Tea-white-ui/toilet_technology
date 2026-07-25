@@ -5,6 +5,8 @@ import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.recipe.AbsorptionTowerRecipe;
+import cn.tea.toilet.technology.recipe.AbsorptionTowerRecipeRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
@@ -66,8 +68,49 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
         return structureValid;
     }
 
+    public FluidStack getWaterInput() {
+        return waterInputTank.getFluid();
+    }
+
+    public FluidStack getLiquidOutput() {
+        return liquidOutputTank.getFluid();
+    }
+
+    public GasStack getGasInput() {
+        return gasInputTank.getStack();
+    }
+
+    public GasStack getGasOutput() {
+        return gasOutputTank.getStack();
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, AbsorptionTowerBottomBlockEntity entity) {
-        if (!level.isClientSide() && --entity.validationCooldown <= 0) entity.revalidateStructure();
+        if (level.isClientSide()) return;
+        if (--entity.validationCooldown <= 0) entity.revalidateStructure();
+        if (entity.structureValid) entity.processOneRecipe();
+    }
+
+    private void processOneRecipe() {
+        GasStack inputGas = gasInputTank.getStack();
+        FluidStack inputWater = waterInputTank.getFluid();
+        if (inputGas.isEmpty() || inputWater.isEmpty()) return;
+
+        AbsorptionTowerRecipe recipe = AbsorptionTowerRecipeRegistry.find(inputGas.gas(), inputWater.getFluid());
+        if (recipe == null) return;
+
+        long gasOutputSpace = gasOutputTank.getCapacity() - gasOutputTank.getStored();
+        int liquidOutputSpace = liquidOutputTank.getCapacity() - liquidOutputTank.getFluidAmount();
+        if (!AbsorptionTowerOperation.canProcess(inputGas.amount(), inputWater.getAmount(), gasOutputSpace, liquidOutputSpace)) return;
+
+        GasStack gasRemainder = gasOutputTank.insert(new GasStack(recipe.outputGas(), recipe.outputGasAmount()), GasAction.SIMULATE);
+        int acceptedLiquid = liquidOutputTank.fill(new FluidStack(recipe.outputFluid(), recipe.outputFluidAmount()), IFluidHandler.FluidAction.SIMULATE);
+        if (!gasRemainder.isEmpty() || acceptedLiquid != recipe.outputFluidAmount()) return;
+
+        gasInputTank.extract(recipe.inputGasAmount(), GasAction.EXECUTE);
+        waterInputTank.drain(recipe.inputFluidAmount(), IFluidHandler.FluidAction.EXECUTE);
+        gasOutputTank.insert(new GasStack(recipe.outputGas(), recipe.outputGasAmount()), GasAction.EXECUTE);
+        liquidOutputTank.fill(new FluidStack(recipe.outputFluid(), recipe.outputFluidAmount()), IFluidHandler.FluidAction.EXECUTE);
+        setChanged();
     }
 
     @Nullable

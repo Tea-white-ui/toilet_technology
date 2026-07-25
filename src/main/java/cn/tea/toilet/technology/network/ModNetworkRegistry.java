@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.network;
-import cn.tea.toilet.technology.ModConstants;
 
+import cn.tea.toilet.technology.ModConstants;
+import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -47,7 +48,9 @@ public class ModNetworkRegistry {
     private static IPayloadHandler<DryingRackSyncPayload> createDryingRackSyncHandler() {
         return (payload, context) -> {
             context.enqueueWork(() -> {
-                DryingRackSyncHandler.handleSync(payload);
+                if (FMLEnvironment.dist.isClient()) {
+                    DryingRackSyncHandler.handleSync(payload);
+                }
             });
         };
     }

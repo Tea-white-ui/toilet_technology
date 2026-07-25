@@ -4,6 +4,8 @@ import cn.tea.toilet.technology.block.drying.DryingRackBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
 
 /**
  * 干燥架同步包处理器
@@ -18,7 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
  * - 此代码仅在客户端执行
  * - 通过 workQueue 确保在主线程运行
  */
-public class DryingRackSyncHandler {
+@OnlyIn(Dist.CLIENT)
+public final class DryingRackSyncHandler {
     
     /**
      * 处理干燥架同步包

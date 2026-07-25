@@ -11,8 +11,8 @@ import net.minecraft.data.PackOutput;
 
 /** Generates optional Mekanism-compatible data without linking against its API. */
 public final class MekanismGeneratorCompatDataProvider implements DataProvider {
-    private static final int BIOGAS_BURN_TICKS = 20;
-    private static final long BIOGAS_ENERGY_PER_TICK = 200;
+    private static final int BIOGAS_BURN_TICKS = 40;
+    private static final long BIOGAS_ENERGY_PER_TICK = 100;
 
     private final PackOutput output;
 

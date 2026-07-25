@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.block.biogasgenerator;
 
-/** Pure operating rules for the biogas generator. Energy amounts use FE. */
-public final class BiogasGeneratorOperation {
+/** 沼气发生器的纯操作规则。能量消耗消耗FE。*/
+    public final class BiogasGeneratorOperation {
     public static final int ENERGY_CAPACITY = 10_000;
     public static final int ENERGY_PER_TICK = 100;
 

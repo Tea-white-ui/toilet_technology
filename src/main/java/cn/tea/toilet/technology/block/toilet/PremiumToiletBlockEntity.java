@@ -7,15 +7,12 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * 高级马桶方块实体
  *
- * 公共逻辑（FluidTank 生命周期 / NBT / 同步 / tick 节流）已抽到 {@link AbstractToiletBlockEntity}，
+ * 公共逻辑（FluidTank 生命周期 / NBT / BlockEntity 同步）已抽到 {@link AbstractToiletBlockEntity}，
  * 这里只声明该子类的特化参数：
  * - 容量：8000 mB
  * - 非无限粪液源（drain 正常消耗）
  *
- * 网络同步说明：
- * - 使用自定义网络包 ToiletFluidSyncPayload 同步流体数据到客户端
- * - 流体变化时立即同步，且每 20 tick 兜底一次
- * - 客户端接收后更新本地数据并触发渲染
+ * 流体变化时，基类通过标准 BlockEntity 更新包同步给客户端 BER。
  */
 public class PremiumToiletBlockEntity extends AbstractToiletBlockEntity {
 

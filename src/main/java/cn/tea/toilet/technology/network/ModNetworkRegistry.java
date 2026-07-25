@@ -36,12 +36,6 @@ public class ModNetworkRegistry {
             createDryingRackSyncHandler()
         );
 
-        // 注册马桶流体同步包（服务端 -> 客户端）
-        registrar.playToClient(
-            ToiletFluidSyncPayload.TYPE,
-            ToiletFluidSyncPayload.STREAM_CODEC,
-            createToiletFluidSyncHandler()
-        );
 
         ModConstants.LOGGER.info("Network packets registered successfully");
     }
@@ -58,15 +52,4 @@ public class ModNetworkRegistry {
         };
     }
 
-    /**
-     * 创建马桶流体同步包处理器
-     * 用于同步马桶的流体数据到客户端
-     */
-    private static IPayloadHandler<ToiletFluidSyncPayload> createToiletFluidSyncHandler() {
-        return (payload, context) -> {
-            context.enqueueWork(() -> {
-                ToiletFluidSyncHandler.handleSync(payload);
-            });
-        };
-    }
 }

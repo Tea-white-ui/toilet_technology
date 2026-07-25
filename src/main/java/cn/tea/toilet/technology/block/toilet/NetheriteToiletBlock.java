@@ -1,14 +1,13 @@
 package cn.tea.toilet.technology.block.toilet;
 
-import cn.tea.toilet.technology.block.ModBlockEntities;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
 
 /**
  * 下界合金马桶方块
@@ -38,18 +37,4 @@ public class NetheriteToiletBlock extends PremiumToiletBlock {
         return new NetheriteToiletBlockEntity(pos, state);
     }
 
-    /**
-     * 注册方块实体的 Tick 处理器
-     * 用于定期同步流体数据到客户端，确保渲染正确
-     * 
-     * @param level 世界
-     * @param state 方块状态
-     * @param type 方块实体类型
-     * @return Tick 处理器
-     */
-    @Override
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, ModBlockEntities.NETHERITE_TOILET.get(), NetheriteToiletBlockEntity::tick);
-    }
 }

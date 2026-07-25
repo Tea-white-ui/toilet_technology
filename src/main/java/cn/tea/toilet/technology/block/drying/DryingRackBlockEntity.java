@@ -9,9 +9,7 @@ import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -25,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  * 
  * 网络同步说明：
  * - 使用自定义网络包 DryingRackSyncPayload 同步数据到客户端
- * - 仅在物品变化或干燥进度更新时发送，避免每tick发送
+ * - 同一游戏刻内合并物品与进度变化，至多发送一个同步包
  * - 客户端接收后更新本地数据并触发渲染
  */
 public class DryingRackBlockEntity extends BlockEntity {
@@ -41,7 +39,7 @@ public class DryingRackBlockEntity extends BlockEntity {
             cachedRecipes[slot] = null;
             noRecipeMatch[slot] = false;
             if (level != null && !level.isClientSide() && suppressSlotSync == 0) {
-                syncToClients();
+                requestSync();
             }
         }
 
@@ -94,6 +92,8 @@ public class DryingRackBlockEntity extends BlockEntity {
     private final boolean[] noRecipeMatch = new boolean[4];
     // 上次同步的tick计数，用于控制同步频率
     private int lastSyncTick = 0;
+    // 同一 tick 内由物品变化请求的立即同步；在 tick 末尾与进度更新合并发送。
+    private boolean syncRequested = false;
 
     public DryingRackBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.DRYING_RACK.get(), pos, blockState);
@@ -125,6 +125,20 @@ public class DryingRackBlockEntity extends BlockEntity {
         );
         
         ModPacketSender.sendToTracking(level, getBlockPos(), payload);
+    }
+
+    private void requestSync() {
+        syncRequested = true;
+    }
+
+    private void flushSync(boolean progressChanged) {
+        lastSyncTick++;
+        if (!syncRequested && !progressChanged && lastSyncTick < 10) {
+            return;
+        }
+        syncToClients();
+        syncRequested = false;
+        lastSyncTick = 0;
     }
 
     /**
@@ -208,9 +222,9 @@ public class DryingRackBlockEntity extends BlockEntity {
                     entity.noRecipeMatch[i] = false;
                     progressChanged = true;
 
-                    // 上面 extract/insert 已被 suppressSlotSync 抑制，这里手动补一次同步
+                    // 上面 extract/insert 已被 suppressSlotSync 抑制；本 tick 末尾合并同步。
                     entity.setChanged();
-                    entity.syncToClients();
+                    entity.requestSync();
                 }
             } else {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
@@ -221,11 +235,7 @@ public class DryingRackBlockEntity extends BlockEntity {
             }
         }
 
-        entity.lastSyncTick++;
-        if (entity.lastSyncTick >= 10 || progressChanged) {
-            entity.syncToClients();
-            entity.lastSyncTick = 0;
-        }
+        entity.flushSync(progressChanged);
     }
 
     /**
@@ -260,20 +270,6 @@ public class DryingRackBlockEntity extends BlockEntity {
         if (tag.contains("DryingTotalTime")) {
             dryingTotalTime = tag.getIntArray("DryingTotalTime");
         }
-    }
-
-    @Override
-    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
-        CompoundTag tag = super.getUpdateTag(registries);
-        tag.put("Items", itemHandler.serializeNBT(registries));
-        tag.putIntArray("DryingProgress", dryingProgress);
-        tag.putIntArray("DryingTotalTime", dryingTotalTime);
-        return tag;
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 
 }

@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.state.BlockState;
 /**
  * 下界合金马桶方块实体
  *
- * 公共逻辑（FluidTank 生命周期 / NBT / 同步 / tick 节流）已抽到 {@link AbstractToiletBlockEntity}，
+ * 公共逻辑（FluidTank 生命周期 / NBT / BlockEntity 同步）已抽到 {@link AbstractToiletBlockEntity}，
  * 这里只声明该子类的特化参数：
  * - 容量：16000 mB（是高级马桶的 2 倍）
  * - 无限粪液源：drain 粪液不消耗（用户明确要求保留此设计）

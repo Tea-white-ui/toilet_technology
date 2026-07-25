@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block.toilet;
 
-import cn.tea.toilet.technology.block.ModBlockEntities;
+
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
@@ -12,14 +12,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityTicker;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.fluids.FluidUtil;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+
 
 /**
  * 高级马桶方块
@@ -104,18 +103,4 @@ public  class PremiumToiletBlock extends ToiletBlock {
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
 
-    /**
-     * 注册方块实体的 Tick 处理器
-     * 用于定期同步流体数据到客户端，确保渲染正确
-     * 
-     * @param level 世界
-     * @param state 方块状态
-     * @param type 方块实体类型
-     * @return Tick 处理器
-     */
-    @Override
-    @Nullable
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, ModBlockEntities.PREMIUM_TOILET.get(), PremiumToiletBlockEntity::tick);
-    }
 }

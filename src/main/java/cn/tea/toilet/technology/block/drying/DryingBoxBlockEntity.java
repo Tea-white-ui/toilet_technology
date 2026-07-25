@@ -10,9 +10,6 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.FloatTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -357,36 +354,6 @@ public class DryingBoxBlockEntity extends BlockEntity {
                 dryingProgressFractional = new float[SLOTS];
             }
         }
-    }
-
-    @Override
-    public @NotNull CompoundTag getUpdateTag(HolderLookup.@NotNull Provider registries) {
-        CompoundTag tag = super.getUpdateTag(registries);
-        tag.putIntArray("DryingProgress", dryingProgress);
-        tag.putIntArray("DryingTotalTime", dryingTotalTime);
-        return tag;
-    }
-
-    @Override
-    public void handleUpdateTag(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
-        super.handleUpdateTag(tag, registries);
-        if (tag.contains("DryingProgress")) {
-            int[] progress = tag.getIntArray("DryingProgress");
-            if (progress.length == SLOTS) {
-                dryingProgress = progress;
-            }
-        }
-        if (tag.contains("DryingTotalTime")) {
-            int[] totalTime = tag.getIntArray("DryingTotalTime");
-            if (totalTime.length == SLOTS) {
-                dryingTotalTime = totalTime;
-            }
-        }
-    }
-
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        return ClientboundBlockEntityDataPacket.create(this);
     }
 
 

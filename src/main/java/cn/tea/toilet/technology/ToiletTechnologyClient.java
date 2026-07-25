@@ -3,15 +3,18 @@ package cn.tea.toilet.technology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
+import cn.tea.toilet.technology.client.GasTankItemRenderer;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
+import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -24,6 +27,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -55,6 +59,18 @@ public class ToiletTechnologyClient {
 
     @SubscribeEvent
     static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerItem(new IClientItemExtensions() {
+            private GasTankItemRenderer renderer;
+
+            @Override
+            public GasTankItemRenderer getCustomRenderer() {
+                if (renderer == null) {
+                    Minecraft minecraft = Minecraft.getInstance();
+                    renderer = new GasTankItemRenderer(minecraft.getBlockEntityRenderDispatcher(), minecraft.getEntityModels());
+                }
+                return renderer;
+            }
+        }, ModItems.GAS_TANK.get());
         event.registerFluidType(new IClientFluidTypeExtensions() {
             private static final Vector3f FOG_COLOR = new Vector3f(0.35f, 0.25f, 0.1f);
 

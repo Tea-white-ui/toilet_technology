@@ -1,6 +1,9 @@
 package cn.tea.toilet.technology;
 
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.gas.GasRegistry;
+import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.item.GasTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -45,6 +48,8 @@ public class ModCreativeTabs {
                         output.accept(ModItems.NETHERITE_TOILET_ITEM.get());
                         output.accept(ModItems.FECES_LIQUID_BUCKET.get());
                         output.accept(ModItems.GAS_TANK.get());
+                        output.accept(GasTankItem.createFilledStack(new GasStack(GasRegistry.BIOGAS, GasTankItem.CAPACITY)));
+                        output.accept(GasTankItem.createFilledStack(new GasStack(GasRegistry.METHANE, GasTankItem.CAPACITY)));
                         output.accept(ModItems.DRYING_RACK_ITEM.get());
                         output.accept(ModItems.DRYING_BOX_ITEM.get());
                         output.accept(ModItems.SEPTIC_TANK_CONTROLLER_ITEM.get());

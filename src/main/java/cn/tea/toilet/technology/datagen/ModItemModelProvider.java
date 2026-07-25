@@ -22,7 +22,8 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.METAL_MESH.get());
         basicItem(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
         basicItem(ModItems.FECES_LIQUID_BUCKET.get());
-        basicItem(ModItems.GAS_TANK.get());
+        getBuilder("gas_tank")
+                .parent(new ModelFile.UncheckedModelFile(mcLoc("builtin/entity")));
         // === 方块物品 ===
         getBuilder("feces_block")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/feces_block")));

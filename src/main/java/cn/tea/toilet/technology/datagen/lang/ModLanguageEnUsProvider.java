@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.datagen.lang;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;import cn.tea.toilet.technology.datagen.ModItemTagProvider;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
@@ -9,7 +9,7 @@ import net.neoforged.neoforge.common.data.LanguageProvider;
 
 public class ModLanguageEnUsProvider extends LanguageProvider {
     public ModLanguageEnUsProvider(PackOutput output, String locale) {
-        super(output, ToiletTechnology.MOD_ID, locale);
+        super(output, ModConstants.MOD_ID, locale);
     }
 
     @Override

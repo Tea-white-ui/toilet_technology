@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.datagen;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -9,7 +9,7 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class ModBlockStateProvider extends BlockStateProvider {
     public ModBlockStateProvider(PackOutput output, ExistingFileHelper exFileHelper) {
-        super(output, ToiletTechnology.MOD_ID, exFileHelper);
+        super(output, ModConstants.MOD_ID, exFileHelper);
     }
 
     @Override

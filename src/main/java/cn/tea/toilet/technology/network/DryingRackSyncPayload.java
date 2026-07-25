@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.network;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -44,7 +44,7 @@ public record DryingRackSyncPayload(
      * 网络包类型标识符
      */
     public static final Type<DryingRackSyncPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "drying_rack_sync")
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "drying_rack_sync")
     );
     
     /**

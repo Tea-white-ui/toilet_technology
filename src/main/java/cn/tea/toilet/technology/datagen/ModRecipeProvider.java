@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.datagen;
+import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlocks;
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -63,7 +63,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 )
                 .unlockedBy(getHasName(ModItems.METAL_MESH.get()), has(ModItems.METAL_MESH.get()))
                 .save(output, ResourceLocation.fromNamespaceAndPath(
-                        ToiletTechnology.MOD_ID, "multi_layer_sintered_metal_mesh_from_smelting"));
+                        ModConstants.MOD_ID, "multi_layer_sintered_metal_mesh_from_smelting"));
 
         SimpleCookingRecipeBuilder.blasting(
                         Ingredient.of(ModItems.METAL_MESH.get()),
@@ -74,7 +74,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 )
                 .unlockedBy(getHasName(ModItems.METAL_MESH.get()), has(ModItems.METAL_MESH.get()))
                 .save(output, ResourceLocation.fromNamespaceAndPath(
-                        ToiletTechnology.MOD_ID, "multi_layer_sintered_metal_mesh_from_blasting"));
+                        ModConstants.MOD_ID, "multi_layer_sintered_metal_mesh_from_blasting"));
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK.get(), 4)
                 .pattern("CNC")

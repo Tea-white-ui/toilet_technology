@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.gui.septictank;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class SepticTankScreen extends AbstractContainerScreen<SepticTankMenu> {
-    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "textures/gui/container/septic_tank.png");
+    private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "textures/gui/container/septic_tank.png");
     private static final float CAPACITY_TEXT_SCALE = 0.65F;
     private static final int TANK_X = 8;
     private static final int TANK_WIDTH = 53;

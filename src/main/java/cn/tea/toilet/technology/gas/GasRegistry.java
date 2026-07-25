@@ -1,14 +1,14 @@
 package cn.tea.toilet.technology.gas;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import java.util.List;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public final class GasRegistry {
     public static final Gas BIOGAS = new Gas(
-            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "biogas"),
-            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "block/biogas"),
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "biogas"),
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block/biogas"),
             0x87965B);
     private static final List<Gas> GASES = List.of(BIOGAS);
 

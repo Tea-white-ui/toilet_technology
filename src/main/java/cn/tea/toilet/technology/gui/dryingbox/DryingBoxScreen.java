@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.gui.dryingbox;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class DryingBoxScreen extends AbstractContainerScreen<DryingBoxMenu> {
 
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            ToiletTechnology.MOD_ID, "textures/gui/container/drying_box.png");
+            ModConstants.MOD_ID, "textures/gui/container/drying_box.png");
 
     public DryingBoxScreen(DryingBoxMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

@@ -1,11 +1,11 @@
 package cn.tea.toilet.technology.block.drying;
+import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.network.DryingRackSyncPayload;
 import cn.tea.toilet.technology.network.ModPacketSender;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -200,7 +200,7 @@ public class DryingRackBlockEntity extends BlockEntity {
                     if (!remaining.isEmpty()) {
                         net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
                     }
-                    ToiletTechnology.getLOGGER().debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
+                    ModConstants.LOGGER.debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
 
                     entity.dryingProgress[i] = 0;
                     entity.dryingTotalTime[i] = 0;

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.network;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
@@ -27,7 +27,7 @@ public class ModNetworkRegistry {
      * @param registrar NeoForge 提供的包注册器
      */
     public static void register(PayloadRegistrar registrar) {
-        ToiletTechnology.LOGGER.info("Registering network packets");
+        ModConstants.LOGGER.info("Registering network packets");
 
         // 注册干燥架同步包（服务端 -> 客户端）
         registrar.playToClient(
@@ -43,7 +43,7 @@ public class ModNetworkRegistry {
             createToiletFluidSyncHandler()
         );
 
-        ToiletTechnology.LOGGER.info("Network packets registered successfully");
+        ModConstants.LOGGER.info("Network packets registered successfully");
     }
 
     /**

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.compat.jei;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gas.GasRegistry;
@@ -25,9 +25,9 @@ import org.jetbrains.annotations.NotNull;
 
 public final class BiogasProductionJeiCategory implements IRecipeCategory<BiogasProductionJeiRecipe> {
     public static final RecipeType<BiogasProductionJeiRecipe> SEPTIC_TANK_RECIPE_TYPE = RecipeType.create(
-            ToiletTechnology.MOD_ID, "septic_tank_biogas_production", BiogasProductionJeiRecipe.class);
+            ModConstants.MOD_ID, "septic_tank_biogas_production", BiogasProductionJeiRecipe.class);
     public static final RecipeType<BiogasProductionJeiRecipe> BIOGAS_POND_RECIPE_TYPE = RecipeType.create(
-            ToiletTechnology.MOD_ID, "biogas_pond_biogas_production", BiogasProductionJeiRecipe.class);
+            ModConstants.MOD_ID, "biogas_pond_biogas_production", BiogasProductionJeiRecipe.class);
     private static final int WIDTH = 150;
     private static final int HEIGHT = 60;
 

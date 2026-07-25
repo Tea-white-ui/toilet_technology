@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlock;
 import cn.tea.toilet.technology.block.sewagepurifier.SewagePurifierBlock;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
@@ -37,7 +37,7 @@ public class ModBlocks {
     /** 方块延迟注册表，使用 NeoForge 的 DeferredRegister 系统 */
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(
             BuiltInRegistries.BLOCK,
-            ToiletTechnology.MOD_ID
+            ModConstants.MOD_ID
     );
 
     /** 粪便方块：具有类似泥土的特性，可减速玩家 */

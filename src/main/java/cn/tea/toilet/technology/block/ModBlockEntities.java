@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.block.sewagepurifier.SewagePurifierBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
@@ -30,7 +30,7 @@ public class ModBlockEntities {
     /** 方块实体延迟注册表 */
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(
             BuiltInRegistries.BLOCK_ENTITY_TYPE,
-            ToiletTechnology.MOD_ID
+            ModConstants.MOD_ID
     );
 
     /** 蹲便器方块实体：仅用于蹲便器方块 */

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.gui;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxMenu;
 import cn.tea.toilet.technology.gui.septictank.SepticTankMenu;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondMenu;
@@ -21,7 +21,7 @@ public class ModMenuTypes {
     /** 菜单类型延迟注册表 */
     public static final DeferredRegister<MenuType<?>> MENU_TYPES = DeferredRegister.create(
             BuiltInRegistries.MENU,
-            ToiletTechnology.MOD_ID
+            ModConstants.MOD_ID
     );
 
     /** 干燥箱菜单类型：使用 vanilla 特性标志集 */

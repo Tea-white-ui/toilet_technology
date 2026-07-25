@@ -1,9 +1,9 @@
 package cn.tea.toilet.technology.block.drying;
+import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.ModTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -269,18 +269,18 @@ public class DryingBoxBlockEntity extends BlockEntity {
 
         ItemStack extracted = entity.inputHandler.extractItem(slot, 1, false);
         if (extracted.isEmpty()) {
-            ToiletTechnology.getLOGGER().warn("DryingBox failed to extract input at slot {}", slot);
+            ModConstants.LOGGER.warn("DryingBox failed to extract input at slot {}", slot);
             return false;
         }
 
         ItemStack actualRemaining = entity.outputHandler.insertItem(slot, output, false);
         if (!actualRemaining.isEmpty()) {
             entity.inputHandler.insertItem(slot, extracted, false);
-            ToiletTechnology.getLOGGER().warn("DryingBox output insertion failed at slot {}, input restored", slot);
+            ModConstants.LOGGER.warn("DryingBox output insertion failed at slot {}, input restored", slot);
             return false;
         }
 
-        ToiletTechnology.getLOGGER().debug("DryingBox complete: slot={}, output={}, pos={}", slot, output, entity.getBlockPos());
+        ModConstants.LOGGER.debug("DryingBox complete: slot={}, output={}, pos={}", slot, output, entity.getBlockPos());
 
         entity.dryingProgress[slot] = 0;
         entity.dryingTotalTime[slot] = 0;
@@ -333,7 +333,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
             if (progress.length == SLOTS) {
                 dryingProgress = progress;
             } else {
-                ToiletTechnology.getLOGGER().warn("DryingBox loaded DryingProgress with invalid length: {}, expected {}", progress.length, SLOTS);
+                ModConstants.LOGGER.warn("DryingBox loaded DryingProgress with invalid length: {}, expected {}", progress.length, SLOTS);
                 dryingProgress = new int[SLOTS];
             }
         }
@@ -342,7 +342,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
             if (totalTime.length == SLOTS) {
                 dryingTotalTime = totalTime;
             } else {
-                ToiletTechnology.getLOGGER().warn("DryingBox loaded DryingTotalTime with invalid length: {}, expected {}", totalTime.length, SLOTS);
+                ModConstants.LOGGER.warn("DryingBox loaded DryingTotalTime with invalid length: {}, expected {}", totalTime.length, SLOTS);
                 dryingTotalTime = new int[SLOTS];
             }
         }
@@ -353,7 +353,7 @@ public class DryingBoxBlockEntity extends BlockEntity {
                     dryingProgressFractional[i] = fractionalList.getFloat(i);
                 }
             } else {
-                ToiletTechnology.getLOGGER().warn("DryingBox loaded DryingProgressFractional with invalid length: {}, expected {}", fractionalList.size(), SLOTS);
+                ModConstants.LOGGER.warn("DryingBox loaded DryingProgressFractional with invalid length: {}, expected {}", fractionalList.size(), SLOTS);
                 dryingProgressFractional = new float[SLOTS];
             }
         }

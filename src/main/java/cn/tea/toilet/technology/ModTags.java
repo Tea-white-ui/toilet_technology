@@ -34,7 +34,7 @@ public class ModTags {
         public static final TagKey<Block> HEAT_SOURCES = tag("heat_sources");
 
         private static TagKey<Block> tag(String name) {
-            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
+            return BlockTags.create(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, name));
         }
     }
 
@@ -60,7 +60,7 @@ public class ModTags {
         public static final TagKey<Item> FLUID_CONTAINERS = tag("fluid_containers");
 
         private static TagKey<Item> tag(String name) {
-            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, name));
+            return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, name));
         }
     }
 }

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.compat.mekanism;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 
 import cn.tea.toilet.technology.gas.GasAction;
@@ -33,7 +33,7 @@ public final class MekanismCompat {
     private static final ItemCapability<IChemicalHandler, Void> CHEMICAL_ITEM =
             ItemCapability.createVoid(CHEMICAL_HANDLER_ID, IChemicalHandler.class);
     private static final DeferredRegister<Chemical> CHEMICALS =
-            DeferredRegister.create(MekanismAPI.CHEMICAL_REGISTRY_NAME, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(MekanismAPI.CHEMICAL_REGISTRY_NAME, ModConstants.MOD_ID);
     private static final DeferredHolder<Chemical, Chemical> BIOGAS = CHEMICALS.register(
             "biogas", () -> new Chemical(ChemicalBuilder.builder(GasRegistry.BIOGAS.texture())
                     .tint(GasRegistry.BIOGAS.tint())));

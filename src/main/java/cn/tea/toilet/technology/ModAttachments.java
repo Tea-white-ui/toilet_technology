@@ -23,7 +23,7 @@ public class ModAttachments {
 
     /** AttachmentType 延迟注册表 */
     public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES =
-            DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, ModConstants.MOD_ID);
 
     /**
      * 玩家蹲马桶的 tick 计数

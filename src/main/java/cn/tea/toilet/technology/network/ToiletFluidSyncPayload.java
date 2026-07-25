@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.network;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -30,7 +30,7 @@ public record ToiletFluidSyncPayload(
      * 网络包类型标识符
      */
     public static final Type<ToiletFluidSyncPayload> TYPE = new Type<>(
-            ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "toilet_fluid_sync")
+            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "toilet_fluid_sync")
     );
     
     /**

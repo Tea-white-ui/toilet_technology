@@ -19,7 +19,7 @@ public class ModCreativeTabs {
     /** 创造模式标签页延迟注册表 */
     public static final DeferredRegister<CreativeModeTab> CREATIVE_TABS = DeferredRegister.create(
             Registries.CREATIVE_MODE_TAB,
-            ToiletTechnology.MOD_ID
+            ModConstants.MOD_ID
     );
 
     /** ce标签页：包含所有模组物品，使用粪便作为图标 */

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.datagen;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageEnUsProvider;
 import cn.tea.toilet.technology.datagen.lang.ModLanguageZhCnProvider;
 import cn.tea.toilet.technology.datagen.loottable.ModLootTableProvider;
@@ -14,7 +14,7 @@ import net.neoforged.neoforge.data.event.GatherDataEvent;
 
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(modid = ToiletTechnology.MOD_ID)
+@EventBusSubscriber(modid = ModConstants.MOD_ID)
 public class DataGenerators {
     @SubscribeEvent
     public static void gatherData(GatherDataEvent event) {
@@ -23,7 +23,7 @@ public class DataGenerators {
         CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
         ExistingFileHelper existingFileHelper = event.getExistingFileHelper();
 
-        ModBlockTagProvider blockTagProvider = new ModBlockTagProvider(output, lookupProvider, ToiletTechnology.MOD_ID, existingFileHelper);
+        ModBlockTagProvider blockTagProvider = new ModBlockTagProvider(output, lookupProvider, ModConstants.MOD_ID, existingFileHelper);
         generator.addProvider(event.includeServer(), blockTagProvider);
 
         ModItemTagProvider itemTagProvider = new ModItemTagProvider(output, lookupProvider, blockTagProvider.contentsGetter(), existingFileHelper);

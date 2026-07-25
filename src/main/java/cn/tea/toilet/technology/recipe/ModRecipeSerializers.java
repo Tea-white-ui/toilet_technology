@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.recipe;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -15,7 +15,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModRecipeSerializers {
 
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-            DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.RECIPE_SERIALIZER, ModConstants.MOD_ID);
 
     // 干燥配方序列化器
     public static final DeferredHolder<RecipeSerializer<?>, DryingRecipeSerializer> DRYING_RECIPE =

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.item;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -29,7 +29,7 @@ public class ModItems {
     /** 物品延迟注册表 */
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(
             BuiltInRegistries.ITEM,
-            ToiletTechnology.MOD_ID
+            ModConstants.MOD_ID
     );
 
     // === 材料 ===

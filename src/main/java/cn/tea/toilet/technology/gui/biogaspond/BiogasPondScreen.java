@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.gui.biogaspond;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
 import cn.tea.toilet.technology.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -21,7 +21,7 @@ import java.util.Optional;
 
 public class BiogasPondScreen extends AbstractContainerScreen<BiogasPondMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
-            ToiletTechnology.MOD_ID, "textures/gui/container/biogas_pond.png");
+            ModConstants.MOD_ID, "textures/gui/container/biogas_pond.png");
     private static final int TANK_X = 44;
     private static final int TANK_WIDTH = 88;
     private static final int GAS_TANK_Y = 23;

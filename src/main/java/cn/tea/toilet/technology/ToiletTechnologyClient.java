@@ -5,14 +5,13 @@ import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
-import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
-import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
+import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
+import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
@@ -31,8 +30,8 @@ import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
-@Mod(value = ToiletTechnology.MOD_ID, dist = Dist.CLIENT)
-@EventBusSubscriber(modid = ToiletTechnology.MOD_ID, value = Dist.CLIENT)
+@Mod(value = ModConstants.MOD_ID, dist = Dist.CLIENT)
+@EventBusSubscriber(modid = ModConstants.MOD_ID, value = Dist.CLIENT)
 public class ToiletTechnologyClient {
     public ToiletTechnologyClient(ModContainer container) {
         container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
@@ -40,24 +39,10 @@ public class ToiletTechnologyClient {
 
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
-        ToiletTechnology.LOGGER.info("HELLO FROM CLIENT SETUP");
-        ToiletTechnology.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
-
-        // enqueueWork 确保在客户端主线程中执行渲染注册
         event.enqueueWork(() -> {
-            // 两个马桶方块共用同一个泛型 BER（内部按 AbstractToiletBlockEntity 上界匹配）
-            BlockEntityRenderers.register(
-                    ModBlockEntities.PREMIUM_TOILET.get(),
-                    ToiletBlockEntityBER::new
-            );
-            BlockEntityRenderers.register(
-                    ModBlockEntities.NETHERITE_TOILET.get(),
-                    ToiletBlockEntityBER::new
-            );
-            BlockEntityRenderers.register(
-                    ModBlockEntities.DRYING_RACK.get(),
-                    DryingRackBlockEntityBER::new
-            );
+            BlockEntityRenderers.register(ModBlockEntities.PREMIUM_TOILET.get(), ToiletBlockEntityBER::new);
+            BlockEntityRenderers.register(ModBlockEntities.NETHERITE_TOILET.get(), ToiletBlockEntityBER::new);
+            BlockEntityRenderers.register(ModBlockEntities.DRYING_RACK.get(), DryingRackBlockEntityBER::new);
         });
     }
 

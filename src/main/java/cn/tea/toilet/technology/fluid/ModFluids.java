@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.fluid;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,11 +22,11 @@ import net.neoforged.neoforge.registries.NeoForgeRegistries;
 public class ModFluids {
     /** 流体类型延迟注册表：定义流体的物理属性 */
     public static final DeferredRegister<FluidType> FLUID_TYPES =
-            DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(NeoForgeRegistries.FLUID_TYPES, ModConstants.MOD_ID);
 
     /** 流体延迟注册表：定义流体实例 */
     public static final DeferredRegister<Fluid> FLUIDS =
-            DeferredRegister.create(BuiltInRegistries.FLUID, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.FLUID, ModConstants.MOD_ID);
 
     /** 粪便液体类型：密度1100（比水重），粘度1500（较粘稠），不可游泳 */
     public static final DeferredHolder<FluidType, FluidType> FECES_LIQUID_TYPE = FLUID_TYPES.register("feces_liquid",

@@ -1,7 +1,7 @@
 
 package cn.tea.toilet.technology.compat.jei;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
@@ -33,7 +33,7 @@ import java.util.List;
 public class ToiletTechnologyJEIPlugin implements IModPlugin {
 
     private static final ResourceLocation PLUGIN_ID = ResourceLocation.fromNamespaceAndPath(
-            ToiletTechnology.MOD_ID, "jei_plugin"
+            ModConstants.MOD_ID, "jei_plugin"
     );
 
     /**

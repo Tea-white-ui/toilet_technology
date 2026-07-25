@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.recipe;
+import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.ToiletTechnology;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -15,12 +15,12 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class ModRecipeTypes {
 
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
-            DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, ToiletTechnology.MOD_ID);
+            DeferredRegister.create(BuiltInRegistries.RECIPE_TYPE, ModConstants.MOD_ID);
 
     // 干燥配方类型
     public static final DeferredHolder<RecipeType<?>, RecipeType<DryingRecipe>> DRYING =
             RECIPE_TYPES.register("drying", () -> RecipeType.simple(
-                    ResourceLocation.fromNamespaceAndPath(ToiletTechnology.MOD_ID, "drying")
+                    ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "drying")
             ));
 
     public static void register(IEventBus bus) {

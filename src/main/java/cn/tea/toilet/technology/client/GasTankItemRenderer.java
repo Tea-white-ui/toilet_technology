@@ -22,15 +22,16 @@ import org.joml.Matrix4f;
 /** Renders the gas stored in a {@link GasTankItem} inside its 16x16 item sprite. */
 public final class GasTankItemRenderer extends BlockEntityWithoutLevelRenderer {
     private static final ResourceLocation FRAME_TEXTURE = texture("item/gas_tank_frame");
-    private static final ResourceLocation GLASS_TEXTURE = texture("item/gas_tank_glass_50");
+    // Matches gas_tank_contents_mask.png: x=4..11, y=4..12 (inclusive).
     private static final int WINDOW_LEFT = 4;
     private static final int WINDOW_TOP = 4;
     private static final int WINDOW_RIGHT = 12;
     private static final int WINDOW_BOTTOM = 13;
+    private static final int GAS_ALPHA = 112;
     private static final float PIXEL = 1.0F / 16.0F;
     private static final float CONTENTS_Z = 0.001F;
-    private static final float GLASS_Z = 0.002F;
     private static final float FRAME_Z = 0.003F;
+
 
     public GasTankItemRenderer(BlockEntityRenderDispatcher dispatcher, EntityModelSet modelSet) {
         super(dispatcher, modelSet);
@@ -46,28 +47,30 @@ public final class GasTankItemRenderer extends BlockEntityWithoutLevelRenderer {
             int fillTop = WINDOW_BOTTOM - filledHeight;
             drawGas(poseStack, buffers, contents, fillTop, packedLight, packedOverlay);
         }
-        drawFullSprite(poseStack, buffers, GLASS_TEXTURE, GLASS_Z, packedLight, packedOverlay);
         drawFullSprite(poseStack, buffers, FRAME_TEXTURE, FRAME_Z, packedLight, packedOverlay);
     }
 
     private static void drawGas(PoseStack poseStack, MultiBufferSource buffers, GasStack contents, int fillTop,
             int packedLight, int packedOverlay) {
         int tint = contents.getGas().tint();
-        VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(contents.getGas().texture()));
+        VertexConsumer consumer = buffers.getBuffer(RenderType.entityTranslucent(textureFile(contents.getGas().texture())));
         Matrix4f pose = poseStack.last().pose();
         float minX = WINDOW_LEFT * PIXEL;
         float maxX = WINDOW_RIGHT * PIXEL;
         float minY = 1.0F - WINDOW_BOTTOM * PIXEL;
         float maxY = 1.0F - fillTop * PIXEL;
-        float u0 = 0.0F;
-        float u1 = (WINDOW_RIGHT - WINDOW_LEFT) * PIXEL;
-        float v0 = (fillTop - WINDOW_TOP) * PIXEL;
-        float v1 = (WINDOW_BOTTOM - WINDOW_TOP) * PIXEL;
+        // Map an 8x9 consecutive texel area at native scale to the 8x9 tank
+        // window. This retains visible gas texture detail without shrinking the
+        // whole 16x16 texture into the item icon.
+        float u0 = 4.0F * PIXEL;
+        float u1 = 12.0F * PIXEL;
+        float v1 = 12.0F * PIXEL;
+        float v0 = v1 - (WINDOW_BOTTOM - fillTop) * PIXEL;
         int red = tint >>> 16 & 0xFF;
         int green = tint >>> 8 & 0xFF;
         int blue = tint & 0xFF;
         addQuad(consumer, pose, minX, minY, maxX, maxY, CONTENTS_Z, u0, v0, u1, v1,
-                red, green, blue, 255, packedLight, packedOverlay);
+                red, green, blue, GAS_ALPHA, packedLight, packedOverlay);
     }
 
     private static void drawFullSprite(PoseStack poseStack, MultiBufferSource buffers, ResourceLocation texture,
@@ -92,5 +95,10 @@ public final class GasTankItemRenderer extends BlockEntityWithoutLevelRenderer {
 
     private static ResourceLocation texture(String path) {
         return ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "textures/" + path + ".png");
+    }
+
+    /** Converts a block-atlas sprite ID into the corresponding standalone PNG texture path. */
+    private static ResourceLocation textureFile(ResourceLocation sprite) {
+        return ResourceLocation.fromNamespaceAndPath(sprite.getNamespace(), "textures/" + sprite.getPath() + ".png");
     }
 }

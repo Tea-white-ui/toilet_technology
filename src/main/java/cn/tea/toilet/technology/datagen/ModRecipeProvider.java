@@ -36,6 +36,19 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_CONTROLLER.get())
+                .pattern("IOI")
+                .pattern("RBR")
+                .pattern("CEC")
+                .define('I', Items.IRON_INGOT)
+                .define('O', Items.OBSERVER)
+                .define('R', Items.REDSTONE)
+                .define('B', ModBlocks.BIOGAS_POND_WALL.get())
+                .define('C', Items.COPPER_INGOT)
+                .define('E', Items.ENDER_PEARL)
+                .unlockedBy(getHasName(ModBlocks.BIOGAS_POND_WALL.get()), has(ModBlocks.BIOGAS_POND_WALL.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.SEALING_COMPONENT.get(), 4)
                 .pattern("SCS")
                 .pattern("CRC")

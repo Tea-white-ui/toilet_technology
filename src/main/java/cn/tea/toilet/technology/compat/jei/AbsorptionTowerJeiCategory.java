@@ -86,8 +86,6 @@ public final class AbsorptionTowerJeiCategory implements IRecipeCategory<Absorpt
         var font = Minecraft.getInstance().font;
         graphics.drawString(font, Component.translatable("jei.toilet_technology.absorption_tower.per_batch"),
                 26, 65, 0x404040, false);
-        graphics.drawString(font, Component.translatable("jei.toilet_technology.absorption_tower.structure",
-                AbsorptionTowerJeiLayout.STRUCTURE_BLOCK_COUNT), 119, 3, 0x404040, false);
         for (int bodyIndex = 0; bodyIndex < AbsorptionTowerJeiLayout.BODY_BLOCK_COUNT; bodyIndex++) {
             graphics.renderItem(new ItemStack(ModBlocks.ABSORPTION_TOWER_BODY.get()), AbsorptionTowerJeiLayout.STRUCTURE_X,
                     AbsorptionTowerJeiLayout.STRUCTURE_TOP_Y + bodyIndex * AbsorptionTowerJeiLayout.STRUCTURE_BLOCK_SPACING);
@@ -95,7 +93,5 @@ public final class AbsorptionTowerJeiCategory implements IRecipeCategory<Absorpt
         graphics.renderItem(new ItemStack(ModBlocks.ABSORPTION_TOWER_BOTTOM.get()), AbsorptionTowerJeiLayout.STRUCTURE_X,
                 AbsorptionTowerJeiLayout.STRUCTURE_TOP_Y + AbsorptionTowerJeiLayout.BODY_BLOCK_COUNT
                         * AbsorptionTowerJeiLayout.STRUCTURE_BLOCK_SPACING);
-        graphics.drawString(font, Component.translatable("jei.toilet_technology.absorption_tower.same_facing"),
-                112, 84, 0x404040, false);
     }
 }

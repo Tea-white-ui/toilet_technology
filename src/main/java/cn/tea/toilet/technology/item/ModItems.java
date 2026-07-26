@@ -34,7 +34,7 @@ public class ModItems {
 
     // === 材料 ===
         /** 粪便物品：可食用但会产生负面效果（失明、减速、反胃） */
-        public static final DeferredHolder<Item, Item> FECES = ITEMS.register("feces", () -> new Item(
+        public static final DeferredHolder<Item, Item> FECES = ITEMS.register("feces", () -> new TooltipItem(
                 new Item.Properties().food(new FoodProperties
                         .Builder()
                         .alwaysEdible()
@@ -43,15 +43,15 @@ public class ModItems {
                         .effect(() -> new MobEffectInstance(MobEffects.BLINDNESS, 20, 5), 1.0f)
                         .effect(() -> new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 80, 1), 1.0f)
                         .effect(() -> new MobEffectInstance(MobEffects.CONFUSION, 200, 1), 1.0f)
-                        .build())));
+                        .build()), "tooltip.toilet_technology.feces"));
 
         /** 干燥粪便物品：用于干燥配方或其他用途的基础材料 */
         public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",
-                () -> new Item(new Item.Properties()));
+                () -> new TooltipItem(new Item.Properties(), "tooltip.toilet_technology.dried_feces"));
 
-        /** 沼渣物品：沼气生产的副产物 */
+        /** 沼渣物品：沼气生产的副产物，可作为骨粉催熟作物。 */
         public static final DeferredHolder<Item, Item> BIOGAS_RESIDUE = ITEMS.register("biogas_residue",
-                () -> new Item(new Item.Properties()));
+                () -> new BiogasResidueItem(new Item.Properties(), "tooltip.toilet_technology.biogas_residue"));
 
         /** 密封组件：用于合成化粪池壁的密封材料 */
         public static final DeferredHolder<Item, Item> SEALING_COMPONENT = ITEMS.register("sealing_component",
@@ -63,7 +63,7 @@ public class ModItems {
 
         /** 多层烧结金属网：由金属网熔炼制成的高级材料 */
         public static final DeferredHolder<Item, Item> MULTI_LAYER_SINTERED_METAL_MESH = ITEMS.register("multi_layer_sintered_metal_mesh",
-                () -> new Item(new Item.Properties()));
+                () -> new TooltipItem(new Item.Properties(), "tooltip.toilet_technology.multi_layer_sintered_metal_mesh"));
 
     // === 方块物品 ===
     /** 粪便方块物品 */

@@ -76,6 +76,10 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("tooltip.toilet_technology.gas_tank.empty", "Empty");
         add("tooltip.toilet_technology.gas_tank.amount", "Stores: %s %s / %s mB");
         add("tooltip.toilet_technology.gas_tank.sealed", "Sealed container: cannot be placed in the world");
+        add("tooltip.toilet_technology.feces", "You can't eat this...");
+        add("tooltip.toilet_technology.dried_feces", "An efficient fuel");
+        add("tooltip.toilet_technology.biogas_residue", "Can be used as fertilizer");
+        add("tooltip.toilet_technology.multi_layer_sintered_metal_mesh", "A high-strength material");
 
 
 

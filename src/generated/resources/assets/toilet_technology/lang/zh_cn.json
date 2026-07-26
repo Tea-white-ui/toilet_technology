@@ -61,7 +61,11 @@
   "jei.toilet_technology.septic_tank_biogas.title": "化粪池发酵",
   "message.toilet_technology.biogas_pond_invalid": "5×5×5 沼气池结构不完整（内部必须为 3×3×3 空心）",
   "message.toilet_technology.septic_tank_invalid": "3×4×3 化粪池结构不完整",
+  "tooltip.toilet_technology.biogas_residue": "可当作肥料",
+  "tooltip.toilet_technology.dried_feces": "高效的燃料",
+  "tooltip.toilet_technology.feces": "这东西不能吃...",
   "tooltip.toilet_technology.gas_tank.amount": "储存：%s %s / %s mB",
   "tooltip.toilet_technology.gas_tank.empty": "空",
-  "tooltip.toilet_technology.gas_tank.sealed": "密封容器：无法在世界中放置"
+  "tooltip.toilet_technology.gas_tank.sealed": "密封容器：无法在世界中放置",
+  "tooltip.toilet_technology.multi_layer_sintered_metal_mesh": "高强度材料"
 }

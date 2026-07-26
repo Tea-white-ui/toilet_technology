@@ -34,7 +34,7 @@ repositories {
             includeGroup "mekanism"
         }
     }
-    // CurseMaven仓库 - 用于下载JEI等CurseForge模组
+    // CurseMaven仓库 - 用于下载 JEI、Create 等 CurseForge 模组
     maven {
         name = "CurseMaven"
         url = "https://www.cursemaven.com"
@@ -147,6 +147,10 @@ dependencies {
  compileOnly "curse.maven:jei-238222:${jei_file_id}"
  localRuntime "curse.maven:jei-238222:${jei_file_id}"
 
+ // Optional Create dependency for the isolated compatibility layer.
+ compileOnly "curse.maven:create-328085:${create_file_id}"
+ localRuntime "curse.maven:create-328085:${create_file_id}"
+
  // Optional Mekanism API for the isolated compatibility bridge.
  compileOnly "mekanism:Mekanism:${mekanism_version}:api"
  if (!providers.gradleProperty("withoutMekanism").isPresent()) {
@@ -196,6 +200,13 @@ var generateModMetadata = tasks.register("generateModMetadata", ProcessResources
     modId=\"mekanism\"
     type=\"optional\"
     versionRange=\"[10.7.19,)\"
+    ordering=\"AFTER\"
+    side=\"BOTH\"
+
+[[dependencies.toilet_technology]]
+    modId=\"create\"
+    type=\"optional\"
+    versionRange=\"[6.0.10,)\"
     ordering=\"AFTER\"
     side=\"BOTH\"
 

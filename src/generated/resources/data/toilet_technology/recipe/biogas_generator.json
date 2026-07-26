@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": {
+      "item": "toilet_technology:gas_tank"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "toilet_technology:multi_layer_sintered_metal_mesh"
+    },
+    "P": {
+      "item": "minecraft:piston"
+    },
+    "W": {
+      "item": "toilet_technology:biogas_pond_wall"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "MGM",
+    "IWI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:biogas_generator"
+  }
+}

@@ -4,16 +4,11 @@ import cn.tea.toilet.technology.ModTags;
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Consumer;
 
 /**
  * 干燥配方数据生成器

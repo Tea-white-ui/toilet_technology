@@ -10,7 +10,6 @@ import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
-import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
 
 import net.minecraft.core.BlockPos;

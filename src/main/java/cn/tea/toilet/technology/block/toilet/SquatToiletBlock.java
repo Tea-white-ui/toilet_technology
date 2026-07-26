@@ -1,6 +1,5 @@
 package cn.tea.toilet.technology.block.toilet;
 
-import cn.tea.toilet.technology.block.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.BaseEntityBlock;

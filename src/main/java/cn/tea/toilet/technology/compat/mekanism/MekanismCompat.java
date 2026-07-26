@@ -77,9 +77,7 @@ public final class MekanismCompat {
         @Override public int getChemicalTanks() { return delegate.getGasTanks(); }
 
         @Override public ChemicalStack getChemicalInTank(int tank) {
-            GasStack stack = delegate.getGasInTank(tank);
-            Chemical chemical = chemicalFor(stack.gas());
-            return stack.isEmpty() || chemical == null ? ChemicalStack.EMPTY : new ChemicalStack(chemical, stack.amount());
+            return chemicalStackFor(delegate.getGasInTank(tank));
         }
 
         @Override public void setChemicalInTank(int tank, ChemicalStack stack) {
@@ -102,14 +100,14 @@ public final class MekanismCompat {
             GasStack remainder = delegate.insertGas(tank,
                     new GasStack(gas, stack.getAmount()),
                     action == Action.EXECUTE ? GasAction.EXECUTE : GasAction.SIMULATE);
-            return remainder.isEmpty() ? ChemicalStack.EMPTY : new ChemicalStack(stack.getChemical(), remainder.amount());
+            return remainder.isEmpty() ? ChemicalStack.EMPTY
+                    : new ChemicalStack(stack.getChemicalHolder(), remainder.amount());
         }
 
         @Override public ChemicalStack extractChemical(int tank, long amount, Action action) {
             GasStack extracted = delegate.extractGas(tank, amount,
                     action == Action.EXECUTE ? GasAction.EXECUTE : GasAction.SIMULATE);
-            Chemical chemical = chemicalFor(extracted.gas());
-            return extracted.isEmpty() || chemical == null ? ChemicalStack.EMPTY : new ChemicalStack(chemical, extracted.amount());
+            return chemicalStackFor(extracted);
         }
 
         private static @Nullable Gas gasFor(ChemicalStack stack) {
@@ -118,10 +116,11 @@ public final class MekanismCompat {
             return null;
         }
 
-        private static @Nullable Chemical chemicalFor(@Nullable Gas gas) {
-            if (GasRegistry.BIOGAS.equals(gas)) return BIOGAS.get();
-            if (GasRegistry.METHANE.equals(gas)) return METHANE.get();
-            return null;
+        private static ChemicalStack chemicalStackFor(GasStack stack) {
+            if (stack.isEmpty()) return ChemicalStack.EMPTY;
+            if (GasRegistry.BIOGAS.equals(stack.gas())) return new ChemicalStack(BIOGAS, stack.amount());
+            if (GasRegistry.METHANE.equals(stack.gas())) return new ChemicalStack(METHANE, stack.amount());
+            return ChemicalStack.EMPTY;
         }
     }
 }

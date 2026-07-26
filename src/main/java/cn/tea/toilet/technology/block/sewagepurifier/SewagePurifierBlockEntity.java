@@ -2,7 +2,6 @@ package cn.tea.toilet.technology.block.sewagepurifier;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.compat.PoopSkyCompat;
-import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

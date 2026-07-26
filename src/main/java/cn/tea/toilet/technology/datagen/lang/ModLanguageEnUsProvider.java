@@ -1,8 +1,7 @@
 package cn.tea.toilet.technology.datagen.lang;
 import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.block.ModBlocks;import cn.tea.toilet.technology.datagen.ModItemTagProvider;
-import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.data.PackOutput;
 import net.neoforged.neoforge.common.data.LanguageProvider;

@@ -7,6 +7,7 @@ import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.particle.ModParticles;
 import cn.tea.toilet.technology.recipe.ModRecipeSerializers;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import cn.tea.toilet.technology.sound.ModSounds;
@@ -27,6 +28,7 @@ public final class ModRegistries {
         ModMenuTypes.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModSounds.register(modEventBus);
+        ModParticles.register(modEventBus);
         ModRecipeSerializers.register(modEventBus);
         ModRecipeTypes.register(modEventBus);
         ModAttachments.register(modEventBus);

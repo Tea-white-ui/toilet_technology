@@ -132,19 +132,21 @@ configurations {
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.11.4')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+ testImplementation platform('org.junit:junit-bom:5.11.4')
+ testImplementation 'org.junit.jupiter:junit-jupiter'
+ testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Example optional mod dependency with JEI
-    // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
-    // JEI依赖 - 使用CurseMaven格式
-    compileOnly "curse.maven:jei-238222:${jei_file_id}"
-    localRuntime "curse.maven:jei-238222:${jei_file_id}"
+ testImplementation "net.neoforged:neoforge:${neo_version}"
 
-    // Optional Mekanism API for the isolated compatibility bridge.
-    compileOnly "mekanism:Mekanism:${mekanism_version}:api"
-    if (!providers.gradleProperty("withoutMekanism").isPresent()) {
+ // Example optional mod dependency with JEI
+ // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
+ // JEI依赖 - 使用CurseMaven格式
+ compileOnly "curse.maven:jei-238222:${jei_file_id}"
+ localRuntime "curse.maven:jei-238222:${jei_file_id}"
+
+ // Optional Mekanism API for the isolated compatibility bridge.
+ compileOnly "mekanism:Mekanism:${mekanism_version}:api"
+ if (!providers.gradleProperty("withoutMekanism").isPresent()) {
         localRuntime "mekanism:Mekanism:${mekanism_version}"
     }
 

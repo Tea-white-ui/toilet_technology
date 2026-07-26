@@ -9,6 +9,8 @@ import cn.tea.toilet.technology.block.toilet.PremiumToiletBlockEntity;
 import cn.tea.toilet.technology.block.toilet.SquatToiletBlock;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.particle.DefecationParticleMotion;
+import cn.tea.toilet.technology.particle.ModParticles;
 import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -98,8 +100,10 @@ public class PlayerToiletHandler {
 
                 if (onPremiumToilet || onNetheriteToilet) {
                     handlePremiumToilet(player, stateAtFeet, stateBelow, feet, below);
+                    spawnDefecationParticles((ServerLevel) player.level(), player);
                 } else {
                     produceFeces(player);
+                    spawnDefecationParticles((ServerLevel) player.level(), player);
                 }
 
                 playFartSound(player);
@@ -196,6 +200,20 @@ public class PlayerToiletHandler {
         );
         item.setPickUpDelay(8);
         player.level().addFreshEntity(item);
+    }
+
+    /**
+     * Emits a small ring of brown clouds from the player's feet for every toilet action.
+     */
+    private void spawnDefecationParticles(ServerLevel level, Player player) {
+        for (int index = 0; index < 14; index++) {
+            double angle = player.getRandom().nextDouble() * Math.TAU;
+            double speed = 0.035D + player.getRandom().nextDouble() * 0.065D;
+            DefecationParticleMotion motion = DefecationParticleMotion.fromAngle(angle, speed);
+            level.sendParticles(ModParticles.DEFECATION_CLOUD.get(),
+                    player.getX(), player.getY() + 0.08D, player.getZ(),
+                    0, motion.xVelocity(), motion.yVelocity(), motion.zVelocity(), 1.0D);
+        }
     }
 
     /**

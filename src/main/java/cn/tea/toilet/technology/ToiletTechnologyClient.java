@@ -9,6 +9,8 @@ import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.fluid.WastewaterFluidType;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
+import cn.tea.toilet.technology.particle.DefecationCloudParticle;
+import cn.tea.toilet.technology.particle.ModParticles;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
@@ -31,6 +33,7 @@ import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.jetbrains.annotations.NotNull;
@@ -50,6 +53,11 @@ public class ToiletTechnologyClient {
             BlockEntityRenderers.register(ModBlockEntities.NETHERITE_TOILET.get(), ToiletBlockEntityBER::new);
             BlockEntityRenderers.register(ModBlockEntities.DRYING_RACK.get(), DryingRackBlockEntityBER::new);
         });
+    }
+
+    @SubscribeEvent
+    static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
+        event.registerSpriteSet(ModParticles.DEFECATION_CLOUD.get(), DefecationCloudParticle.Provider::new);
     }
 
     @SubscribeEvent

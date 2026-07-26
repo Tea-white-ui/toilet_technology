@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.biogaspond;
 /** Pure batch-selection rules for biogas-pond production. Amounts use mB. */
 public final class BiogasPondBiogasProduction {
     public static final int INTERVAL_TICKS = 5;
+    public static final int RESIDUE_PRODUCTION_CHANCE_PERCENT = 5;
     private static final int LOW_LIQUID_THRESHOLD = 10_000;
     private static final int HIGH_LIQUID_THRESHOLD = 32_000;
     private static final long LOW_LIQUID_GAS_OUTPUT = 10;
@@ -15,6 +16,11 @@ public final class BiogasPondBiogasProduction {
 
     public static int nextProgress(int currentProgress, boolean canProduce) {
         return canProduce ? currentProgress + 1 : 0;
+    }
+
+    /** Returns whether a 0..99 random roll produces one unit of biogas residue. */
+    public static boolean shouldProduceResidue(int randomRoll) {
+        return randomRoll >= 0 && randomRoll < RESIDUE_PRODUCTION_CHANCE_PERCENT;
     }
 
     public static Batch planBatch(boolean containsFecesLiquid, int liquidAmount,

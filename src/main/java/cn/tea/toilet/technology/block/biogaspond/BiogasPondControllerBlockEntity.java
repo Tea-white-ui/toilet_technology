@@ -11,6 +11,7 @@ import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
+import cn.tea.toilet.technology.item.ModItems;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
@@ -141,7 +142,23 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         GasStack remainder = gasTank.insert(new GasStack(GasRegistry.BIOGAS, batch.gasProduced()), GasAction.EXECUTE);
         if (!remainder.isEmpty()) return;
         if (batch.liquidConsumed() > 0) liquidTank.drain(batch.liquidConsumed(), IFluidHandler.FluidAction.EXECUTE);
+        if (BiogasPondBiogasProduction.shouldProduceResidue(level.random.nextInt(100))) {
+            machineInsertResidue();
+        }
         setChanged();
+    }
+
+    private void machineInsertResidue() {
+        ItemStack residue = new ItemStack(ModItems.BIOGAS_RESIDUE.get());
+        ItemStack existing = items.getStackInSlot(OUTPUT_SLOT);
+        if (existing.isEmpty()) {
+            items.setStackInSlot(OUTPUT_SLOT, residue);
+        } else if (ItemStack.isSameItemSameComponents(existing, residue)
+                && existing.getCount() < Math.min(existing.getMaxStackSize(), items.getSlotLimit(OUTPUT_SLOT))) {
+            ItemStack combined = existing.copy();
+            combined.grow(1);
+            items.setStackInSlot(OUTPUT_SLOT, combined);
+        }
     }
 
     private List<BiogasGeneratorBlockEntity> findBiogasGenerators() {

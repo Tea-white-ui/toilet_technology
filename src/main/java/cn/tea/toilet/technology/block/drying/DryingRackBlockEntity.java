@@ -30,16 +30,15 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     // 物品处理器，管理4个槽位（每槽最多1个物品，与视觉设计一致）
     // 注意：这里覆写了所有会改变物品的入口（setStackInSlot/insertItem/extractItem），
-    // 用 suppressSlotSync 计数器来让 BlockEntity 能"原子地"做多次变更、只触发一次同步，
-    // 避免一次干燥完成时连发两个网络包。
+    // 用 suppressSlotSync 计数器让一组变更只发送一个同步包，避免干燥完成时连发两个网络包。
     public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
             cachedRecipes[slot] = null;
             noRecipeMatch[slot] = false;
-            if (level != null && !level.isClientSide() && suppressSlotSync == 0) {
-                requestSync();
+            if (level != null && !level.isClientSide()) {
+                inventorySyncPending = true;
             }
         }
 
@@ -54,7 +53,7 @@ public class DryingRackBlockEntity extends BlockEntity {
             try {
                 super.setStackInSlot(slot, stack);
             } finally {
-                suppressSlotSync--;
+                finishSlotMutation();
             }
         }
 
@@ -64,7 +63,7 @@ public class DryingRackBlockEntity extends BlockEntity {
             try {
                 return super.insertItem(slot, stack, simulate);
             } finally {
-                suppressSlotSync--;
+                finishSlotMutation();
             }
         }
 
@@ -74,13 +73,15 @@ public class DryingRackBlockEntity extends BlockEntity {
             try {
                 return super.extractItem(slot, amount, simulate);
             } finally {
-                suppressSlotSync--;
+                finishSlotMutation();
             }
         }
     };
 
-    // 抑制同步的计数器（>0 时 onContentsChanged 不发网络包）
+    // 抑制同步的计数器（>0 时将变更合并为一次同步）
     private int suppressSlotSync = 0;
+    // 有物品变更但仍处于原子操作中时置为 true；最外层操作结束后立即同步。
+    private boolean inventorySyncPending = false;
 
     // 每个槽位的干燥进度（单位：tick）
     public int[] dryingProgress = new int[4];
@@ -129,6 +130,18 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     private void requestSync() {
         syncRequested = true;
+    }
+
+    /**
+     * 完成一次物品栏变更。玩家交互发生在 BlockEntity 的 tick 之后；若只等下一次 tick
+     * 再发送，会让无干燥配方的物品最多延迟 10 tick 才显示。因此最外层变更结束时立即发送。
+     */
+    private void finishSlotMutation() {
+        suppressSlotSync--;
+        if (suppressSlotSync == 0 && inventorySyncPending) {
+            inventorySyncPending = false;
+            syncToClients();
+        }
     }
 
     private void flushSync(boolean progressChanged) {
@@ -198,33 +211,34 @@ public class DryingRackBlockEntity extends BlockEntity {
                 if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
                     // 原子地完成干燥：先 extract 再 insert，中途抑制同步，最后只发一次包
                     ItemStack output = recipe.getResultItem(level.registryAccess());
-                    ItemStack extracted = entity.itemHandler.extractItem(i, 1, false);
-                    if (extracted.isEmpty()) {
-                        // 输入槽被外部并发清空，放弃本次产出
+                    entity.suppressSlotSync++;
+                    try {
+                        ItemStack extracted = entity.itemHandler.extractItem(i, 1, false);
+                        if (extracted.isEmpty()) {
+                            // 输入槽被外部并发清空，放弃本次产出
+                            entity.dryingProgress[i] = 0;
+                            entity.dryingTotalTime[i] = 0;
+                            entity.cachedRecipes[i] = null;
+                            entity.noRecipeMatch[i] = false;
+                            progressChanged = true;
+                            continue;
+                        }
+
+                        // 输出槽 slot limit == 1，多出来的部分直接掉世界（与原行为一致）
+                        ItemStack remaining = entity.itemHandler.insertItem(i, output.copy(), false);
+                        if (!remaining.isEmpty()) {
+                            net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
+                        }
+
                         entity.dryingProgress[i] = 0;
                         entity.dryingTotalTime[i] = 0;
                         entity.cachedRecipes[i] = null;
                         entity.noRecipeMatch[i] = false;
                         progressChanged = true;
-                        continue;
-                    }
-
-                    // 输出槽 slot limit == 1，多出来的部分直接掉世界（与原行为一致）
-                    ItemStack remaining = entity.itemHandler.insertItem(i, output.copy(), false);
-                    if (!remaining.isEmpty()) {
-                        net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
+                    } finally {
+                        entity.finishSlotMutation();
                     }
                     ModConstants.LOGGER.debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
-
-                    entity.dryingProgress[i] = 0;
-                    entity.dryingTotalTime[i] = 0;
-                    entity.cachedRecipes[i] = null;
-                    entity.noRecipeMatch[i] = false;
-                    progressChanged = true;
-
-                    // 上面 extract/insert 已被 suppressSlotSync 抑制；本 tick 末尾合并同步。
-                    entity.setChanged();
-                    entity.requestSync();
                 }
             } else {
                 if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {

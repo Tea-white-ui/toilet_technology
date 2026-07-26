@@ -22,6 +22,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
     @Override
     protected void addTags(HolderLookup.@NotNull Provider provider) {
+        this.tag(BlockTags.WALLS)
+                .add(ModBlocks.ANTISEPTIC_BRICK_WALL.get());
+
         this.tag(ModTags.Blocks.BUILDING_BLOCKS)
                 .add(ModBlocks.FECES_BLOCK.get())
                 .add(ModBlocks.DRIED_FECES_BLOCK.get())

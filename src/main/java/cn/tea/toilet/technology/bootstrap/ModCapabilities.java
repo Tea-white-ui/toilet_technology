@@ -53,6 +53,8 @@ public final class ModCapabilities {
     }
 
     private static void registerBiogasPondHandlers(RegisterCapabilitiesEvent event) {
+        event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
+                (blockEntity, side) -> blockEntity.getItemHandler(side));
         event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),
                 (blockEntity, side) -> blockEntity.getGasHandler(side));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.BIOGAS_POND_PORT.get(),

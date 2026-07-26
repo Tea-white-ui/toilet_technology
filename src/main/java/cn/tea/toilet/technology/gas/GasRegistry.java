@@ -18,6 +18,7 @@ public final class GasRegistry {
 
     private GasRegistry() { }
 
+    public static List<Gas> gases() { return GASES; }
     public static int id(Gas gas) { return GASES.indexOf(gas); }
     public static @Nullable Gas byId(int id) { return id >= 0 && id < GASES.size() ? GASES.get(id) : null; }
     public static @Nullable Gas byId(@Nullable ResourceLocation id) {

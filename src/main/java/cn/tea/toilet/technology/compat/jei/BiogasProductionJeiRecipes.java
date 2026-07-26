@@ -34,7 +34,7 @@ public final class BiogasProductionJeiRecipes {
                 BiogasPondBiogasProduction.INTERVAL_TICKS,
                 true,
                 BiogasPondControllerBlockEntity.GENERATOR_ENERGY_PER_BATCH,
-                0
+                BiogasPondBiogasProduction.RESIDUE_PRODUCTION_CHANCE_PERCENT
         ));
     }
 

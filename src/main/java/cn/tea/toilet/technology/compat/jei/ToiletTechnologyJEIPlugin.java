@@ -53,7 +53,8 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(
                 BiogasProductionJeiCategory.septicTank(registration.getJeiHelpers().getGuiHelper()),
-                BiogasProductionJeiCategory.biogasPond(registration.getJeiHelpers().getGuiHelper())
+                BiogasProductionJeiCategory.biogasPond(registration.getJeiHelpers().getGuiHelper()),
+                new AbsorptionTowerJeiCategory(registration.getJeiHelpers().getGuiHelper())
         );
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCategory(definition, registration);
@@ -68,6 +69,7 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
                 BiogasProductionJeiRecipes.septicTankRecipes());
         registration.addRecipes(BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE,
                 BiogasProductionJeiRecipes.biogasPondRecipes());
+        registration.addRecipes(AbsorptionTowerJeiCategory.RECIPE_TYPE, AbsorptionTowerJeiRecipes.recipes());
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) {
@@ -89,6 +91,10 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
                 BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.BIOGAS_GENERATOR.get()),
                 BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ABSORPTION_TOWER_BOTTOM.get()),
+                AbsorptionTowerJeiCategory.RECIPE_TYPE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ABSORPTION_TOWER_BODY.get()),
+                AbsorptionTowerJeiCategory.RECIPE_TYPE);
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCatalysts(definition, registration);
         }
@@ -98,7 +104,7 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
     public void registerIngredients(IModIngredientRegistration registration) {
         registration.register(
                 GasStackJeiIngredient.TYPE,
-                List.of(new GasStack(GasRegistry.BIOGAS, 1)),
+                GasRegistry.gases().stream().map(gas -> new GasStack(gas, 1)).toList(),
                 new GasStackJeiIngredientHelper(),
                 new GasStackJeiIngredientRenderer(),
                 GasStackJeiIngredient.CODEC

@@ -28,6 +28,10 @@ public final class AbsorptionTowerRecipeRegistry {
     private AbsorptionTowerRecipeRegistry() {
     }
 
+    public static List<AbsorptionTowerRecipe> recipes() {
+        return RECIPES;
+    }
+
     public static @Nullable AbsorptionTowerRecipe find(Gas inputGas, net.minecraft.world.level.material.Fluid inputFluid) {
         return RECIPES.stream()
                 .filter(recipe -> recipe.inputGas().equals(inputGas) && recipe.inputFluid().isSame(inputFluid))

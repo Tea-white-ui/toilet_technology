@@ -28,14 +28,15 @@ class BiogasProductionJeiRecipesTest {
     }
 
     @Test
-    void biogasPondUsesOneSummaryRecipeWithOptionalGeneratorBonus() {
+    void biogasPondUsesOneSummaryRecipeWithResidueAndOptionalGeneratorBonus() {
         List<BiogasProductionJeiRecipe> recipes = BiogasProductionJeiRecipes.biogasPondRecipes();
 
         assertEquals(1, recipes.size());
         BiogasProductionJeiRecipe recipe = recipes.getFirst();
         assertEquals(10, recipe.minimumBiogasAmount());
         assertEquals(50, recipe.maximumBiogasAmount());
-        assertFalse(recipe.hasResidueOutput());
+        assertTrue(recipe.hasResidueOutput());
+        assertEquals(5, recipe.residueChancePercent());
         assertTrue(recipe.requiresGeneratorEnergy());
         assertEquals(128, recipe.energyPerBatch());
     }

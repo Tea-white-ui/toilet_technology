@@ -47,6 +47,10 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("jei.toilet_technology.biogas.duration", "Duration per batch: %s s");
         add("jei.toilet_technology.biogas.generator_energy", "Biogas generator: %s FE / batch (output ×2)");
         add("jei.toilet_technology.biogas.residue_probability", "%s%% chance");
+        add("jei.toilet_technology.absorption_tower.title", "Absorption Tower");
+        add("jei.toilet_technology.absorption_tower.per_batch", "Conversion per batch");
+        add("jei.toilet_technology.absorption_tower.structure", "Structure (%s blocks high)");
+        add("jei.toilet_technology.absorption_tower.same_facing", "All blocks face the same direction");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "Septic Tank Controller");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "Septic Tank Wall");
         add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "Septic Tank Liquid Input Port");
@@ -69,6 +73,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("gui.toilet_technology.pressure", "Pressure");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
         add("gas.toilet_technology.biogas", "Biogas");
+        add("gas.toilet_technology.methane", "Methane");
         add("chemical.toilet_technology.biogas", "Biogas");
         add("tooltip.toilet_technology.gas_tank.empty", "Empty");
         add("tooltip.toilet_technology.gas_tank.amount", "Stores: %s %s / %s mB");

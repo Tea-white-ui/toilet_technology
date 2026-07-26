@@ -43,3 +43,4 @@ repo/
 hermes/
 IDEA.md
 .hermes/
+.hermes/**

@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.datagen;
 
+import cn.tea.toilet.technology.ModTags;
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.recipe.DryingRecipe;
@@ -26,7 +27,7 @@ public class ModDryingRecipeProvider {
     public static void addRecipes(RecipeOutput output) {
         createDryingRecipe(
                 output,
-                Ingredient.of(ModItems.FECES.get()), // 输入
+                Ingredient.of(ModTags.Items.FECES), // 输入
                 new ItemStack(ModItems.DRIED_FECES.get()), // 输出
                 600, // 干燥时间
                 "feces_to_dried_feces"

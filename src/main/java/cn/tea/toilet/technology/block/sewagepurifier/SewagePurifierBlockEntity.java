@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.sewagepurifier;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.BlockPos;
@@ -84,7 +85,7 @@ public class SewagePurifierBlockEntity extends BlockEntity {
     }
 
     private static boolean isFecesLiquid(FluidStack stack) {
-        return stack.is(ModFluids.FECES_LIQUID.get()) || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        return PoopSkyCompat.isFecesLiquid(stack);
     }
 
     private static boolean isWater(FluidStack stack) {

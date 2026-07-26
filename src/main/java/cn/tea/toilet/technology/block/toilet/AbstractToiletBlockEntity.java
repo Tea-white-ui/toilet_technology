@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.block.toilet;
 
+import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -60,7 +61,7 @@ public abstract class AbstractToiletBlockEntity extends BlockEntity {
                 // 这是下界合金马桶的"无限粪液"设计（用户明确要求保留）
                 if (isInfiniteFecesSource()
                         && getFluidAmount() > 0
-                        && getFluid().is(cn.tea.toilet.technology.fluid.ModFluids.FECES_LIQUID.get())) {
+                        && PoopSkyCompat.isFecesLiquid(getFluid())) {
                     int amount = Math.min(getFluidAmount(), maxDrain);
                     return getFluid().copyWithAmount(amount);
                 }

@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.datagen;
 import cn.tea.toilet.technology.ModConstants;
+import cn.tea.toilet.technology.ModTags;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.item.ModItems;
@@ -156,7 +157,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("###")
                 .pattern("###")
                 .define('#', Ingredient.of(ItemTags.PLANKS))
-                .define('D', ModItems.FECES.get())
+                .define('D', ModTags.Items.FECES)
                 .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
                 .save(output);
 
@@ -165,7 +166,7 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("###")
                 .pattern("###")
                 .define('#', Items.STONE)
-                .define('D', ModItems.FECES.get())
+                .define('D', ModTags.Items.FECES)
                 .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
                 .save(output);
 

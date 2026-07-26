@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.datagen;
 
 import cn.tea.toilet.technology.ModTags;
+import cn.tea.toilet.technology.compat.PoopSkyCompatIds;
 import cn.tea.toilet.technology.item.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -21,7 +22,8 @@ public class ModItemTagProvider extends ItemTagsProvider {
         // 材料
         this.tag(ModTags.Items.FECES)
                 .add(ModItems.FECES.get())
-                .add(ModItems.DRIED_FECES.get());
+                .add(ModItems.DRIED_FECES.get())
+                .addOptional(net.minecraft.resources.ResourceLocation.parse(PoopSkyCompatIds.POOPSKY_POOP));
 
         // 建筑方块物品
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)

@@ -1,5 +1,6 @@
 package cn.tea.toilet.technology.event;
 
+import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.ModAttachments;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlock;
 import cn.tea.toilet.technology.block.toilet.NetheriteToiletBlockEntity;
@@ -152,9 +153,9 @@ public class PlayerToiletHandler {
             fluidTank.drain(amount, net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), amount), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             playSplashSound(player);
-        } else if (fluid.getFluid() == ModFluids.FECES_LIQUID.get()) {
+        } else if (PoopSkyCompat.isFecesLiquid(fluid)) {
             if (fluidTank.getFluidAmount() < fluidTank.getCapacity()) {
-                fluidTank.fill(new FluidStack(ModFluids.FECES_LIQUID.get(), 1000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
+                fluidTank.fill(fluid.copyWithAmount(1000), net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction.EXECUTE);
             }
             playSplashSound(player);
         } else if (fluid.getFluid() == Fluids.LAVA) {

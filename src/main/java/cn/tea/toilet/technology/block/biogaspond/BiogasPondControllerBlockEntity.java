@@ -4,6 +4,7 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.TankInteriorLighting;
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
+import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasRegistry;
@@ -91,7 +92,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         }
     }
     public static boolean isFecesLiquid(net.neoforged.neoforge.fluids.FluidStack stack) {
-        return stack.is(ModFluids.FECES_LIQUID.get()) || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        return PoopSkyCompat.isFecesLiquid(stack);
     }
     public IItemHandler getMenuItems() { return automationItems; }
     public IItemHandler getAutomationItems() { return automationItems; }

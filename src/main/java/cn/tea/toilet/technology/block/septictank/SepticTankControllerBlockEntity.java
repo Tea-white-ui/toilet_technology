@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.septictank;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.TankInteriorLighting;
 import cn.tea.toilet.technology.block.septictank.SepticTankBiogasProduction;
+import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 
@@ -77,8 +78,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     public static boolean isAllowedLiquid(FluidStack stack) {
         return stack.is(Fluids.WATER)
                 || stack.is(Fluids.FLOWING_WATER)
-                || stack.is(ModFluids.FECES_LIQUID.get())
-                || stack.is(ModFluids.FECES_LIQUID_FLOWING.get());
+                || PoopSkyCompat.isFecesLiquid(stack);
     }
 
     public boolean revalidateStructure() {
@@ -155,8 +155,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     private void produceBiogas() {
         FluidStack liquid = liquidTank.getFluid();
-        boolean containsFecesLiquid = liquid.is(ModFluids.FECES_LIQUID.get())
-                || liquid.is(ModFluids.FECES_LIQUID_FLOWING.get());
+        boolean containsFecesLiquid = PoopSkyCompat.isFecesLiquid(liquid);
         if (!containsFecesLiquid || liquid.isEmpty()) {
             biogasProductionTicks = 0;
             return;
@@ -186,7 +185,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         boolean containsWater = fluid.is(Fluids.WATER) || fluid.is(Fluids.FLOWING_WATER);
         if (!containsWater || fluid.isEmpty()) return;
         for (int slot = ITEM_INPUT_START; slot < SepticTankInventoryLayout.ITEM_INPUT_END; slot++) {
-            if (items.getStackInSlot(slot).is(ModItems.FECES.get())) {
+            if (PoopSkyCompat.isFecesItem(items.getStackInSlot(slot))) {
                 liquidTank.setFluid(new FluidStack(ModFluids.FECES_LIQUID.get(), fluid.getAmount()));
                 items.extractItem(slot, 1, false);
                 setChanged();

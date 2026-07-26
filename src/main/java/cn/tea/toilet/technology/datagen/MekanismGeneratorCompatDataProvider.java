@@ -13,6 +13,8 @@ import net.minecraft.data.PackOutput;
 public final class MekanismGeneratorCompatDataProvider implements DataProvider {
     private static final int BIOGAS_BURN_TICKS = 40;
     private static final long BIOGAS_ENERGY_PER_TICK = 100;
+    private static final int METHANE_BURN_TICKS = 20;
+    private static final long METHANE_ENERGY_PER_TICK = 800;
 
     private final PackOutput output;
 
@@ -23,6 +25,7 @@ public final class MekanismGeneratorCompatDataProvider implements DataProvider {
     @Override
     public CompletableFuture<?> run(CachedOutput cachedOutput) {
         String biogasId = GasRegistry.BIOGAS.id().toString();
+        String methaneId = GasRegistry.METHANE.id().toString();
         Path gaseousTag = output.getOutputFolder()
                 .resolve("data/mekanism/tags/mekanism/chemical/gaseous.json");
         Path fuelDataMap = output.getOutputFolder()
@@ -31,6 +34,7 @@ public final class MekanismGeneratorCompatDataProvider implements DataProvider {
         JsonObject gaseous = new JsonObject();
         JsonArray gaseousValues = new JsonArray();
         gaseousValues.add(biogasId);
+        gaseousValues.add(methaneId);
         gaseous.add("values", gaseousValues);
 
         JsonObject fuel = new JsonObject();
@@ -39,6 +43,10 @@ public final class MekanismGeneratorCompatDataProvider implements DataProvider {
         biogasFuel.addProperty("burn_time", BIOGAS_BURN_TICKS);
         biogasFuel.addProperty("energy", BIOGAS_ENERGY_PER_TICK);
         values.add(biogasId, biogasFuel);
+        JsonObject methaneFuel = new JsonObject();
+        methaneFuel.addProperty("burn_time", METHANE_BURN_TICKS);
+        methaneFuel.addProperty("energy", METHANE_ENERGY_PER_TICK);
+        values.add(methaneId, methaneFuel);
         fuel.add("values", values);
 
         return CompletableFuture.allOf(

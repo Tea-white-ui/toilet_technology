@@ -136,6 +136,13 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRIED_FECES_BLOCK.get())
+                .pattern("##")
+                .pattern("##")
+                .define('#', ModItems.DRIED_FECES.get())
+                .unlockedBy(getHasName(ModItems.DRIED_FECES.get()), has(ModItems.DRIED_FECES.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SQUAT_TOILET.get())
                 .pattern("# #")
                 .pattern("###")

@@ -3,6 +3,10 @@
     "toilet_technology:biogas": {
       "burn_time": 40,
       "energy": 100
+    },
+    "toilet_technology:methane": {
+      "burn_time": 20,
+      "energy": 800
     }
   }
 }

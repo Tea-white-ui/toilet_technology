@@ -200,13 +200,14 @@ public class PlayerToiletHandler {
 
     /**
      * 播放放屁音效
-     * 随机选择 fart_1 或 fart_2
+     * 随机选择 fart_1 或 fart_2，并在 0.8 到 1.2 的范围内随机调整音调。
      *
      * @param player 玩家
      */
     private void playFartSound(Player player) {
         SoundEvent fart = player.getRandom().nextBoolean() ? ModSounds.FART_1.get() : ModSounds.FART_2.get();
-        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), fart, SoundSource.PLAYERS, 1.0f, 1.0f);
+        player.level().playSound(null, player.getX(), player.getY(), player.getZ(), fart, SoundSource.PLAYERS, 1.0f,
+                PlayerToiletSound.getFartSoundPitch(player.getRandom().nextFloat()));
     }
 
     /**

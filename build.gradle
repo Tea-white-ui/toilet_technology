@@ -134,6 +134,9 @@ configurations {
 dependencies {
  testImplementation platform('org.junit:junit-bom:5.11.4')
  testImplementation 'org.junit.jupiter:junit-jupiter'
+ // ModDev transforms Minecraft/NeoForge into the main source set's compile classpath,
+ // but Gradle does not propagate that transformed classpath to test sources automatically.
+ testImplementation files(sourceSets.main.compileClasspath)
  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
  testImplementation "net.neoforged:neoforge:${neo_version}"

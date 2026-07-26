@@ -6,7 +6,7 @@ import net.minecraft.client.particle.SpriteSet;
 import net.minecraft.client.particle.TextureSheetParticle;
 
 /**
- * A small, fading brown cloud that drifts outwards and slightly upwards.
+ * A small fading fragment that uses the server-provided motion and unmodified sprite colors.
  */
 public final class DefecationCloudParticle extends TextureSheetParticle {
     private final SpriteSet sprites;
@@ -15,14 +15,18 @@ public final class DefecationCloudParticle extends TextureSheetParticle {
                                    double velocityX, double velocityY, double velocityZ,
                                    SpriteSet sprites) {
         super(level, x, y, z, velocityX, velocityY, velocityZ);
+        // Particle's velocity constructor adds a random motion component. Replace it so the
+        // server-authoritative fragment velocity (including its downward Y sign) is exact.
+        this.xd = velocityX;
+        this.yd = velocityY;
+        this.zd = velocityZ;
         this.sprites = sprites;
-        this.hasPhysics = false;
-        this.friction = 0.90F;
-        this.gravity = 0.0F;
-        this.lifetime = 16 + this.random.nextInt(9);
-        this.quadSize = 0.12F + this.random.nextFloat() * 0.08F;
-        this.setColor(0.40F, 0.27F, 0.13F);
-        this.setAlpha(0.70F);
+        this.hasPhysics = true;
+        this.friction = DefecationParticleMotion.ITEM_AIR_DRAG;
+        this.gravity = (float) (DefecationParticleMotion.gravityPerTick() / 0.04D);
+        this.lifetime = DefecationParticleMotion.LIFETIME_TICKS;
+        this.quadSize = 0.04F + this.random.nextFloat() * 0.12F;
+        this.setAlpha(1.00F);
         this.pickSprite(sprites);
     }
 
@@ -30,8 +34,10 @@ public final class DefecationCloudParticle extends TextureSheetParticle {
     public void tick() {
         super.tick();
         if (!this.removed) {
-            this.yd += 0.0025D;
-            this.setAlpha(0.70F * DefecationParticleMotion.fadeAlpha(this.age, this.lifetime));
+            if (this.onGround && this.yd < 0.0D) {
+                this.yd *= -DefecationParticleMotion.ITEM_GROUND_BOUNCE;
+            }
+            this.setAlpha(DefecationParticleMotion.fadeAlpha(this.age, this.lifetime));
             this.setSpriteFromAge(this.sprites);
         }
     }

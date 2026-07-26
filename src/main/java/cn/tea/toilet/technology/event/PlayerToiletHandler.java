@@ -203,16 +203,21 @@ public class PlayerToiletHandler {
     }
 
     /**
-     * Emits a small ring of brown clouds from the player's feet for every toilet action.
+     * Emits a crushed burst of small brown cloud fragments from the player's feet.
      */
     private void spawnDefecationParticles(ServerLevel level, Player player) {
-        for (int index = 0; index < 14; index++) {
+        for (int burst = 0; burst < DefecationParticleMotion.BURST_COUNT; burst++) {
             double angle = player.getRandom().nextDouble() * Math.TAU;
             double speed = 0.035D + player.getRandom().nextDouble() * 0.065D;
-            DefecationParticleMotion motion = DefecationParticleMotion.fromAngle(angle, speed);
-            level.sendParticles(ModParticles.DEFECATION_CLOUD.get(),
-                    player.getX(), player.getY() + 0.08D, player.getZ(),
-                    0, motion.xVelocity(), motion.yVelocity(), motion.zVelocity(), 1.0D);
+            for (int fragment = 0; fragment < DefecationParticleMotion.FRAGMENT_COUNT; fragment++) {
+                double fragmentSpeed = speed * (0.75D + player.getRandom().nextDouble() * 0.30D);
+                double verticalSpeed = 0.15D + player.getRandom().nextDouble() * 0.10D;
+                DefecationParticleMotion motion = DefecationParticleMotion.fromAngle(
+                        angle + DefecationParticleMotion.fragmentAngleOffset(fragment), fragmentSpeed, verticalSpeed);
+                level.sendParticles(ModParticles.DEFECATION_CLOUD.get(),
+                        player.getX(), player.getY() + 0.28D, player.getZ(),
+                        0, motion.xVelocity(), motion.yVelocity(), motion.zVelocity(), 1.0D);
+            }
         }
     }
 

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_septic_tank_wall": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:septic_tank_wall"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "toilet_technology:septic_tank_liquid_input_port"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_septic_tank_wall"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "toilet_technology:septic_tank_liquid_input_port"
+    ]
+  }
+}

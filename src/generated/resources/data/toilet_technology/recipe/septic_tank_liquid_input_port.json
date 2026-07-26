@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "toilet_technology:septic_tank_wall"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IWI",
+    " B "
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:septic_tank_liquid_input_port"
+  }
+}

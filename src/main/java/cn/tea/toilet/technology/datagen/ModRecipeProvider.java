@@ -223,6 +223,25 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModBlocks.FECES_BLOCK.get()), has(ModBlocks.FECES_BLOCK.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get())
+                .pattern(" I ")
+                .pattern("IWI")
+                .pattern(" B ")
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.SEPTIC_TANK_WALL.get())
+                .define('B', Items.BUCKET)
+                .unlockedBy(getHasName(ModBlocks.SEPTIC_TANK_WALL.get()), has(ModBlocks.SEPTIC_TANK_WALL.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEPTIC_TANK_GAS_VALVE.get())
+                .pattern(" I ")
+                .pattern("IWI")
+                .pattern(" I ")
+                .define('I', Items.IRON_INGOT)
+                .define('W', ModBlocks.SEPTIC_TANK_WALL.get())
+                .unlockedBy(getHasName(ModBlocks.SEPTIC_TANK_WALL.get()), has(ModBlocks.SEPTIC_TANK_WALL.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.BIOGAS_POND_GAS_VALVE.get())
                 .pattern(" I ")
                 .pattern("IWI")

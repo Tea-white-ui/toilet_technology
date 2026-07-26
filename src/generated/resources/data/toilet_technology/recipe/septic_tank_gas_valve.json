@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "W": {
+      "item": "toilet_technology:septic_tank_wall"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IWI",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:septic_tank_gas_valve"
+  }
+}

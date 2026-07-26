@@ -2,6 +2,9 @@
   "values": [
     "toilet_technology:feces_block",
     "toilet_technology:dried_feces_block",
-    "toilet_technology:antiseptic_brick"
+    "toilet_technology:antiseptic_brick",
+    "toilet_technology:antiseptic_brick_stairs",
+    "toilet_technology:antiseptic_brick_slab",
+    "toilet_technology:antiseptic_brick_wall"
   ]
 }

@@ -39,6 +39,9 @@ public class ModCreativeTabs {
                         output.accept(ModItems.FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.DRIED_FECES_BLOCK_ITEM.get());
                         output.accept(ModItems.ANTISEPTIC_BRICK_ITEM.get());
+                        output.accept(ModItems.ANTISEPTIC_BRICK_STAIRS_ITEM.get());
+                        output.accept(ModItems.ANTISEPTIC_BRICK_SLAB_ITEM.get());
+                        output.accept(ModItems.ANTISEPTIC_BRICK_WALL_ITEM.get());
                         output.accept(ModItems.SQUAT_TOILET_ITEM.get());
                         output.accept(ModItems.OAK_TOILET_ITEM.get());
                         output.accept(ModItems.STONE_TOILET_ITEM.get());

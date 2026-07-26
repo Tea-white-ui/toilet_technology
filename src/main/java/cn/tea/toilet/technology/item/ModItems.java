@@ -75,6 +75,15 @@ public class ModItems {
     /** 防腐砖方块物品 */
     public static final DeferredHolder<Item, BlockItem> ANTISEPTIC_BRICK_ITEM = ITEMS.register("antiseptic_brick",
             () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK.get(), new Item.Properties()));
+    /** 防腐砖楼梯方块物品 */
+    public static final DeferredHolder<Item, BlockItem> ANTISEPTIC_BRICK_STAIRS_ITEM = ITEMS.register("antiseptic_brick_stairs",
+            () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get(), new Item.Properties()));
+    /** 防腐砖半砖方块物品 */
+    public static final DeferredHolder<Item, BlockItem> ANTISEPTIC_BRICK_SLAB_ITEM = ITEMS.register("antiseptic_brick_slab",
+            () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK_SLAB.get(), new Item.Properties()));
+    /** 防腐砖墙方块物品 */
+    public static final DeferredHolder<Item, BlockItem> ANTISEPTIC_BRICK_WALL_ITEM = ITEMS.register("antiseptic_brick_wall",
+            () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK_WALL.get(), new Item.Properties()));
     // === 厕所 ===
     /** 蹲便器物品 */
     public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",

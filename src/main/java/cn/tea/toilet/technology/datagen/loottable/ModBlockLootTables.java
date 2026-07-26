@@ -32,6 +32,9 @@ public class ModBlockLootTables extends BlockLootSubProvider {
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(3, 4))));
         this.dropSelf(ModBlocks.DRIED_FECES_BLOCK.get());
         this.dropSelf(ModBlocks.ANTISEPTIC_BRICK.get());
+        this.dropSelf(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get());
+        this.add(ModBlocks.ANTISEPTIC_BRICK_SLAB.get(), this::createSlabItemTable);
+        this.dropSelf(ModBlocks.ANTISEPTIC_BRICK_WALL.get());
 
         // 4. 带概率掉落（50%掉落）
         //this.add(ModBlocks.FECES_BLOCK.get(), block ->

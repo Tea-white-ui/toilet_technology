@@ -107,6 +107,27 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(Items.CLAY_BALL), has(Items.CLAY_BALL))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK_STAIRS.get(), 4)
+                .pattern("A  ")
+                .pattern("AA ")
+                .pattern("AAA")
+                .define('A', ModBlocks.ANTISEPTIC_BRICK.get())
+                .unlockedBy(getHasName(ModBlocks.ANTISEPTIC_BRICK.get()), has(ModBlocks.ANTISEPTIC_BRICK.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK_SLAB.get(), 6)
+                .pattern("AAA")
+                .define('A', ModBlocks.ANTISEPTIC_BRICK.get())
+                .unlockedBy(getHasName(ModBlocks.ANTISEPTIC_BRICK.get()), has(ModBlocks.ANTISEPTIC_BRICK.get()))
+                .save(output);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.ANTISEPTIC_BRICK_WALL.get(), 6)
+                .pattern("AAA")
+                .pattern("AAA")
+                .define('A', ModBlocks.ANTISEPTIC_BRICK.get())
+                .unlockedBy(getHasName(ModBlocks.ANTISEPTIC_BRICK.get()), has(ModBlocks.ANTISEPTIC_BRICK.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SEPTIC_TANK_WALL.get(), 8)
                 .pattern("AAA")
                 .pattern("ABA")

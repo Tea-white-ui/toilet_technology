@@ -32,6 +32,11 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/dried_feces_block")));
         getBuilder("antiseptic_brick")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/antiseptic_brick")));
+        getBuilder("antiseptic_brick_stairs")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/antiseptic_brick_stairs")));
+        getBuilder("antiseptic_brick_slab")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/antiseptic_brick_slab")));
+        wallInventory("antiseptic_brick_wall", modLoc("block/antiseptic_brick"));
         getBuilder("squat_toilet")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/squat_toilet")));
         getBuilder("oak_toilet")

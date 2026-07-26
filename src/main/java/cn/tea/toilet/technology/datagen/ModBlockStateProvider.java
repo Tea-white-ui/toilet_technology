@@ -3,6 +3,7 @@ import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import net.minecraft.data.PackOutput;
+import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -18,6 +19,10 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlock(ModBlocks.FECES_BLOCK.get(), models().cubeAll("feces_block", modLoc("block/feces_block")));
         simpleBlock(ModBlocks.DRIED_FECES_BLOCK.get(), models().cubeAll("dried_feces_block", modLoc("block/dried_feces_block")));
         simpleBlock(ModBlocks.ANTISEPTIC_BRICK.get(), models().cubeAll("antiseptic_brick", modLoc("block/antiseptic_brick")));
+        ResourceLocation antisepticBrick = modLoc("block/antiseptic_brick");
+        stairsBlock(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get(), antisepticBrick);
+        slabBlock(ModBlocks.ANTISEPTIC_BRICK_SLAB.get(), antisepticBrick, antisepticBrick);
+        wallBlock(ModBlocks.ANTISEPTIC_BRICK_WALL.get(), antisepticBrick);
         simpleBlock(ModBlocks.BIOGAS_POND_WALL.get(), models().cubeAll("biogas_pond_wall", modLoc("block/biogas_pond_wall")));
         simpleBlock(ModBlocks.BIOGAS_POND_CONTROLLER.get(), models().cube(
                 "biogas_pond_controller",

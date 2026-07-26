@@ -1,6 +1,9 @@
 {
   "values": [
     "toilet_technology:antiseptic_brick",
+    "toilet_technology:antiseptic_brick_stairs",
+    "toilet_technology:antiseptic_brick_slab",
+    "toilet_technology:antiseptic_brick_wall",
     "toilet_technology:squat_toilet",
     "toilet_technology:stone_toilet",
     "toilet_technology:iron_toilet",

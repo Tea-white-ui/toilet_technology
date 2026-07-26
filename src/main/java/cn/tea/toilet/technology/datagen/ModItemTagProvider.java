@@ -29,7 +29,10 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)
                 .add(ModItems.FECES_BLOCK_ITEM.get())
                 .add(ModItems.DRIED_FECES_BLOCK_ITEM.get())
-                .add(ModItems.ANTISEPTIC_BRICK_ITEM.get());
+                .add(ModItems.ANTISEPTIC_BRICK_ITEM.get())
+                .add(ModItems.ANTISEPTIC_BRICK_STAIRS_ITEM.get())
+                .add(ModItems.ANTISEPTIC_BRICK_SLAB_ITEM.get())
+                .add(ModItems.ANTISEPTIC_BRICK_WALL_ITEM.get());
         this.tag(ModTags.Items.TOILETS)
                 .add(ModItems.SQUAT_TOILET_ITEM.get())
                 .add(ModItems.OAK_TOILET_ITEM.get())

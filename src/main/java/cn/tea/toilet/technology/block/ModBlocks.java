@@ -20,8 +20,12 @@ import cn.tea.toilet.technology.block.toilet.*;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SlabBlock;
+import net.minecraft.world.level.block.StairBlock;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.WallBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.PushReaction;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
@@ -66,6 +70,15 @@ public class ModBlocks {
             .sound(SoundType.MUD_BRICKS)
             .pushReaction(PushReaction.BLOCK)
     ));
+    /** 防腐砖楼梯。 */
+    public static final DeferredHolder<Block, StairBlock> ANTISEPTIC_BRICK_STAIRS = BLOCKS.register("antiseptic_brick_stairs", () ->
+            new StairBlock(ANTISEPTIC_BRICK.get().defaultBlockState(), BlockBehaviour.Properties.ofFullCopy(ANTISEPTIC_BRICK.get())));
+    /** 防腐砖半砖。 */
+    public static final DeferredHolder<Block, SlabBlock> ANTISEPTIC_BRICK_SLAB = BLOCKS.register("antiseptic_brick_slab", () ->
+            new SlabBlock(BlockBehaviour.Properties.ofFullCopy(ANTISEPTIC_BRICK.get())));
+    /** 防腐砖墙。 */
+    public static final DeferredHolder<Block, WallBlock> ANTISEPTIC_BRICK_WALL = BLOCKS.register("antiseptic_brick_wall", () ->
+            new WallBlock(BlockBehaviour.Properties.ofFullCopy(ANTISEPTIC_BRICK.get())));
 
     // === 厕所 ===
     /** 蹲便器：基础马桶，使用时直接掉落粪便物品 */

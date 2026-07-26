@@ -19,6 +19,9 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModItems.DRIED_FECES.get(),"Dried feces");
         add(ModItems.DRIED_FECES_BLOCK_ITEM.get(), "Dried feces block");
         add(ModItems.ANTISEPTIC_BRICK_ITEM.get(), "Antiseptic Brick");
+        add(ModItems.ANTISEPTIC_BRICK_STAIRS_ITEM.get(), "Antiseptic Brick Stairs");
+        add(ModItems.ANTISEPTIC_BRICK_SLAB_ITEM.get(), "Antiseptic Brick Slab");
+        add(ModItems.ANTISEPTIC_BRICK_WALL_ITEM.get(), "Antiseptic Brick Wall");
         add(ModItems.BIOGAS_RESIDUE.get(), "Biogas Residue");
         add(ModItems.SEALING_COMPONENT.get(), "Sealing Component");
         add(ModItems.METAL_MESH.get(), "Metal Mesh");

@@ -25,7 +25,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
         this.tag(ModTags.Blocks.BUILDING_BLOCKS)
                 .add(ModBlocks.FECES_BLOCK.get())
                 .add(ModBlocks.DRIED_FECES_BLOCK.get())
-                .add(ModBlocks.ANTISEPTIC_BRICK.get());
+                .add(ModBlocks.ANTISEPTIC_BRICK.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_SLAB.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_WALL.get());
 
         this.tag(ModTags.Blocks.TOILETS)
                 .add(ModBlocks.SQUAT_TOILET.get())
@@ -83,6 +86,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.MINEABLE_WITH_PICKAXE)
                 .add(ModBlocks.ANTISEPTIC_BRICK.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_SLAB.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_WALL.get())
                 .add(ModBlocks.SQUAT_TOILET.get())
                 .add(ModBlocks.STONE_TOILET.get())
                 .add(ModBlocks.IRON_TOILET.get())
@@ -110,7 +116,10 @@ public class ModBlockTagProvider extends BlockTagsProvider {
 
         this.tag(BlockTags.NEEDS_STONE_TOOL)
                 .add(ModBlocks.STONE_TOILET.get())
-                .add(ModBlocks.ANTISEPTIC_BRICK.get());
+                .add(ModBlocks.ANTISEPTIC_BRICK.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_STAIRS.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_SLAB.get())
+                .add(ModBlocks.ANTISEPTIC_BRICK_WALL.get());
 
         this.tag(BlockTags.NEEDS_IRON_TOOL)
                 .add(ModBlocks.IRON_TOILET.get())

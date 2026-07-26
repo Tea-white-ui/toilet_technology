@@ -9,7 +9,7 @@ public record DefecationParticleMotion(double xVelocity, double yVelocity, doubl
     /** At 20 TPS, fade only during the final 0.1 seconds of the particle's lifetime. */
     public static final int FADE_DURATION_TICKS = 2;
     /** Each burst contains three fragments, yielding 12 particles instead of the previous 42. */
-    public static final int BURST_COUNT = 2;
+    public static final int BURST_COUNT = 4;
     /** Scale every initial velocity component to 70% of the sampled emission velocity. */
     public static final double INITIAL_VELOCITY_SCALE = 0.70D;
     /** Every emitted cloud is split into this many small fragments. */
@@ -19,9 +19,9 @@ public record DefecationParticleMotion(double xVelocity, double yVelocity, doubl
     /** Match a dropped item's air drag multiplier. */
     public static final float ITEM_AIR_DRAG = 0.98F;
     /** Match the vertical damping of an item after it hits the ground. */
-    public static final double ITEM_GROUND_BOUNCE = 0.00D;
+    public static final double ITEM_GROUND_BOUNCE = 0.50D;
 
-    private static final double FRAGMENT_ANGLE_SPREAD = 0.9D;
+    private static final double FRAGMENT_ANGLE_SPREAD = 0.22D;
 
     public static DefecationParticleMotion fromAngle(double angle, double horizontalSpeed, double verticalVelocity) {
         double scaledHorizontalSpeed = horizontalSpeed * INITIAL_VELOCITY_SCALE;

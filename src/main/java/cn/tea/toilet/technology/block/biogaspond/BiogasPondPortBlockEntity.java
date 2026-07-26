@@ -142,8 +142,14 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
         }
         @Override public void setGasInTank(int tank, GasStack stack) { }
         @Override public long getGasTankCapacity(int tank) { return tank == 0 ? BiogasPondControllerBlockEntity.GAS_CAPACITY : 0; }
-        @Override public boolean isValid(int tank, GasStack stack) { return false; }
-        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return stack; }
+        @Override public boolean isValid(int tank, GasStack stack) {
+            BiogasPondControllerBlockEntity controller = controller();
+            return controller != null && tank == 0 && controller.gasTank.isValid(stack);
+        }
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
+            BiogasPondControllerBlockEntity controller = controller();
+            return controller == null || tank != 0 ? stack : controller.gasTank.insert(stack, action);
+        }
         @Override public GasStack extractGas(int tank, long amount, GasAction action) {
             BiogasPondControllerBlockEntity controller = controller();
             return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.extract(amount, action);

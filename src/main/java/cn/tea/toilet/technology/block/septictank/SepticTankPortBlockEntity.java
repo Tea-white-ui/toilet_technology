@@ -103,8 +103,14 @@ public class SepticTankPortBlockEntity extends BlockEntity {
         }
         @Override public void setGasInTank(int tank, GasStack stack) { }
         @Override public long getGasTankCapacity(int tank) { return tank == 0 ? SepticTankControllerBlockEntity.TANK_CAPACITY : 0; }
-        @Override public boolean isValid(int tank, GasStack stack) { return false; }
-        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return stack; }
+        @Override public boolean isValid(int tank, GasStack stack) {
+            SepticTankControllerBlockEntity controller = controller();
+            return controller != null && tank == 0 && controller.gasTank.isValid(stack);
+        }
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
+            SepticTankControllerBlockEntity controller = controller();
+            return controller == null || tank != 0 ? stack : controller.gasTank.insert(stack, action);
+        }
         @Override public GasStack extractGas(int tank, long amount, GasAction action) {
             SepticTankControllerBlockEntity controller = controller();
             return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.extract(amount, action);

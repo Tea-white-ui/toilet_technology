@@ -110,10 +110,6 @@ public final class BiogasProductionJeiCategory implements IRecipeCategory<Biogas
                 recipe.minimumBiogasAmount(), recipe.maximumBiogasAmount()), 1, 25 + summaryTextOffsetY, 0x404040, false);
         graphics.drawString(font, Component.translatable("jei.toilet_technology.biogas.duration",
                 recipe.durationTicks() / 20.0D), 1, 37 + summaryTextOffsetY, 0x404040, false);
-        if (recipe.requiresGeneratorEnergy()) {
-            graphics.drawString(font, Component.translatable("jei.toilet_technology.biogas.generator_energy",
-                    recipe.energyPerBatch()), 1, 49, 0x404040, false);
-        }
         if (recipe.hasResidueOutput()) {
             graphics.drawString(font, Component.translatable("jei.toilet_technology.biogas.residue_probability",
                     recipe.residueChancePercent()), BiogasProductionJeiLayout.RESIDUE_SLOT_X,

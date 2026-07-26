@@ -45,7 +45,6 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("jei.toilet_technology.biogas_pond_biogas.title", "Biogas Pond Fermentation");
         add("jei.toilet_technology.biogas.output_scales_with_liquid", "More feces liquid produces more gas: %s–%s mB / batch");
         add("jei.toilet_technology.biogas.duration", "Duration per batch: %s s");
-        add("jei.toilet_technology.biogas.generator_energy", "Biogas generator: %s FE / batch (output ×2)");
         add("jei.toilet_technology.biogas.residue_probability", "%s%% chance");
         add("jei.toilet_technology.absorption_tower.title", "Absorption Tower");
         add("jei.toilet_technology.absorption_tower.per_batch", "Conversion per batch");

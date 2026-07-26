@@ -45,7 +45,6 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("jei.toilet_technology.biogas_pond_biogas.title", "沼气池发酵");
         add("jei.toilet_technology.biogas.output_scales_with_liquid", "粪液越多，产气越多：%s–%s mB / 批");
         add("jei.toilet_technology.biogas.duration", "每批耗时：%s 秒");
-        add("jei.toilet_technology.biogas.generator_energy", "沼气发生机：%s FE / 批（产量 ×2）");
         add("jei.toilet_technology.biogas.residue_probability", "%s%% 概率");
         add("jei.toilet_technology.absorption_tower.title", "吸收塔吸收");
         add("jei.toilet_technology.absorption_tower.per_batch", "每批转化");

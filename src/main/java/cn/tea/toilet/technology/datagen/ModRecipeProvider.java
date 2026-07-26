@@ -23,6 +23,11 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
 
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FECES_BALL.get())
+                .requires(ModItems.FECES.get())
+                .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEPTIC_TANK_CONTROLLER.get())
                 .pattern("IOI")
                 .pattern("RBR")

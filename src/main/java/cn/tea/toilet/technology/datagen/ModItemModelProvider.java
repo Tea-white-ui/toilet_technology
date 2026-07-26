@@ -17,6 +17,7 @@ public class ModItemModelProvider extends ItemModelProvider {
         // === 普通物品 ===
         basicItem(ModItems.FECES.get());
         basicItem(ModItems.DRIED_FECES.get());
+        basicItem(ModItems.FECES_BALL.get());
         basicItem(ModItems.BIOGAS_RESIDUE.get());
         basicItem(ModItems.SEALING_COMPONENT.get());
         basicItem(ModItems.METAL_MESH.get());

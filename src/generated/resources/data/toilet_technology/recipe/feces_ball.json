@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "toilet_technology:feces"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:feces_ball"
+  }
+}

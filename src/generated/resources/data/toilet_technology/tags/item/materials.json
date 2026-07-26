@@ -2,6 +2,7 @@
   "values": [
     "#toilet_technology:feces",
     "toilet_technology:biogas_residue",
+    "toilet_technology:feces_ball",
     "toilet_technology:sealing_component",
     "toilet_technology:metal_mesh",
     "toilet_technology:multi_layer_sintered_metal_mesh"

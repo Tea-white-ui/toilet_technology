@@ -4,6 +4,7 @@ import cn.tea.toilet.technology.ModAttachments;
 import cn.tea.toilet.technology.ModCreativeTabs;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.entity.ModEntityTypes;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.item.ModItems;
@@ -24,6 +25,7 @@ public final class ModRegistries {
         ModFluids.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
+        ModEntityTypes.register(modEventBus);
         ModItems.register(modEventBus);
         ModMenuTypes.register(modEventBus);
         ModCreativeTabs.register(modEventBus);

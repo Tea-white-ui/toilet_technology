@@ -49,6 +49,10 @@ public class ModItems {
         public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",
                 () -> new TooltipItem(new Item.Properties(), "tooltip.toilet_technology.dried_feces"));
 
+        /** 粪球：可像雪球一样投掷，命中生物时造成伤害并施加负面效果。 */
+        public static final DeferredHolder<Item, Item> FECES_BALL = ITEMS.register("feces_ball",
+                () -> new FecesBallItem(new Item.Properties()));
+
         /** 沼渣物品：沼气生产的副产物，可作为骨粉催熟作物。 */
         public static final DeferredHolder<Item, Item> BIOGAS_RESIDUE = ITEMS.register("biogas_residue",
                 () -> new BiogasResidueItem(new Item.Properties(), "tooltip.toilet_technology.biogas_residue"));

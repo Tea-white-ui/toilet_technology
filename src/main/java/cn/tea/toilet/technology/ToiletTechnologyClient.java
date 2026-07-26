@@ -4,6 +4,7 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
 import cn.tea.toilet.technology.client.GasTankItemRenderer;
+import cn.tea.toilet.technology.entity.ModEntityTypes;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.fluid.WastewaterFluidType;
@@ -22,6 +23,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
+import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -52,6 +55,7 @@ public class ToiletTechnologyClient {
             BlockEntityRenderers.register(ModBlockEntities.PREMIUM_TOILET.get(), ToiletBlockEntityBER::new);
             BlockEntityRenderers.register(ModBlockEntities.NETHERITE_TOILET.get(), ToiletBlockEntityBER::new);
             BlockEntityRenderers.register(ModBlockEntities.DRYING_RACK.get(), DryingRackBlockEntityBER::new);
+            EntityRenderers.register(ModEntityTypes.FECES_BALL.get(), ThrownItemRenderer::new);
         });
     }
 

@@ -102,9 +102,9 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .pattern("CNC")
                 .pattern("NCN")
                 .pattern("CNC")
-                .define('C', Items.CLAY)
+                .define('C', Items.CLAY_BALL)
                 .define('N', Items.IRON_NUGGET)
-                .unlockedBy(getHasName(Items.CLAY), has(Items.CLAY))
+                .unlockedBy(getHasName(Items.CLAY_BALL), has(Items.CLAY_BALL))
                 .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.SEPTIC_TANK_WALL.get(), 8)

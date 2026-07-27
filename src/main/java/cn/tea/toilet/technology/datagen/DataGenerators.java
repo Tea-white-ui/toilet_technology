@@ -35,6 +35,7 @@ public class DataGenerators {
         generator.addProvider(event.includeServer(), ModLootTableProvider.create(output, lookupProvider));
 
         generator.addProvider(event.includeServer(), new ModRecipeProvider(output, lookupProvider));
+        generator.addProvider(event.includeServer(), new ModAdvancementProvider(output, lookupProvider, existingFileHelper));
         generator.addProvider(event.includeServer(), new ModDataMapProvider(output, lookupProvider));
         generator.addProvider(event.includeServer(), new MekanismGeneratorCompatDataProvider(output));
 

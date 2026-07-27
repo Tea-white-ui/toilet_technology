@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:obtain_feces",
+  "criteria": {
+    "has_dry_feces": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:dried_feces"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.dry_feces.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:dried_feces"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.dry_feces.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_dry_feces"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,28 @@
+{
+  "criteria": {
+    "impossible": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": false,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "description": {
+      "translate": "advancements.toilet_technology.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:feces"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.toilet_technology.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "impossible"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

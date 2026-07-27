@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:purify_sewage",
+  "criteria": {
+    "has_refine_methane": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:absorption_tower_bottom"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.refine_methane.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:absorption_tower_bottom"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.refine_methane.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_refine_methane"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:build_biogas_pond",
+  "criteria": {
+    "has_use_biogas_residue": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:biogas_residue"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.use_biogas_residue.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:biogas_residue"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.use_biogas_residue.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_use_biogas_residue"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

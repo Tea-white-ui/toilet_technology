@@ -87,5 +87,22 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("tooltip.toilet_technology.biogas_residue", "可当作肥料");
         add("tooltip.toilet_technology.multi_layer_sintered_metal_mesh", "高强度材料");
 
+        add("advancements.toilet_technology.root.title", "厕所技艺：资源循环");
+        add("advancements.toilet_technology.root.description", "从排泄物出发，建立可持续的处理与利用体系。");
+        add("advancements.toilet_technology.obtain_feces.title", "方便之门");
+        add("advancements.toilet_technology.obtain_feces.description", "收集粪便。蹲在厕所上按住潜行可持续产出。");
+        add("advancements.toilet_technology.dry_feces.title", "晾晒有方");
+        add("advancements.toilet_technology.dry_feces.description", "用干燥架或干燥箱处理粪便，制得干粪。");
+        add("advancements.toilet_technology.build_septic_tank.title", "密封发酵");
+        add("advancements.toilet_technology.build_septic_tank.description", "用控制器、池壁与接口搭建 3×4×3 化粪池，将粪液发酵为沼气。");
+        add("advancements.toilet_technology.build_biogas_pond.title", "沼气工程");
+        add("advancements.toilet_technology.build_biogas_pond.description", "搭建 5×5×5 沼气池，保持内部 3×3×3 空心，以更大规模处理有机物。");
+        add("advancements.toilet_technology.use_biogas_residue.title", "物尽其用");
+        add("advancements.toilet_technology.use_biogas_residue.description", "发酵产生的沼渣可以像骨粉一样催熟作物。");
+        add("advancements.toilet_technology.purify_sewage.title", "清洁回收");
+        add("advancements.toilet_technology.purify_sewage.description", "污水净化机将粪液处理为水与粪便，形成可再利用的循环。");
+        add("advancements.toilet_technology.refine_methane.title", "蓝焰之源");
+        add("advancements.toilet_technology.refine_methane.description", "将沼气与水送入吸收塔，分离并制取甲烷。");
+
     }
 }

@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:obtain_feces",
+  "criteria": {
+    "has_build_septic_tank": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:septic_tank_controller"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.build_septic_tank.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:septic_tank_controller"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.build_septic_tank.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_build_septic_tank"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

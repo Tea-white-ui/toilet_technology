@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:build_biogas_pond",
+  "criteria": {
+    "has_purify_sewage": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:sewage_purifier"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.purify_sewage.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:sewage_purifier"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.purify_sewage.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_purify_sewage"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

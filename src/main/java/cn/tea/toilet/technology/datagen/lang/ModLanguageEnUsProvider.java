@@ -85,6 +85,23 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("tooltip.toilet_technology.biogas_residue", "Can be used as fertilizer");
         add("tooltip.toilet_technology.multi_layer_sintered_metal_mesh", "A high-strength material");
 
+        add("advancements.toilet_technology.root.title", "Toilet Technology: Resource Cycle");
+        add("advancements.toilet_technology.root.description", "Turn waste into a sustainable cycle of processing and reuse.");
+        add("advancements.toilet_technology.obtain_feces.title", "A Convenient Beginning");
+        add("advancements.toilet_technology.obtain_feces.description", "Collect feces. Crouch on a toilet to produce it over time.");
+        add("advancements.toilet_technology.dry_feces.title", "Drying Done Right");
+        add("advancements.toilet_technology.dry_feces.description", "Process feces in a drying rack or drying box to make dried feces.");
+        add("advancements.toilet_technology.build_septic_tank.title", "Sealed Fermentation");
+        add("advancements.toilet_technology.build_septic_tank.description", "Build a 3x4x3 septic tank with a controller, walls, and ports to ferment feces liquid into biogas.");
+        add("advancements.toilet_technology.build_biogas_pond.title", "Biogas Engineering");
+        add("advancements.toilet_technology.build_biogas_pond.description", "Build a 5x5x5 biogas pond with a hollow 3x3x3 interior for larger-scale processing.");
+        add("advancements.toilet_technology.use_biogas_residue.title", "Nothing Goes to Waste");
+        add("advancements.toilet_technology.use_biogas_residue.description", "Biogas residue from fermentation can fertilize crops like bone meal.");
+        add("advancements.toilet_technology.purify_sewage.title", "Clean Recovery");
+        add("advancements.toilet_technology.purify_sewage.description", "Use a sewage purifier to turn feces liquid into water and feces for a reusable cycle.");
+        add("advancements.toilet_technology.refine_methane.title", "Source of Blue Flame");
+        add("advancements.toilet_technology.refine_methane.description", "Send biogas and water through an absorption tower to separate and produce methane.");
+
 
 
 

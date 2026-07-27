@@ -1,0 +1,33 @@
+{
+  "parent": "toilet_technology:root",
+  "criteria": {
+    "has_obtain_feces": {
+      "conditions": {
+        "items": [
+          {
+            "items": "toilet_technology:feces"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.toilet_technology.obtain_feces.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "toilet_technology:feces"
+    },
+    "title": {
+      "translate": "advancements.toilet_technology.obtain_feces.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_obtain_feces"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

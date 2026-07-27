@@ -3,7 +3,7 @@
   "category": "building",
   "key": {
     "#": {
-      "item": "toilet_technology:feces"
+      "tag": "toilet_technology:feces"
     }
   },
   "pattern": [

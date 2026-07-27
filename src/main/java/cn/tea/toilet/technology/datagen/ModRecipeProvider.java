@@ -24,8 +24,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
     @Override
     protected void buildRecipes(@NotNull RecipeOutput output) {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.FECES_BALL.get())
-                .requires(ModItems.FECES.get())
-                .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
+                .requires(ModTags.Items.FECES)
+                .unlockedBy("has_feces", has(ModTags.Items.FECES))
                 .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEPTIC_TANK_CONTROLLER.get())
@@ -158,8 +158,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.FECES_BLOCK.get())
                 .pattern("##")
                 .pattern("##")
-                .define('#', ModItems.FECES.get())
-                .unlockedBy(getHasName(ModItems.FECES.get()), has(ModItems.FECES.get()))
+                .define('#', ModTags.Items.FECES)
+                .unlockedBy("has_feces", has(ModTags.Items.FECES))
                 .save(output);
 
         ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRIED_FECES_BLOCK.get())

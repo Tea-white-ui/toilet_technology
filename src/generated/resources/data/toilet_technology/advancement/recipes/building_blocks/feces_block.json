@@ -5,7 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": "toilet_technology:feces"
+            "items": "#toilet_technology:feces"
           }
         ]
       },

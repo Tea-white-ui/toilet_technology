@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.block.gaspipe;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.gas.GasCapabilities;
+import cn.tea.toilet.technology.gas.ExternalGasHandlers;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -79,7 +79,7 @@ public final class GasPipeBlock extends BaseEntityBlock {
     private static boolean canConnect(Level level, BlockPos pos, Direction direction) {
         BlockPos neighborPos = pos.relative(direction);
         if (level.getBlockState(neighborPos).getBlock() instanceof GasPipeBlock) return true;
-        return level.getCapability(GasCapabilities.BLOCK, neighborPos, direction.getOpposite()) != null;
+        return ExternalGasHandlers.find(level, neighborPos, direction.getOpposite()) != null;
     }
 
     private static BooleanProperty property(Direction direction) {

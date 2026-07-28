@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block.gaspipe;
 
-import cn.tea.toilet.technology.gas.GasCapabilities;
+import cn.tea.toilet.technology.gas.ExternalGasHandlers;
 import cn.tea.toilet.technology.gas.IGasHandler;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.core.BlockPos;
@@ -85,8 +85,7 @@ final class GasPipeNetworkScheduler {
                     continue;
                 }
 
-                IGasHandler endpoint = level.getCapability(
-                        GasCapabilities.BLOCK, neighborPos, direction.getOpposite());
+                IGasHandler endpoint = ExternalGasHandlers.find(level, neighborPos, direction.getOpposite());
                 if (endpoint != null && endpointIdentities.add(endpoint)) externalEndpoints.add(endpoint);
             }
         }

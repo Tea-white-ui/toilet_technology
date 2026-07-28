@@ -5,6 +5,7 @@ import cn.tea.toilet.technology.block.ModBlockEntities;
 
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.gas.ExternalGasHandlers;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
@@ -48,6 +49,13 @@ public final class MekanismCompat {
     public static void register(IEventBus bus) {
         CHEMICALS.register(bus);
         bus.addListener(MekanismCompat::registerCapabilities);
+        ExternalGasHandlers.register(MekanismCompat::findChemicalHandler);
+    }
+
+    private static @Nullable IGasHandler findChemicalHandler(
+            net.minecraft.world.level.Level level, net.minecraft.core.BlockPos pos, @Nullable Direction side) {
+        IChemicalHandler handler = level.getCapability(CHEMICAL_BLOCK, pos, side);
+        return handler == null ? null : new NativeGasHandlerAdapter(handler);
     }
 
     private static void registerCapabilities(RegisterCapabilitiesEvent event) {
@@ -126,5 +134,51 @@ public final class MekanismCompat {
             if (GasRegistry.METHANE.equals(stack.gas())) return new ChemicalStack(METHANE, stack.amount());
             return ChemicalStack.EMPTY;
         }
+    }
+
+    private static final class NativeGasHandlerAdapter implements IGasHandler {
+        private final IChemicalHandler delegate;
+
+        private NativeGasHandlerAdapter(IChemicalHandler delegate) { this.delegate = delegate; }
+
+        @Override public int getGasTanks() { return delegate.getChemicalTanks(); }
+
+        @Override public GasStack getGasInTank(int tank) {
+            return gasStackFor(delegate.getChemicalInTank(tank));
+        }
+
+        @Override public void setGasInTank(int tank, GasStack stack) {
+            ChemicalStack chemical = chemicalStackFor(stack);
+            if (!chemical.isEmpty() || stack.isEmpty()) delegate.setChemicalInTank(tank, chemical);
+        }
+
+        @Override public long getGasTankCapacity(int tank) { return delegate.getChemicalTankCapacity(tank); }
+
+        @Override public boolean isValid(int tank, GasStack stack) {
+            ChemicalStack chemical = chemicalStackFor(stack);
+            return !chemical.isEmpty() && delegate.isValid(tank, chemical);
+        }
+
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
+            ChemicalStack chemical = chemicalStackFor(stack);
+            if (chemical.isEmpty()) return stack;
+            ChemicalStack remainder = delegate.insertChemical(tank, chemical,
+                    action == GasAction.EXECUTE ? Action.EXECUTE : Action.SIMULATE);
+            return remainder.isEmpty() ? GasStack.EMPTY : stack.copyWithAmount(remainder.getAmount());
+        }
+
+        @Override public GasStack extractGas(int tank, long amount, GasAction action) {
+            return gasStackFor(delegate.extractChemical(tank, amount,
+                    action == GasAction.EXECUTE ? Action.EXECUTE : Action.SIMULATE));
+        }
+    }
+
+    private static GasStack gasStackFor(ChemicalStack stack) {
+        Gas gas = ChemicalHandlerAdapter.gasFor(stack);
+        return gas == null || stack.isEmpty() ? GasStack.EMPTY : new GasStack(gas, stack.getAmount());
+    }
+
+    private static ChemicalStack chemicalStackFor(GasStack stack) {
+        return ChemicalHandlerAdapter.chemicalStackFor(stack);
     }
 }

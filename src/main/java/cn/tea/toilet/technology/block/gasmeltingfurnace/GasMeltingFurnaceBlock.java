@@ -41,7 +41,7 @@ public final class GasMeltingFurnaceBlock extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public GasMeltingFurnaceBlock(Properties properties) {
-        super(properties);
+        super(properties.lightLevel(state -> state.getValue(LIT) ? 10 : 0));
         registerDefaultState(stateDefinition.any()
                 .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
                 .setValue(LIT, false));

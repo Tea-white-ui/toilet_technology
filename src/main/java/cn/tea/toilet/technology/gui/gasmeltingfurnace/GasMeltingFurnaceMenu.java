@@ -25,7 +25,8 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
     private static final int DATA_GAS_TYPE = 1;
     private static final int DATA_PROCESSING_PROGRESS = 2;
     private static final int DATA_PROCESSING_TIME = 3;
-    private static final int DATA_COUNT = 4;
+    private static final int DATA_IS_PROCESSING = 4;
+    private static final int DATA_COUNT = 5;
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
@@ -58,6 +59,7 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
                     case DATA_GAS_TYPE -> stack.isEmpty() ? 0 : GasRegistry.id(stack.getGas()) + 1;
                     case DATA_PROCESSING_PROGRESS -> blockEntity.getProcessingProgress();
                     case DATA_PROCESSING_TIME -> blockEntity.getProcessingTime();
+                    case DATA_IS_PROCESSING -> blockEntity.isProcessing() ? 1 : 0;
                     default -> 0;
                 };
             }
@@ -81,7 +83,7 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
     }
 
     public boolean isProcessing() {
-        return data.get(DATA_PROCESSING_PROGRESS) > 0 && data.get(DATA_PROCESSING_TIME) > 0;
+        return data.get(DATA_IS_PROCESSING) != 0;
     }
 
     public int getProcessingProgressScaled(int width) {

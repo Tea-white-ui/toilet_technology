@@ -74,6 +74,16 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         return recipe == null ? 0 : recipe.processingTime();
     }
 
+    /**
+     * Returns whether the furnace can process now, including immediately after a completed item
+     * is replaced by the next input. This is synchronized separately from progress so the GUI
+     * flame stays visible across consecutive processing cycles.
+     */
+    public boolean isProcessing() {
+        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT));
+        return recipe != null && canOutput(recipe) && recipe.hasRequiredGas(gasTank.getStack());
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, GasMeltingFurnaceBlockEntity blockEntity) {
         if (level.isClientSide()) return;
 

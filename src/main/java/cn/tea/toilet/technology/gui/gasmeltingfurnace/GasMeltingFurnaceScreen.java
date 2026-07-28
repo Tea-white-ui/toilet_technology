@@ -56,7 +56,7 @@ public final class GasMeltingFurnaceScreen extends AbstractContainerScreen<GasMe
 
     private void renderProcessingIndicators(GuiGraphics graphics) {
         if (!menu.isProcessing()) return;
-        graphics.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 0, leftPos + 64, topPos + 47, 14, 14);
+        graphics.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 0, leftPos + 63, topPos + 45, 14, 14);
         int progressWidth = menu.getProcessingProgressScaled(24);
         if (progressWidth > 0) {
             graphics.blitSprite(BURN_PROGRESS_SPRITE, 24, 16, 0, 0, leftPos + 86, topPos + 26,

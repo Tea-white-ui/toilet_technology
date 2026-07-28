@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
+import cn.tea.toilet.technology.gui.TankMenuData;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -100,22 +101,22 @@ public class AbsorptionTowerMenu extends AbstractContainerMenu {
     }
 
     private static int fluidWireValue(FluidStack stack) {
-        return stack.isEmpty() ? 0 : BuiltInRegistries.FLUID.getId(stack.getFluid()) + 1;
+        return stack.isEmpty() ? 0 : TankMenuData.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
     }
 
     private static int gasWireValue(GasStack stack) {
-        return stack.isEmpty() ? 0 : GasRegistry.id(stack.getGas()) + 1;
+        return stack.isEmpty() ? 0 : TankMenuData.encodeRegistryId(GasRegistry.id(stack.getGas()));
     }
 
     private FluidStack displayFluid(int wireDataIndex, int amount) {
-        int registryId = data.get(wireDataIndex) - 1;
+        int registryId = TankMenuData.decodeRegistryId(data.get(wireDataIndex));
         if (registryId < 0 || amount <= 0) return FluidStack.EMPTY;
         Fluid fluid = BuiltInRegistries.FLUID.byId(registryId);
         return new FluidStack(fluid, amount);
     }
 
     private GasStack displayGas(int wireDataIndex, int amount) {
-        int gasId = data.get(wireDataIndex) - 1;
+        int gasId = TankMenuData.decodeRegistryId(data.get(wireDataIndex));
         if (gasId < 0 || amount <= 0) return GasStack.EMPTY;
         Gas gas = GasRegistry.byId(gasId);
         return gas == null ? GasStack.EMPTY : new GasStack(gas, amount);

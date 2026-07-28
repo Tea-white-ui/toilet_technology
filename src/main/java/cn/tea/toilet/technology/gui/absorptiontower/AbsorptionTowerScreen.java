@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.gui.absorptiontower;
 
 import cn.tea.toilet.technology.ModConstants;
 import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.gui.TankMenuData;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -86,8 +87,7 @@ public class AbsorptionTowerScreen extends AbstractContainerScreen<AbsorptionTow
     }
 
     private int fillHeight(long amount, int height) {
-        if (amount <= 0) return 0;
-        return Math.max(1, Math.min(height, (int) (amount * height / menu.tankCapacity())));
+        return TankMenuData.fillHeight(amount, menu.tankCapacity(), height);
     }
 
     private void drawTank(GuiGraphics graphics, TextureAtlasSprite sprite, int tint, int x, int y, int width, int height, int fillHeight) {

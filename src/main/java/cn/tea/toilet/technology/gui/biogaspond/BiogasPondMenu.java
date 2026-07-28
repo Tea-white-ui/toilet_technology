@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.gui.biogaspond;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
+import cn.tea.toilet.technology.gui.TankMenuData;
 import cn.tea.toilet.technology.gui.septictank.OutputOnlySlot;
 import cn.tea.toilet.technology.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
@@ -50,8 +51,8 @@ public class BiogasPondMenu extends AbstractContainerMenu {
             @Override public int get(int index) {
                 return switch (index) {
                     case DATA_LIQUID_AMOUNT -> controller.liquidTank.getFluidAmount();
-                    case DATA_GAS_LOW -> (int) controller.gasTank.getStored() & 0xFFFF;
-                    case DATA_GAS_HIGH -> (int) (controller.gasTank.getStored() >>> 16) & 0xFFFF;
+                    case DATA_GAS_LOW -> TankMenuData.lowWord(controller.gasTank.getStored());
+                    case DATA_GAS_HIGH -> TankMenuData.highWord(controller.gasTank.getStored());
                     case DATA_STRUCTURE_VALID -> controller.isStructureValid() ? 1 : 0;
                     case DATA_LIQUID_TYPE -> fluidWireValue(controller.liquidTank.getFluid());
                     case DATA_GAS_TYPE -> chemicalWireValue(controller.gasTank.getStack());
@@ -64,30 +65,30 @@ public class BiogasPondMenu extends AbstractContainerMenu {
         addDataSlots(data);
     }
 
-    public int liquidAmount() { return data.get(DATA_LIQUID_AMOUNT) & 0xFFFF; }
-    public long gasAmount() { return (data.get(DATA_GAS_LOW) & 0xFFFFL) | ((data.get(DATA_GAS_HIGH) & 0xFFFFL) << 16); }
+    public int liquidAmount() { return data.get(DATA_LIQUID_AMOUNT); }
+    public long gasAmount() { return TankMenuData.decodeLong(data.get(DATA_GAS_LOW), data.get(DATA_GAS_HIGH)); }
     public boolean structureValid() { return data.get(DATA_STRUCTURE_VALID) != 0; }
     public FluidStack liquidStack() { return displayFluidStack(DATA_LIQUID_TYPE, liquidAmount()); }
     public GasStack gasStack() { return displayGasStack(DATA_GAS_TYPE, gasAmount()); }
 
     private static int fluidWireValue(FluidStack stack) {
-        return stack.isEmpty() ? 0 : BiogasPondFluidDisplay.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
+        return stack.isEmpty() ? 0 : TankMenuData.encodeRegistryId(BuiltInRegistries.FLUID.getId(stack.getFluid()));
     }
 
     private static int chemicalWireValue(GasStack stack) {
-        return stack.isEmpty() ? 0 : BiogasPondChemicalDisplay.encodeRegistryId(
+        return stack.isEmpty() ? 0 : TankMenuData.encodeRegistryId(
                 GasRegistry.id(stack.gas()));
     }
 
     private FluidStack displayFluidStack(int dataIndex, int amount) {
-        int registryId = BiogasPondFluidDisplay.decodeRegistryId(data.get(dataIndex) & 0xFFFF);
+        int registryId = TankMenuData.decodeRegistryId(data.get(dataIndex));
         if (registryId < 0 || amount <= 0) return FluidStack.EMPTY;
         Fluid fluid = BuiltInRegistries.FLUID.byId(registryId);
         return new FluidStack(fluid, amount);
     }
 
     private GasStack displayGasStack(int dataIndex, long amount) {
-        int registryId = BiogasPondChemicalDisplay.decodeRegistryId(data.get(dataIndex) & 0xFFFF);
+        int registryId = TankMenuData.decodeRegistryId(data.get(dataIndex));
         if (registryId < 0 || amount <= 0) return GasStack.EMPTY;
         Gas gas = GasRegistry.byId(registryId);
         return gas == null ? GasStack.EMPTY : new GasStack(gas, amount);

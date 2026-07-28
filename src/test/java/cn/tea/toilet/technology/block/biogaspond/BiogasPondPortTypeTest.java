@@ -26,4 +26,16 @@ class BiogasPondPortTypeTest {
             assertFalse(type.allowsCapabilityFrom(true, false));
         }
     }
+
+    @Test
+    void portRolesAllowOnlyTheirDeclaredTransferDirection() {
+        assertFalse(BiogasPondPortType.GAS_OUTPUT.allowsInsertion());
+        assertTrue(BiogasPondPortType.GAS_OUTPUT.allowsExtraction());
+        assertTrue(BiogasPondPortType.ITEM_INPUT.allowsInsertion());
+        assertFalse(BiogasPondPortType.ITEM_INPUT.allowsExtraction());
+        assertFalse(BiogasPondPortType.ITEM_OUTPUT.allowsInsertion());
+        assertTrue(BiogasPondPortType.ITEM_OUTPUT.allowsExtraction());
+        assertTrue(BiogasPondPortType.FLUID_INPUT.allowsInsertion());
+        assertFalse(BiogasPondPortType.FLUID_INPUT.allowsExtraction());
+    }
 }

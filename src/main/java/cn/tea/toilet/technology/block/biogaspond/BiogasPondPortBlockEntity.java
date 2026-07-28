@@ -101,17 +101,17 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
         }
         @Override public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller != null && slot == 0 && portType == BiogasPondPortType.ITEM_INPUT
+            return controller != null && slot == 0 && portType.allowsInsertion()
                     ? controller.items.insertItem(BiogasPondControllerBlockEntity.INPUT_SLOT, stack, simulate) : stack;
         }
         @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller != null && slot == 0 && portType == BiogasPondPortType.ITEM_OUTPUT
+            return controller != null && slot == 0 && portType.allowsExtraction()
                     ? controller.items.extractItem(BiogasPondControllerBlockEntity.OUTPUT_SLOT, amount, simulate) : ItemStack.EMPTY;
         }
         @Override public int getSlotLimit(int slot) { return 64; }
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return controller() != null && slot == 0 && portType == BiogasPondPortType.ITEM_INPUT;
+            return controller() != null && slot == 0 && portType.allowsInsertion();
         }
     }
 
@@ -127,7 +127,7 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
         }
         @Override public int fill(FluidStack stack, FluidAction action) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller == null ? 0 : controller.liquidTank.fill(stack, action);
+            return controller == null || !portType.allowsInsertion() ? 0 : controller.liquidTank.fill(stack, action);
         }
         @Override public @NotNull FluidStack drain(FluidStack stack, FluidAction action) { return FluidStack.EMPTY; }
         @Override public @NotNull FluidStack drain(int amount, FluidAction action) { return FluidStack.EMPTY; }
@@ -147,11 +147,13 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
         }
         @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? stack : controller.gasTank.insert(stack, action);
+            return controller == null || tank != 0 || !portType.allowsInsertion()
+                    ? stack : controller.gasTank.insert(stack, action);
         }
         @Override public GasStack extractGas(int tank, long amount, GasAction action) {
             BiogasPondControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.extract(amount, action);
+            return controller == null || tank != 0 || !portType.allowsExtraction()
+                    ? GasStack.EMPTY : controller.gasTank.extract(amount, action);
         }
     }
 }

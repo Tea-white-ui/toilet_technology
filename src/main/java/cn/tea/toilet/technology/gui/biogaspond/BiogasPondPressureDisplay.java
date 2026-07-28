@@ -1,5 +1,7 @@
 package cn.tea.toilet.technology.gui.biogaspond;
 
+import cn.tea.toilet.technology.gui.TankMenuData;
+
 final class BiogasPondPressureDisplay {
     static final int X = 9;
     static final int WIDTH = 4;
@@ -13,7 +15,7 @@ final class BiogasPondPressureDisplay {
     }
 
     static int fillTop(long amount, long capacity) {
-        int fillHeight = BiogasPondChemicalDisplay.fillHeight(amount, capacity, EMPTY_Y - FULL_Y + 1);
+        int fillHeight = TankMenuData.fillHeight(amount, capacity, EMPTY_Y - FULL_Y + 1);
         return EMPTY_Y - fillHeight + 1;
     }
 

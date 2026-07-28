@@ -89,7 +89,7 @@ public class SepticTankPortBlockEntity extends BlockEntity {
         }
         @Override public int fill(FluidStack stack, FluidAction action) {
             SepticTankControllerBlockEntity controller = controller();
-            return controller == null ? 0 : controller.liquidTank.fill(stack, action);
+            return controller == null || !portType.allowsInsertion() ? 0 : controller.liquidTank.fill(stack, action);
         }
         @Override public @NotNull FluidStack drain(FluidStack stack, FluidAction action) { return FluidStack.EMPTY; }
         @Override public @NotNull FluidStack drain(int amount, FluidAction action) { return FluidStack.EMPTY; }
@@ -109,11 +109,13 @@ public class SepticTankPortBlockEntity extends BlockEntity {
         }
         @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
             SepticTankControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? stack : controller.gasTank.insert(stack, action);
+            return controller == null || tank != 0 || !portType.allowsInsertion()
+                    ? stack : controller.gasTank.insert(stack, action);
         }
         @Override public GasStack extractGas(int tank, long amount, GasAction action) {
             SepticTankControllerBlockEntity controller = controller();
-            return controller == null || tank != 0 ? GasStack.EMPTY : controller.gasTank.extract(amount, action);
+            return controller == null || tank != 0 || !portType.allowsExtraction()
+                    ? GasStack.EMPTY : controller.gasTank.extract(amount, action);
         }
     }
 }

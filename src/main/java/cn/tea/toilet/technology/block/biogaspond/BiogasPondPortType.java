@@ -9,4 +9,12 @@ public enum BiogasPondPortType {
     public boolean allowsCapabilityFrom(boolean queriedFromTop, boolean queriedFromFront) {
         return this == GAS_OUTPUT ? queriedFromTop : queriedFromFront;
     }
+
+    public boolean allowsInsertion() {
+        return this == ITEM_INPUT || this == FLUID_INPUT;
+    }
+
+    public boolean allowsExtraction() {
+        return this == ITEM_OUTPUT || this == GAS_OUTPUT;
+    }
 }

@@ -3,6 +3,9 @@ package cn.tea.toilet.technology.block.biogaspond;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.TankInteriorLighting;
+import cn.tea.toilet.technology.block.multiblock.MultiblockPortBinder;
+import cn.tea.toilet.technology.block.multiblock.MultiblockValidationState;
+import cn.tea.toilet.technology.block.multiblock.StructureGatedGasHandler;
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.gas.BasicGasTank;
@@ -37,8 +40,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     public static final int OUTPUT_SLOT = 1;
     public static final int SLOT_COUNT = 2;
 
-    private boolean structureValid;
-    private int validationCooldown;
+    private final MultiblockValidationState structureState = new MultiblockValidationState(20);
     private int biogasProductionTicks;
     public final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return slot == INPUT_SLOT; }
@@ -51,7 +53,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
             GAS_CAPACITY, stack -> stack.is(GasRegistry.BIOGAS), this::setChanged);
     private final IItemHandler automationItems = new GatedItemHandler();
     private final IFluidHandler automationFluids = new GatedFluidHandler();
-    private final IGasHandler automationGases = new GatedGasHandler();
+    private final IGasHandler automationGases = new StructureGatedGasHandler(new ControllerGasHandler(), this::isStructureValid);
 
     public BiogasPondControllerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.BIOGAS_POND_CONTROLLER.get(), pos, state);
@@ -60,8 +62,7 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
     public boolean revalidateStructure() {
         if (level == null) return false;
         boolean valid = BiogasPondStructure.validate(level, worldPosition);
-        if (structureValid != valid) {
-            structureValid = valid;
+        if (structureState.updateValidity(valid)) {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
@@ -71,21 +72,19 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
             TankInteriorLighting.clear(level, BiogasPondStructure.interiorPositions(worldPosition));
         }
         synchronizePorts(valid);
-        validationCooldown = 20;
         return valid;
     }
 
     private void synchronizePorts(boolean valid) {
-        for (BiogasPondPattern.Cell cell : BiogasPondPattern.layout().walls()) {
-            BlockPos portPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
-            if (level.getBlockEntity(portPos) instanceof BiogasPondPortBlockEntity port) {
-                if (valid) port.bindController(worldPosition);
-                else port.unbindController();
-            }
-        }
+        MultiblockPortBinder.synchronize(valid,
+                BiogasPondPattern.layout().walls().stream()
+                        .map(cell -> worldPosition.offset(cell.x(), cell.y(), cell.z())).toList(),
+                portPos -> level.getBlockEntity(portPos) instanceof BiogasPondPortBlockEntity port ? port : null,
+                port -> port.bindController(worldPosition),
+                BiogasPondPortBlockEntity::unbindController);
     }
 
-    public boolean isStructureValid() { return structureValid; }
+    public boolean isStructureValid() { return structureState.isValid(); }
     public void clearInteriorLighting() {
         if (level != null && !level.isClientSide()) {
             TankInteriorLighting.clear(level, BiogasPondStructure.interiorPositions(worldPosition));
@@ -101,8 +100,8 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, BiogasPondControllerBlockEntity entity) {
         if (level.isClientSide()) return;
-        if (--entity.validationCooldown <= 0) entity.revalidateStructure();
-        if (entity.structureValid) {
+        if (entity.structureState.tickAndShouldValidate()) entity.revalidateStructure();
+        if (entity.isStructureValid()) {
             entity.produceBiogas();
         } else {
             entity.biogasProductionTicks = BiogasPondBiogasProduction.nextProgress(
@@ -187,24 +186,23 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         if (tag.contains("GasTank")) gasTank.deserializeNBT(tag.getCompound("GasTank"));
         biogasProductionTicks = Math.max(0, Math.min(
                 tag.getInt("BiogasProductionTicks"), BiogasPondBiogasProduction.INTERVAL_TICKS - 1));
-        structureValid = false;
-        validationCooldown = 1;
+        structureState.reset();
     }
 
     private class GatedItemHandler implements IItemHandlerModifiable {
         @Override public int getSlots() { return SLOT_COUNT; }
         @Override public @NotNull ItemStack getStackInSlot(int slot) { return items.getStackInSlot(slot); }
         @Override public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-            if (structureValid && (stack.isEmpty() || items.isItemValid(slot, stack))) items.setStackInSlot(slot, stack);
+            if (isStructureValid() && (stack.isEmpty() || items.isItemValid(slot, stack))) items.setStackInSlot(slot, stack);
         }
         @Override public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return structureValid && slot == INPUT_SLOT ? items.insertItem(slot, stack, simulate) : stack;
+            return isStructureValid() && slot == INPUT_SLOT ? items.insertItem(slot, stack, simulate) : stack;
         }
         @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return structureValid ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
+            return isStructureValid() ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
         }
         @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
-        @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return structureValid && items.isItemValid(slot, stack); }
+        @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) { return isStructureValid() && items.isItemValid(slot, stack); }
     }
 
     private class GatedFluidHandler implements IFluidHandler {
@@ -212,20 +210,20 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack getFluidInTank(int tank) { return liquidTank.getFluid(); }
         @Override public int getTankCapacity(int tank) { return LIQUID_CAPACITY; }
         @Override public boolean isFluidValid(int tank, @NotNull net.neoforged.neoforge.fluids.FluidStack stack) {
-            return tank == 0 && structureValid && isFecesLiquid(stack);
+            return tank == 0 && isStructureValid() && isFecesLiquid(stack);
         }
-        @Override public int fill(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return structureValid ? liquidTank.fill(stack, action) : 0; }
-        @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return structureValid ? liquidTank.drain(stack, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
-        @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(int amount, FluidAction action) { return structureValid ? liquidTank.drain(amount, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
+        @Override public int fill(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return isStructureValid() ? liquidTank.fill(stack, action) : 0; }
+        @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(net.neoforged.neoforge.fluids.FluidStack stack, FluidAction action) { return isStructureValid() ? liquidTank.drain(stack, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
+        @Override public @NotNull net.neoforged.neoforge.fluids.FluidStack drain(int amount, FluidAction action) { return isStructureValid() ? liquidTank.drain(amount, action) : net.neoforged.neoforge.fluids.FluidStack.EMPTY; }
     }
 
-    private class GatedGasHandler implements IGasHandler {
+    private class ControllerGasHandler implements IGasHandler {
         @Override public int getGasTanks() { return 1; }
         @Override public GasStack getGasInTank(int tank) { return tank == 0 ? gasTank.getStack() : GasStack.EMPTY; }
         @Override public void setGasInTank(int tank, GasStack stack) { }
         @Override public long getGasTankCapacity(int tank) { return tank == 0 ? GAS_CAPACITY : 0; }
-        @Override public boolean isValid(int tank, GasStack stack) { return tank == 0 && structureValid && gasTank.isValid(stack); }
-        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return tank == 0 && structureValid ? gasTank.insert(stack, action) : stack; }
-        @Override public GasStack extractGas(int tank, long amount, GasAction action) { return tank == 0 && structureValid ? gasTank.extract(amount, action) : GasStack.EMPTY; }
+        @Override public boolean isValid(int tank, GasStack stack) { return tank == 0 && gasTank.isValid(stack); }
+        @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) { return tank == 0 ? gasTank.insert(stack, action) : stack; }
+        @Override public GasStack extractGas(int tank, long amount, GasAction action) { return tank == 0 ? gasTank.extract(amount, action) : GasStack.EMPTY; }
     }
 }

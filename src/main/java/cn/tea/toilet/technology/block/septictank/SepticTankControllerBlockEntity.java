@@ -2,6 +2,9 @@ package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.TankInteriorLighting;
+import cn.tea.toilet.technology.block.multiblock.MultiblockPortBinder;
+import cn.tea.toilet.technology.block.multiblock.MultiblockValidationState;
+import cn.tea.toilet.technology.block.multiblock.StructureGatedGasHandler;
 import cn.tea.toilet.technology.block.septictank.SepticTankBiogasProduction;
 import cn.tea.toilet.technology.compat.PoopSkyCompat;
 import cn.tea.toilet.technology.gas.BasicGasTank;
@@ -41,8 +44,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     public static final int CONTAINER_OUTPUT = SepticTankInventoryLayout.CONTAINER_OUTPUT;
     public static final int SLOT_COUNT = SepticTankInventoryLayout.SLOT_COUNT;
 
-    private boolean structureValid;
-    private int validationCooldown;
+    private final MultiblockValidationState structureState = new MultiblockValidationState(20);
     private int biogasProductionTicks;
 
     public final ItemStackHandler items = new ItemStackHandler(SLOT_COUNT) {
@@ -63,7 +65,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
     private final IItemHandler automationItems = new AutomationItemHandler();
     private final IItemHandler menuItems = new MenuItemHandler();
     private final IFluidHandler automationFluids = new StructureGatedFluidHandler(liquidTank, this::isStructureValid);
-    private final IGasHandler automationGases = new StructureGatedGasHandler();
+    private final IGasHandler automationGases = new StructureGatedGasHandler(new ControllerGasHandler(), this::isStructureValid);
 
     public SepticTankControllerBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.SEPTIC_TANK_CONTROLLER.get(), pos, state);
@@ -86,8 +88,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         BlockState state = getBlockState();
         boolean valid = state.hasProperty(SepticTankControllerBlock.FACING)
                 && SepticTankStructure.validate(level, worldPosition, state.getValue(SepticTankControllerBlock.FACING));
-        if (structureValid != valid) {
-            structureValid = valid;
+        if (structureState.updateValidity(valid)) {
             setChanged();
             level.invalidateCapabilities(worldPosition);
         }
@@ -99,7 +100,6 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
                     worldPosition, state.getValue(SepticTankControllerBlock.FACING)));
         }
         synchronizePorts(valid);
-        validationCooldown = 20;
         return valid;
     }
 
@@ -110,16 +110,15 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             case EAST -> SepticTankPattern.Facing.EAST;
             default -> SepticTankPattern.Facing.NORTH;
         };
-        for (SepticTankPattern.Cell cell : SepticTankPattern.layout(facing).walls()) {
-            BlockPos portPos = worldPosition.offset(cell.x(), cell.y(), cell.z());
-            if (level.getBlockEntity(portPos) instanceof SepticTankPortBlockEntity port) {
-                if (valid) port.bindController(worldPosition);
-                else port.unbindController();
-            }
-        }
+        MultiblockPortBinder.synchronize(valid,
+                SepticTankPattern.layout(facing).walls().stream()
+                        .map(cell -> worldPosition.offset(cell.x(), cell.y(), cell.z())).toList(),
+                portPos -> level.getBlockEntity(portPos) instanceof SepticTankPortBlockEntity port ? port : null,
+                port -> port.bindController(worldPosition),
+                SepticTankPortBlockEntity::unbindController);
     }
 
-    public boolean isStructureValid() { return structureValid; }
+    public boolean isStructureValid() { return structureState.isValid(); }
     public void clearInteriorLighting() {
         if (level != null && !level.isClientSide()) {
             TankInteriorLighting.clear(level, SepticTankStructure.interiorPositions(
@@ -142,8 +141,8 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, SepticTankControllerBlockEntity entity) {
         if (level.isClientSide()) return;
-        if (--entity.validationCooldown <= 0) entity.revalidateStructure();
-        if (entity.structureValid) {
+        if (entity.structureState.tickAndShouldValidate()) entity.revalidateStructure();
+        if (entity.isStructureValid()) {
             entity.processFluidContainer();
             entity.convertWaterWithFeces();
             entity.produceBiogas();
@@ -260,8 +259,7 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         if (tag.contains("GasTank")) loadGasTank(tag, registries);
         biogasProductionTicks = Math.max(0, Math.min(
                 tag.getInt("BiogasProductionTicks"), SepticTankBiogasProduction.INTERVAL_TICKS - 1));
-        structureValid = false;
-        validationCooldown = 1;
+        structureState.reset();
     }
 
     private static CompoundTag normalizedInventoryTag(CompoundTag savedItems) {
@@ -298,10 +296,10 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         @Override public int getSlots() { return SLOT_COUNT; }
         @Override public @NotNull ItemStack getStackInSlot(int slot) { return items.getStackInSlot(slot); }
         @Override public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return structureValid && SepticTankSlotPolicy.allowsExternalInsertion(slot) ? items.insertItem(slot, stack, simulate) : stack;
+            return isStructureValid() && SepticTankSlotPolicy.allowsExternalInsertion(slot) ? items.insertItem(slot, stack, simulate) : stack;
         }
         @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return structureValid && SepticTankInventoryLayout.allowsExternalExtraction(slot)
+            return isStructureValid() && SepticTankInventoryLayout.allowsExternalExtraction(slot)
                     ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
         }
         @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
@@ -312,28 +310,24 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
         @Override public int getSlots() { return SLOT_COUNT; }
         @Override public @NotNull ItemStack getStackInSlot(int slot) { return items.getStackInSlot(slot); }
         @Override public void setStackInSlot(int slot, @NotNull ItemStack stack) {
-            if (structureValid && (stack.isEmpty() || items.isItemValid(slot, stack))) {
+            if (isStructureValid() && (stack.isEmpty() || items.isItemValid(slot, stack))) {
                 items.setStackInSlot(slot, stack);
             }
         }
         @Override public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-            return structureValid ? items.insertItem(slot, stack, simulate) : stack;
+            return isStructureValid() ? items.insertItem(slot, stack, simulate) : stack;
         }
         @Override public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-            return structureValid && SepticTankInventoryLayout.allowsMenuExtraction(slot)
+            return isStructureValid() && SepticTankInventoryLayout.allowsMenuExtraction(slot)
                     ? items.extractItem(slot, amount, simulate) : ItemStack.EMPTY;
         }
         @Override public int getSlotLimit(int slot) { return items.getSlotLimit(slot); }
         @Override public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-            return structureValid && items.isItemValid(slot, stack);
+            return isStructureValid() && items.isItemValid(slot, stack);
         }
     }
 
-    private class StructureGatedGasHandler implements IGasHandler {
-        private boolean allowsTransfer() {
-            return structureValid;
-        }
-
+    private class ControllerGasHandler implements IGasHandler {
         @Override public int getGasTanks() { return 1; }
         @Override public GasStack getGasInTank(int tank) {
             return tank == 0 ? gasTank.getStack() : GasStack.EMPTY;
@@ -345,13 +339,13 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             return tank == 0 ? gasTank.getCapacity() : 0;
         }
         @Override public boolean isValid(int tank, GasStack stack) {
-            return tank == 0 && allowsTransfer() && gasTank.isValid(stack);
+            return tank == 0 && gasTank.isValid(stack);
         }
         @Override public GasStack insertGas(int tank, GasStack stack, GasAction action) {
-            return tank == 0 && allowsTransfer() ? gasTank.insert(stack, action) : stack;
+            return tank == 0 ? gasTank.insert(stack, action) : stack;
         }
         @Override public GasStack extractGas(int tank, long amount, GasAction action) {
-            return tank == 0 && allowsTransfer() ? gasTank.extract(amount, action) : GasStack.EMPTY;
+            return tank == 0 ? gasTank.extract(amount, action) : GasStack.EMPTY;
         }
     }
 }

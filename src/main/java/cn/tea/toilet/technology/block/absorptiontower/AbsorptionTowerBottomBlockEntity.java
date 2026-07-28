@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.absorptiontower;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.multiblock.MultiblockValidationState;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasStack;
@@ -25,8 +26,7 @@ import org.jetbrains.annotations.Nullable;
 public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
     public static final int TANK_CAPACITY = 8_000;
 
-    private boolean structureValid;
-    private int validationCooldown = 1;
+    private final MultiblockValidationState structureState = new MultiblockValidationState(20);
     private final FluidTank waterInputTank = createWaterTank();
     private final FluidTank liquidOutputTank = createOutputTank();
     private final BasicGasTank gasInputTank = new BasicGasTank(TANK_CAPACITY, stack -> true, this::setChanged);
@@ -55,17 +55,15 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
     public boolean revalidateStructure() {
         if (level == null) return false;
         boolean valid = AbsorptionTowerStructure.validate(level, worldPosition);
-        if (structureValid != valid) {
-            structureValid = valid;
+        if (structureState.updateValidity(valid)) {
             setChanged();
             invalidateTowerCapabilities();
         }
-        validationCooldown = 20;
         return valid;
     }
 
     public boolean isStructureValid() {
-        return structureValid;
+        return structureState.isValid();
     }
 
     public FluidStack getWaterInput() {
@@ -86,8 +84,8 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, AbsorptionTowerBottomBlockEntity entity) {
         if (level.isClientSide()) return;
-        if (--entity.validationCooldown <= 0) entity.revalidateStructure();
-        if (entity.structureValid) entity.processOneRecipe();
+        if (entity.structureState.tickAndShouldValidate()) entity.revalidateStructure();
+        if (entity.isStructureValid()) entity.processOneRecipe();
     }
 
     private void processOneRecipe() {
@@ -115,7 +113,7 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
 
     @Nullable
     public IFluidHandler getFluidHandler(@Nullable Direction side) {
-        if (!structureValid || side == null) return null;
+        if (!isStructureValid() || side == null) return null;
         Direction front = getBlockState().getValue(HorizontalDirectionalBlock.FACING);
         if (side == front || side.getAxis().isHorizontal()) return waterInputHandler;
         return null;
@@ -123,19 +121,19 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
 
     @Nullable
     public IGasHandler getGasHandler(@Nullable Direction side) {
-        if (!structureValid || side == null) return null;
+        if (!isStructureValid() || side == null) return null;
         return side == Direction.DOWN ? gasInputHandler : null;
     }
 
     @Nullable
     public IFluidHandler getFluidOutputHandler(@Nullable Direction side) {
-        if (!structureValid || side == null || side == Direction.UP || side == Direction.DOWN) return null;
+        if (!isStructureValid() || side == null || side == Direction.UP || side == Direction.DOWN) return null;
         return liquidOutputHandler;
     }
 
     @Nullable
     public IGasHandler getGasOutputHandler(@Nullable Direction side) {
-        return structureValid && side == Direction.UP ? gasOutputHandler : null;
+        return isStructureValid() && side == Direction.UP ? gasOutputHandler : null;
     }
 
     private void invalidateTowerCapabilities() {
@@ -161,8 +159,7 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
         if (tag.contains("LiquidOutputTank")) liquidOutputTank.readFromNBT(registries, tag.getCompound("LiquidOutputTank"));
         if (tag.contains("GasInputTank")) gasInputTank.deserializeNBT(tag.getCompound("GasInputTank"));
         if (tag.contains("GasOutputTank")) gasOutputTank.deserializeNBT(tag.getCompound("GasOutputTank"));
-        structureValid = false;
-        validationCooldown = 1;
+        structureState.reset();
     }
 
     private final class InputFluidHandler implements IFluidHandler {

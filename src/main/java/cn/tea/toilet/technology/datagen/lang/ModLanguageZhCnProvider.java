@@ -65,6 +65,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModBlocks.BIOGAS_POND_FLUID_INPUT_PORT.get(), "沼气池液体输入端口");
         add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "沼气池物品输出端口");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "沼气发生机");
+        add(ModBlocks.GAS_MELTING_FURNACE.get(), "燃气熔炼炉");
         add(ModBlocks.SEWAGE_PURIFIER.get(), "污水净化机");
         add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), "吸收塔底");
         add(ModBlocks.ABSORPTION_TOWER_BODY.get(), "吸收塔体");

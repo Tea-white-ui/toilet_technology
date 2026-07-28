@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.block;
 import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlock;
+import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlock;
 import cn.tea.toilet.technology.block.sewagepurifier.SewagePurifierBlock;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlock;
 import cn.tea.toilet.technology.block.drying.DryingRackBlock;
@@ -200,6 +201,9 @@ public class ModBlocks {
             () -> new BiogasPondPortBlock(BiogasPondPortType.ITEM_OUTPUT, Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> BIOGAS_GENERATOR = BLOCKS.register("biogas_generator",
             () -> new BiogasGeneratorBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
+    /** 燃气熔炼炉：可储存 2 桶气体，并预留一个输入槽和一个输出槽。 */
+    public static final DeferredHolder<Block, Block> GAS_MELTING_FURNACE = BLOCKS.register("gas_melting_furnace",
+            () -> new GasMeltingFurnaceBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> SEWAGE_PURIFIER = BLOCKS.register("sewage_purifier",
             () -> new SewagePurifierBlock(Block.Properties.of().strength(3.5f, 6.0f).sound(SoundType.METAL).pushReaction(PushReaction.BLOCK)));
     public static final DeferredHolder<Block, Block> ABSORPTION_TOWER_BOTTOM = BLOCKS.register("absorption_tower_bottom",

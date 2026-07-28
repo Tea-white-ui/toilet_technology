@@ -326,6 +326,18 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .unlockedBy(getHasName(ModItems.GAS_TANK.get()), has(ModItems.GAS_TANK.get()))
                 .save(output);
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.GAS_MELTING_FURNACE.get())
+                .pattern("INI")
+                .pattern("MGM")
+                .pattern("IHI")
+                .define('I', Items.IRON_INGOT)
+                .define('N', Items.NETHER_BRICK)
+                .define('M', ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get())
+                .define('G', ModItems.GAS_TANK.get())
+                .define('H', Items.HOPPER)
+                .unlockedBy(getHasName(ModItems.GAS_TANK.get()), has(ModItems.GAS_TANK.get()))
+                .save(output);
+
         ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ModBlocks.SEWAGE_PURIFIER.get())
                 .pattern("IPI")
                 .pattern("CBC")

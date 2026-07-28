@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": {
+      "item": "toilet_technology:gas_tank"
+    },
+    "H": {
+      "item": "minecraft:hopper"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "M": {
+      "item": "toilet_technology:multi_layer_sintered_metal_mesh"
+    },
+    "N": {
+      "item": "minecraft:nether_brick"
+    }
+  },
+  "pattern": [
+    "INI",
+    "MGM",
+    "IHI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "toilet_technology:gas_melting_furnace"
+  }
+}

@@ -68,6 +68,7 @@ public class ModCreativeTabs {
                         output.accept(ModItems.BIOGAS_POND_FLUID_INPUT_PORT_ITEM.get());
                         output.accept(ModItems.BIOGAS_POND_ITEM_OUTPUT_PORT_ITEM.get());
                         output.accept(ModItems.BIOGAS_GENERATOR_ITEM.get());
+                        output.accept(ModItems.GAS_MELTING_FURNACE_ITEM.get());
                         output.accept(ModItems.SEWAGE_PURIFIER_ITEM.get());
                         output.accept(ModItems.ABSORPTION_TOWER_BOTTOM_ITEM.get());
                         output.accept(ModItems.ABSORPTION_TOWER_BODY_ITEM.get());

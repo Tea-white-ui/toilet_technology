@@ -40,6 +40,11 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         return itemHandler;
     }
 
+    /** Direct inventory access for the machine menu; automation remains restricted by {@link #getItemHandler()}. */
+    public IItemHandler getMenuItems() {
+        return inventory;
+    }
+
     public IGasHandler getGasHandler() {
         return gasHandler;
     }

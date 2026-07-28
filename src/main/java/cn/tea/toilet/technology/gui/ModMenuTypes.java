@@ -5,6 +5,7 @@ import cn.tea.toilet.technology.gui.dryingbox.DryingBoxMenu;
 import cn.tea.toilet.technology.gui.septictank.SepticTankMenu;
 import cn.tea.toilet.technology.gui.biogaspond.BiogasPondMenu;
 import cn.tea.toilet.technology.gui.absorptiontower.AbsorptionTowerMenu;
+import cn.tea.toilet.technology.gui.gasmeltingfurnace.GasMeltingFurnaceMenu;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.MenuType;
@@ -34,6 +35,8 @@ public class ModMenuTypes {
             MENU_TYPES.register("biogas_pond", () -> new MenuType<>(BiogasPondMenu::new, FeatureFlags.VANILLA_SET));
     public static final DeferredHolder<MenuType<?>, MenuType<AbsorptionTowerMenu>> ABSORPTION_TOWER_MENU =
             MENU_TYPES.register("absorption_tower", () -> new MenuType<>(AbsorptionTowerMenu::new, FeatureFlags.VANILLA_SET));
+    public static final DeferredHolder<MenuType<?>, MenuType<GasMeltingFurnaceMenu>> GAS_MELTING_FURNACE_MENU =
+            MENU_TYPES.register("gas_melting_furnace", () -> new MenuType<>(GasMeltingFurnaceMenu::new, FeatureFlags.VANILLA_SET));
 
     /**
      * 注册所有菜单类型到事件总线

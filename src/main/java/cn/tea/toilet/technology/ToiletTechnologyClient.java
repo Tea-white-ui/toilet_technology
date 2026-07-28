@@ -16,6 +16,7 @@ import cn.tea.toilet.technology.gui.biogaspond.BiogasPondScreen;
 import cn.tea.toilet.technology.gui.dryingbox.DryingBoxScreen;
 import cn.tea.toilet.technology.gui.septictank.SepticTankScreen;
 import cn.tea.toilet.technology.gui.absorptiontower.AbsorptionTowerScreen;
+import cn.tea.toilet.technology.gui.gasmeltingfurnace.GasMeltingFurnaceScreen;
 import com.mojang.blaze3d.shaders.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Camera;
@@ -70,6 +71,7 @@ public class ToiletTechnologyClient {
         event.register(ModMenuTypes.SEPTIC_TANK_MENU.get(), SepticTankScreen::new);
         event.register(ModMenuTypes.BIOGAS_POND_MENU.get(), BiogasPondScreen::new);
         event.register(ModMenuTypes.ABSORPTION_TOWER_MENU.get(), AbsorptionTowerScreen::new);
+        event.register(ModMenuTypes.GAS_MELTING_FURNACE_MENU.get(), GasMeltingFurnaceScreen::new);
     }
 
     @SubscribeEvent

@@ -56,6 +56,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         horizontalBlock(ModBlocks.BIOGAS_GENERATOR.get(), models().getExistingFile(modLoc("block/biogas_generator")));
         horizontalBlock(ModBlocks.GAS_MELTING_FURNACE.get(), state -> models().getExistingFile(modLoc(
                 state.getValue(GasMeltingFurnaceBlock.LIT) ? "block/gas_melting_furnace_lit" : "block/gas_melting_furnace")));
+        horizontalBlock(ModBlocks.GAS_GENERATORS.get(), models().getExistingFile(modLoc("block/gas_generators")));
         horizontalBlock(ModBlocks.SEWAGE_PURIFIER.get(), models().getExistingFile(modLoc("block/sewage_purifier")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), models().getExistingFile(modLoc("block/absorption_tower_bottom")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BODY.get(), models().getExistingFile(modLoc("block/absorption_tower_body")));

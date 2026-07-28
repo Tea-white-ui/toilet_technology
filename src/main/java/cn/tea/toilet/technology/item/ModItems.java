@@ -143,6 +143,8 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.BIOGAS_GENERATOR.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> GAS_MELTING_FURNACE_ITEM = ITEMS.register("gas_melting_furnace",
             () -> new BlockItem(ModBlocks.GAS_MELTING_FURNACE.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, BlockItem> GAS_GENERATORS_ITEM = ITEMS.register("gas_generators",
+            () -> new BlockItem(ModBlocks.GAS_GENERATORS.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> GAS_PIPE_ITEM = ITEMS.register("gas_pipe",
             () -> new BlockItem(ModBlocks.GAS_PIPE.get(), new Item.Properties()));
     public static final DeferredHolder<Item, BlockItem> SEWAGE_PURIFIER_ITEM = ITEMS.register("sewage_purifier",

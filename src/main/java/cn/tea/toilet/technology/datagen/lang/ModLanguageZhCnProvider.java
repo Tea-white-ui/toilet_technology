@@ -69,6 +69,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "沼气池物品输出端口");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "沼气发生机");
         add(ModBlocks.GAS_MELTING_FURNACE.get(), "燃气熔炼炉");
+        add(ModBlocks.GAS_GENERATORS.get(), "燃气发电机");
         add(ModBlocks.GAS_PIPE.get(), "燃气管道");
         add(ModBlocks.SEWAGE_PURIFIER.get(), "污水净化机");
         add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), "吸收塔底");
@@ -80,6 +81,7 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("gui.toilet_technology.absorption_tower", "吸收塔");
         add("gui.toilet_technology.pressure", "压力");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
+        add("gui.toilet_technology.energy_amount", "%s / %s FE");
         add("gas.toilet_technology.biogas", "沼气");
         add("gas.toilet_technology.methane", "甲烷");
         add("chemical.toilet_technology.biogas", "沼气");

@@ -79,6 +79,10 @@ public final class ModCapabilities {
                 (blockEntity, side) -> blockEntity.getItemHandler(side));
         event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.GAS_MELTING_FURNACE.get(),
                 (blockEntity, side) -> blockEntity.getGasHandler(side));
+        event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.GAS_GENERATORS.get(),
+                (blockEntity, side) -> blockEntity.getGasHandler(side));
+        event.registerBlockEntity(Capabilities.EnergyStorage.BLOCK, ModBlockEntities.GAS_GENERATORS.get(),
+                (blockEntity, side) -> blockEntity.getEnergyStorage(side));
         event.registerBlockEntity(GasCapabilities.BLOCK, ModBlockEntities.GAS_PIPE.get(),
                 (blockEntity, side) -> blockEntity.getGasHandler(side));
         event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, ModBlockEntities.SEWAGE_PURIFIER.get(),

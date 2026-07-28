@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "toilet_technology:block/gas_generators",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "toilet_technology:block/gas_generators"
+    },
+    "facing=south": {
+      "model": "toilet_technology:block/gas_generators",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "toilet_technology:block/gas_generators",
+      "y": 270
+    }
+  }
+}

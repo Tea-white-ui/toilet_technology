@@ -2,6 +2,7 @@
   "values": [
     "toilet_technology:biogas_generator",
     "toilet_technology:gas_melting_furnace",
+    "toilet_technology:gas_generators",
     "toilet_technology:sewage_purifier"
   ]
 }

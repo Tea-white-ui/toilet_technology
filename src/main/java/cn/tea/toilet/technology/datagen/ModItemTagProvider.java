@@ -77,6 +77,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
         this.tag(ModTags.Items.MACHINES)
                 .add(ModItems.BIOGAS_GENERATOR_ITEM.get())
                 .add(ModItems.GAS_MELTING_FURNACE_ITEM.get())
+                .add(ModItems.GAS_GENERATORS_ITEM.get())
                 .add(ModItems.SEWAGE_PURIFIER_ITEM.get());
 
         this.tag(ModTags.Items.GAS_PIPES)

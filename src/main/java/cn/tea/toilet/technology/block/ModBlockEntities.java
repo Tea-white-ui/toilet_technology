@@ -3,6 +3,7 @@ import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.biogasgenerator.BiogasGeneratorBlockEntity;
 import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlockEntity;
+import cn.tea.toilet.technology.block.gasgenerators.GasGeneratorsBlockEntity;
 import cn.tea.toilet.technology.block.gaspipe.GasPipeBlockEntity;
 import cn.tea.toilet.technology.block.sewagepurifier.SewagePurifierBlockEntity;
 import cn.tea.toilet.technology.block.drying.DryingBoxBlockEntity;
@@ -113,6 +114,11 @@ public class ModBlockEntities {
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GasMeltingFurnaceBlockEntity>> GAS_MELTING_FURNACE =
             BLOCK_ENTITIES.register("gas_melting_furnace", () -> BlockEntityType.Builder.of(
                     GasMeltingFurnaceBlockEntity::new, ModBlocks.GAS_MELTING_FURNACE.get()
+            ).build(null));
+
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GasGeneratorsBlockEntity>> GAS_GENERATORS =
+            BLOCK_ENTITIES.register("gas_generators", () -> BlockEntityType.Builder.of(
+                    GasGeneratorsBlockEntity::new, ModBlocks.GAS_GENERATORS.get()
             ).build(null));
 
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<GasPipeBlockEntity>> GAS_PIPE =

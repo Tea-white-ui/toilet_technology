@@ -70,6 +70,8 @@ public final class MekanismCompat {
                 (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.GAS_MELTING_FURNACE.get(),
                 (entity, side) -> adapt(entity.getGasHandler(side)));
+        event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.GAS_GENERATORS.get(),
+                (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerBlockEntity(CHEMICAL_BLOCK, ModBlockEntities.GAS_PIPE.get(),
                 (entity, side) -> adapt(entity.getGasHandler(side)));
         event.registerItem(CHEMICAL_ITEM,

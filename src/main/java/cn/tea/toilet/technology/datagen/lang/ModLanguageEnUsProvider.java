@@ -68,6 +68,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "Biogas Pond Item Output Port");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "Biogas Generator");
         add(ModBlocks.GAS_MELTING_FURNACE.get(), "Gas Melting Furnace");
+        add(ModBlocks.GAS_GENERATORS.get(), "Gas Generator");
         add(ModBlocks.GAS_PIPE.get(), "Gas Pipe");
         add(ModBlocks.SEWAGE_PURIFIER.get(), "Sewage Purifier");
         add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), "Absorption Tower Bottom");
@@ -79,6 +80,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("gui.toilet_technology.absorption_tower", "Absorption Tower");
         add("gui.toilet_technology.pressure", "Pressure");
         add("gui.toilet_technology.tank_amount", "%s / %s mB");
+        add("gui.toilet_technology.energy_amount", "%s / %s FE");
         add("gas.toilet_technology.biogas", "Biogas");
         add("gas.toilet_technology.methane", "Methane");
         add("chemical.toilet_technology.biogas", "Biogas");

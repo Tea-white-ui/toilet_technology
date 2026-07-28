@@ -20,10 +20,20 @@ public class ModItemTagProvider extends ItemTagsProvider {
     @Override
     protected void addTags(HolderLookup.Provider provider) {
         // 材料
+        this.tag(ModTags.Items.MATERIALS)
+                .add(ModItems.DRIED_FECES.get())
+                .add(ModItems.BIOGAS_RESIDUE.get())
+                .add(ModItems.SEALING_COMPONENT.get())
+                .add(ModItems.METAL_MESH.get())
+                .add(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
+
         this.tag(ModTags.Items.FECES)
                 .add(ModItems.FECES.get())
-                .add(ModItems.DRIED_FECES.get())
                 .addOptional(net.minecraft.resources.ResourceLocation.parse(PoopSkyCompatIds.POOPSKY_POOP));
+
+        // 投掷物
+        this.tag(ModTags.Items.THROWABLES)
+                .add(ModItems.FECES_BALL.get());
 
         // 建筑方块物品
         this.tag(ModTags.Items.BUILDING_BLOCKS_ITEM)
@@ -41,6 +51,7 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GOLD_TOILET_ITEM.get())
                 .add(ModItems.DIAMOND_TOILET_ITEM.get())
                 .add(ModItems.NETHERITE_TOILET_ITEM.get());
+
         this.tag(ModTags.Items.DRYERS)
                 .add(ModItems.DRYING_RACK_ITEM.get())
                 .add(ModItems.DRYING_BOX_ITEM.get());
@@ -68,19 +79,16 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GAS_MELTING_FURNACE_ITEM.get())
                 .add(ModItems.SEWAGE_PURIFIER_ITEM.get());
 
+        // 流体
         this.tag(ModTags.Items.FLUID_CONTAINERS)
                 .add(ModItems.FECES_LIQUID_BUCKET.get())
                 .add(ModItems.WASTEWATER_BUCKET.get());
+        // 气体
         this.tag(ModTags.Items.GAS_CONTAINERS)
                 .add(ModItems.GAS_TANK.get());
 
         // === 标签嵌套 ===
         this.tag(ModTags.Items.MATERIALS)
-                .addTag(ModTags.Items.FECES)
-                .add(ModItems.BIOGAS_RESIDUE.get())
-                .add(ModItems.FECES_BALL.get())
-                .add(ModItems.SEALING_COMPONENT.get())
-                .add(ModItems.METAL_MESH.get())
-                .add(ModItems.MULTI_LAYER_SINTERED_METAL_MESH.get());
+                .addTag(ModTags.Items.FECES);
     }
 }

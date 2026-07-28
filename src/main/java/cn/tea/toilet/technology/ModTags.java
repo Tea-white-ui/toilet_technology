@@ -64,6 +64,8 @@ public class ModTags {
         public static final TagKey<Item> FLUID_CONTAINERS = tag("fluid_containers");
         /** 气体运输容器物品标签 */
         public static final TagKey<Item> GAS_CONTAINERS = tag("gas_containers");
+        /** 可投掷物品标签 */
+        public static final TagKey<Item> THROWABLES = tag("throwables");
 
         private static TagKey<Item> tag(String name) {
             return ItemTags.create(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, name));

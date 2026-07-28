@@ -1,7 +1,6 @@
 {
   "values": [
     "toilet_technology:feces",
-    "toilet_technology:dried_feces",
     {
       "id": "poopsky:poop",
       "required": false

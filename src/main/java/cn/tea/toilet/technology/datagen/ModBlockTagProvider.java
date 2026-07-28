@@ -34,8 +34,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.ANTISEPTIC_BRICK_WALL.get());
 
         this.tag(ModTags.Blocks.TOILETS)
-                .add(ModBlocks.SQUAT_TOILET.get())
-                .add(ModBlocks.OAK_TOILET.get());
+                .add(ModBlocks.SQUAT_TOILET.get());
 
         this.tag(ModTags.Blocks.ADVANCED_TOILETS)
                 .add(ModBlocks.OAK_TOILET.get())

@@ -19,6 +19,8 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.inventory.ContainerLevelAccess;
@@ -26,10 +28,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * 高温金属熔炼用的燃气炉外壳。
- * 熔炼配方与处理逻辑将在后续功能中实现；当前仅提供持久化存储与自动化能力。
+ * 熔炼逻辑由数据驱动的燃气熔炼配方提供。
  */
 public final class GasMeltingFurnaceBlock extends BaseEntityBlock {
     public static final MapCodec<GasMeltingFurnaceBlock> CODEC = simpleCodec(GasMeltingFurnaceBlock::new);
@@ -62,6 +65,12 @@ public final class GasMeltingFurnaceBlock extends BaseEntityBlock {
     @Override
     public BlockEntity newBlockEntity(@NotNull BlockPos pos, @NotNull BlockState state) {
         return new GasMeltingFurnaceBlockEntity(pos, state);
+    }
+
+    @Override
+    @Nullable
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return createTickerHelper(type, ModBlockEntities.GAS_MELTING_FURNACE.get(), GasMeltingFurnaceBlockEntity::tick);
     }
 
     @Override

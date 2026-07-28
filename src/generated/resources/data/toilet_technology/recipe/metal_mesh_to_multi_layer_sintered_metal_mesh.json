@@ -1,0 +1,13 @@
+{
+  "type": "toilet_technology:gas_melting",
+  "gas": "toilet_technology:biogas",
+  "gas_amount": 10,
+  "input": {
+    "item": "toilet_technology:metal_mesh"
+  },
+  "output": {
+    "count": 1,
+    "id": "toilet_technology:multi_layer_sintered_metal_mesh"
+  },
+  "processing_time": 100
+}

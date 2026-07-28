@@ -375,5 +375,8 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
         // 添加干燥配方
         ModDryingRecipeProvider.addRecipes(output);
 
+        // 添加燃气熔炼炉配方
+        ModGasMeltingRecipeProvider.addRecipes(output);
+
     }
 }

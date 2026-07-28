@@ -23,6 +23,12 @@ public class ModRecipeTypes {
                     ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "drying")
             ));
 
+    /** 燃气熔炼炉配方类型。 */
+    public static final DeferredHolder<RecipeType<?>, RecipeType<GasMeltingRecipe>> GAS_MELTING =
+            RECIPE_TYPES.register("gas_melting", () -> RecipeType.simple(
+                    ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "gas_melting")
+            ));
+
     public static void register(IEventBus bus) {
         RECIPE_TYPES.register(bus);
     }

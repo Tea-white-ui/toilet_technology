@@ -20,6 +20,10 @@ public class ModRecipeSerializers {
     public static final DeferredHolder<RecipeSerializer<?>, DryingRecipeSerializer> DRYING_RECIPE =
             RECIPE_SERIALIZERS.register("drying", DryingRecipeSerializer::new);
 
+    /** 燃气熔炼炉配方序列化器。 */
+    public static final DeferredHolder<RecipeSerializer<?>, GasMeltingRecipeSerializer> GAS_MELTING =
+            RECIPE_SERIALIZERS.register("gas_melting", GasMeltingRecipeSerializer::new);
+
     public static void register(IEventBus bus) {
         RECIPE_SERIALIZERS.register(bus);
     }

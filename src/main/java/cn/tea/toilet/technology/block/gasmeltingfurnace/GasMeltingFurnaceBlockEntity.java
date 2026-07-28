@@ -5,17 +5,22 @@ import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.recipe.GasMeltingRecipe;
+import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
-/** Stores the future furnace's gas fuel, one input slot, and one output slot. */
+/** 燃气熔炼炉：使用数据驱动的燃气熔炼配方处理单个输入槽。 */
 public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
     /** Two buckets, expressed in the project's millibucket-based gas unit. */
     public static final long GAS_CAPACITY = 2_000;
@@ -31,6 +36,7 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
     };
     private final IItemHandler itemHandler = new FurnaceItemHandler();
     private final IGasHandler gasHandler = new FurnaceGasHandler();
+    private int processingProgress;
 
     public GasMeltingFurnaceBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.GAS_MELTING_FURNACE.get(), pos, state);
@@ -47,6 +53,67 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
 
     public IGasHandler getGasHandler() {
         return gasHandler;
+    }
+
+    public int getProcessingProgress() {
+        return processingProgress;
+    }
+
+    public int getProcessingTime() {
+        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT));
+        return recipe == null ? 0 : recipe.processingTime();
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, GasMeltingFurnaceBlockEntity blockEntity) {
+        if (level.isClientSide()) return;
+
+        ItemStack input = blockEntity.inventory.getStackInSlot(INPUT_SLOT);
+        GasMeltingRecipe recipe = findMatchingRecipe(level, input);
+        if (recipe == null || !blockEntity.canOutput(recipe) || !recipe.hasRequiredGas(blockEntity.gasTank.getStack())) {
+            if (blockEntity.processingProgress != 0) {
+                blockEntity.processingProgress = 0;
+                blockEntity.setChanged();
+            }
+            return;
+        }
+
+        blockEntity.processingProgress++;
+        if (blockEntity.processingProgress < recipe.processingTime()) {
+            blockEntity.setChanged();
+            return;
+        }
+
+        blockEntity.finishProcessing(recipe);
+    }
+
+    private static GasMeltingRecipe findMatchingRecipe(Level level, ItemStack input) {
+        if (level == null || input.isEmpty()) return null;
+        return level.getRecipeManager()
+                .getRecipeFor(ModRecipeTypes.GAS_MELTING.get(), new SingleRecipeInput(input), level)
+                .map(RecipeHolder::value)
+                .orElse(null);
+    }
+
+    private boolean canOutput(GasMeltingRecipe recipe) {
+        ItemStack result = recipe.output();
+        ItemStack output = inventory.getStackInSlot(OUTPUT_SLOT);
+        return output.isEmpty() || (ItemStack.isSameItemSameComponents(output, result)
+                && output.getCount() + result.getCount() <= Math.min(output.getMaxStackSize(), result.getMaxStackSize()));
+    }
+
+    private void finishProcessing(GasMeltingRecipe recipe) {
+        ItemStack result = recipe.output();
+        ItemStack output = inventory.getStackInSlot(OUTPUT_SLOT);
+        if (output.isEmpty()) {
+            inventory.setStackInSlot(OUTPUT_SLOT, result);
+        } else {
+            output.grow(result.getCount());
+            inventory.setStackInSlot(OUTPUT_SLOT, output);
+        }
+        inventory.getStackInSlot(INPUT_SLOT).shrink(1);
+        gasTank.extract(recipe.gasAmount(), GasAction.EXECUTE);
+        processingProgress = 0;
+        setChanged();
     }
 
     private final class FurnaceItemHandler implements IItemHandler {
@@ -81,6 +148,7 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.put("GasTank", gasTank.serializeNBT());
         tag.put("Inventory", inventory.serializeNBT(registries));
+        tag.putInt("ProcessingProgress", processingProgress);
     }
 
     @Override
@@ -88,5 +156,6 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         super.loadAdditional(tag, registries);
         if (tag.contains("GasTank")) gasTank.deserializeNBT(tag.getCompound("GasTank"));
         if (tag.contains("Inventory")) inventory.deserializeNBT(registries, tag.getCompound("Inventory"));
+        processingProgress = tag.getInt("ProcessingProgress");
     }
 }

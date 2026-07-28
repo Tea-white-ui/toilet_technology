@@ -3,6 +3,7 @@ package cn.tea.toilet.technology;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.block.drying.DryingRackBlockEntityBER;
 import cn.tea.toilet.technology.block.toilet.ToiletBlockEntityBER;
+import cn.tea.toilet.technology.client.GasMeltingFurnaceSoundTicker;
 import cn.tea.toilet.technology.client.GasTankItemRenderer;
 import cn.tea.toilet.technology.entity.ModEntityTypes;
 import cn.tea.toilet.technology.fluid.BaseSewageFluidType;
@@ -34,6 +35,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
@@ -63,6 +65,11 @@ public class ToiletTechnologyClient {
     @SubscribeEvent
     static void onRegisterParticleProviders(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ModParticles.DEFECATION_CLOUD.get(), DefecationCloudParticle.Provider::new);
+    }
+
+    @SubscribeEvent
+    static void onClientTick(ClientTickEvent.Post event) {
+        GasMeltingFurnaceSoundTicker.tick(event);
     }
 
     @SubscribeEvent

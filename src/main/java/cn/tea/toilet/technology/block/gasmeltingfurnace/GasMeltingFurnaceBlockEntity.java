@@ -7,12 +7,10 @@ import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
 import cn.tea.toilet.technology.recipe.GasMeltingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
-import cn.tea.toilet.technology.sound.ModSounds;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -31,7 +29,6 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
     public static final long GAS_CAPACITY = 2_000;
     public static final int INPUT_SLOT = 0;
     public static final int OUTPUT_SLOT = 1;
-    private static final int WORKING_SOUND_INTERVAL_TICKS = 80;
 
     private final BasicGasTank gasTank = new BasicGasTank(GAS_CAPACITY, stack -> true, this::setChanged);
     private final ItemStackHandler inventory = new ItemStackHandler(2) {
@@ -102,7 +99,6 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         }
 
         blockEntity.setLit(level, pos, state, true);
-        blockEntity.playWorkingSound(level, pos);
         blockEntity.processingProgress++;
         if (blockEntity.processingProgress < recipe.processingTime()) {
             blockEntity.setChanged();
@@ -118,12 +114,6 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
     private void setLit(Level level, BlockPos pos, BlockState state, boolean lit) {
         if (state.getValue(GasMeltingFurnaceBlock.LIT) != lit) {
             level.setBlock(pos, state.setValue(GasMeltingFurnaceBlock.LIT, lit), Block.UPDATE_CLIENTS);
-        }
-    }
-
-    private void playWorkingSound(Level level, BlockPos pos) {
-        if (level.getGameTime() % WORKING_SOUND_INTERVAL_TICKS == 0) {
-            level.playSound(null, pos, ModSounds.GAS_MELTING_FURNACE_WORKING.get(), SoundSource.BLOCKS, 0.8F, 1.0F);
         }
     }
 

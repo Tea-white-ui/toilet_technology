@@ -4,6 +4,7 @@ import cn.tea.toilet.technology.api.gas.BasicGasTank;
 import cn.tea.toilet.technology.api.gas.GasAction;
 import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.api.gas.IGasHandler;
+import cn.tea.toilet.technology.block.automation.EnergyTransfer;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.gas.GasRegistry;
 import net.minecraft.core.BlockPos;
@@ -13,7 +14,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.energy.EnergyStorage;
+import net.neoforged.neoforge.energy.IEnergyStorage;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,11 +35,11 @@ public final class GasGeneratorsBlockEntity extends BlockEntity {
     }
 
     public @Nullable IGasHandler getGasHandler(@Nullable Direction side) {
-        return side == null ? null : gasHandler;
+        return gasHandler;
     }
 
     public @Nullable EnergyStorage getEnergyStorage(@Nullable Direction side) {
-        return side == null ? null : energyStorage;
+        return energyStorage;
     }
 
     public GasStack getGasStack() {
@@ -57,11 +60,22 @@ public final class GasGeneratorsBlockEntity extends BlockEntity {
         if (level.isClientSide()) return;
         GasStack stack = entity.gasTank.getStack();
         GasGeneratorOperation.Fuel fuel = stack.isEmpty() ? null : GasGeneratorOperation.forGasId(stack.getGas().id().toString());
-        if (!GasGeneratorOperation.canGenerate(fuel, stack.getAmount(), entity.energyStorage.getEnergyStored())) return;
+        if (GasGeneratorOperation.canGenerate(fuel, stack.getAmount(), entity.energyStorage.getEnergyStored())) {
+            entity.gasTank.extract(1, GasAction.EXECUTE);
+            entity.energyStorage.generate(fuel.energyPerTick());
+            entity.setChanged();
+        }
+        entity.pushEnergy(level, pos);
+    }
 
-        entity.gasTank.extract(1, GasAction.EXECUTE);
-        entity.energyStorage.generate(fuel.energyPerTick());
-        entity.setChanged();
+    private void pushEnergy(Level level, BlockPos pos) {
+        for (Direction side : Direction.values()) {
+            IEnergyStorage destination = level.getCapability(Capabilities.EnergyStorage.BLOCK,
+                    pos.relative(side), side.getOpposite());
+            if (destination != null) {
+                EnergyTransfer.transfer(energyStorage, destination, GasGeneratorOperation.ENERGY_CAPACITY);
+            }
+        }
     }
 
     @Override

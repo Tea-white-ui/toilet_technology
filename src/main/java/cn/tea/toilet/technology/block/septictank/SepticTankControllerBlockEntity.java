@@ -146,9 +146,24 @@ public class SepticTankControllerBlockEntity extends BlockEntity {
             entity.processFluidContainer();
             entity.convertWaterWithFeces();
             entity.produceBiogas();
+            entity.pushPortOutputs();
         } else {
             entity.biogasProductionTicks = SepticTankBiogasProduction.nextProgress(
                     entity.biogasProductionTicks, false);
+        }
+    }
+
+    private void pushPortOutputs() {
+        SepticTankPattern.Facing facing = switch (getBlockState().getValue(SepticTankControllerBlock.FACING)) {
+            case SOUTH -> SepticTankPattern.Facing.SOUTH;
+            case WEST -> SepticTankPattern.Facing.WEST;
+            case EAST -> SepticTankPattern.Facing.EAST;
+            default -> SepticTankPattern.Facing.NORTH;
+        };
+        for (SepticTankPattern.Cell cell : SepticTankPattern.layout(facing).walls()) {
+            if (level.getBlockEntity(worldPosition.offset(cell.x(), cell.y(), cell.z())) instanceof SepticTankPortBlockEntity port) {
+                port.pushOutput();
+            }
         }
     }
 

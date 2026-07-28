@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.absorptiontower;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.automation.AutomaticOutput;
 import cn.tea.toilet.technology.block.multiblock.MultiblockValidationState;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
@@ -85,7 +86,17 @@ public class AbsorptionTowerBottomBlockEntity extends BlockEntity {
     public static void tick(Level level, BlockPos pos, BlockState state, AbsorptionTowerBottomBlockEntity entity) {
         if (level.isClientSide()) return;
         if (entity.structureState.tickAndShouldValidate()) entity.revalidateStructure();
-        if (entity.isStructureValid()) entity.processOneRecipe();
+        if (entity.isStructureValid()) {
+            entity.processOneRecipe();
+            entity.pushOutputs();
+        }
+    }
+
+    private void pushOutputs() {
+        AutomaticOutput.pushGas(level, worldPosition.above(AbsorptionTowerStructure.HEIGHT - 1), Direction.UP, gasOutputHandler);
+        for (Direction side : Direction.Plane.HORIZONTAL) {
+            AutomaticOutput.pushFluid(level, worldPosition, side, liquidOutputHandler);
+        }
     }
 
     private void processOneRecipe() {

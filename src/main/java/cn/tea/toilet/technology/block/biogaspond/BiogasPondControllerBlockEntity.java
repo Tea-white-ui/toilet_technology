@@ -103,9 +103,18 @@ public class BiogasPondControllerBlockEntity extends BlockEntity {
         if (entity.structureState.tickAndShouldValidate()) entity.revalidateStructure();
         if (entity.isStructureValid()) {
             entity.produceBiogas();
+            entity.pushPortOutputs();
         } else {
             entity.biogasProductionTicks = BiogasPondBiogasProduction.nextProgress(
                     entity.biogasProductionTicks, false);
+        }
+    }
+
+    private void pushPortOutputs() {
+        for (BiogasPondPattern.Cell cell : BiogasPondPattern.layout().walls()) {
+            if (level.getBlockEntity(worldPosition.offset(cell.x(), cell.y(), cell.z())) instanceof BiogasPondPortBlockEntity port) {
+                port.pushOutput();
+            }
         }
     }
 

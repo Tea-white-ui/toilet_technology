@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.septictank;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.automation.AutomaticOutput;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
@@ -64,6 +65,13 @@ public class SepticTankPortBlockEntity extends BlockEntity {
 
     @Nullable public IGasHandler getGasHandler(@Nullable Direction side) {
         return portType == SepticTankPortType.GAS_OUTPUT && allowsCapabilityFrom(side) ? gasHandler : null;
+    }
+
+    /** Pushes the gas valve's output upward into the container directly above it. */
+    public void pushOutput() {
+        if (level != null && portType == SepticTankPortType.GAS_OUTPUT && controller() != null) {
+            AutomaticOutput.pushGas(level, worldPosition, Direction.UP, gasHandler);
+        }
     }
 
     @Override protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {

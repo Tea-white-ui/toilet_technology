@@ -1,6 +1,7 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
+import cn.tea.toilet.technology.block.automation.AutomaticOutput;
 import cn.tea.toilet.technology.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
@@ -76,6 +77,13 @@ public class BiogasPondPortBlockEntity extends BlockEntity {
     @Nullable
     public IGasHandler getGasHandler(@Nullable Direction side) {
         return portType == BiogasPondPortType.GAS_OUTPUT && allowsCapabilityFrom(side) ? gasHandler : null;
+    }
+
+    /** Pushes the gas valve's output upward into the container directly above it. */
+    public void pushOutput() {
+        if (level != null && portType == BiogasPondPortType.GAS_OUTPUT && controller() != null) {
+            AutomaticOutput.pushGas(level, worldPosition, Direction.UP, gasHandler);
+        }
     }
 
     @Override

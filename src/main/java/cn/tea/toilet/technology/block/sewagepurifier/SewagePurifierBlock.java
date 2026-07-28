@@ -3,6 +3,7 @@ package cn.tea.toilet.technology.block.sewagepurifier;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,10 +23,13 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 public class SewagePurifierBlock extends BaseEntityBlock {
     public static final MapCodec<SewagePurifierBlock> CODEC = simpleCodec(SewagePurifierBlock::new);
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
-    private static final VoxelShape SHAPE = Shapes.or(
+    private static final VoxelShape NORTH_SHAPE = Shapes.or(
             box(1, 1, 0, 15, 15, 2),
             box(1, 1, 14, 15, 15, 16),
             box(2, 2, 2, 14, 14, 14),
@@ -37,6 +41,7 @@ public class SewagePurifierBlock extends BaseEntityBlock {
             box(1, 0, 3, 2, 1, 13),
             box(14, 0, 3, 15, 1, 13)
     );
+    private static final Map<Direction, VoxelShape> SHAPES = createShapes();
 
     public SewagePurifierBlock(Properties properties) {
         super(properties);
@@ -78,6 +83,41 @@ public class SewagePurifierBlock extends BaseEntityBlock {
     @Override
     public @NotNull VoxelShape getShape(@NotNull BlockState state, @NotNull BlockGetter level,
                                         @NotNull BlockPos pos, @NotNull CollisionContext context) {
-        return SHAPE;
+        return SHAPES.get(state.getValue(FACING));
+    }
+
+    @Override
+    public @NotNull VoxelShape getCollisionShape(@NotNull BlockState state, @NotNull BlockGetter level,
+                                                 @NotNull BlockPos pos, @NotNull CollisionContext context) {
+        return SHAPES.get(state.getValue(FACING));
+    }
+
+    private static Map<Direction, VoxelShape> createShapes() {
+        Map<Direction, VoxelShape> shapes = new EnumMap<>(Direction.class);
+        shapes.put(Direction.NORTH, NORTH_SHAPE);
+        shapes.put(Direction.EAST, rotateShape(Direction.EAST));
+        shapes.put(Direction.SOUTH, rotateShape(Direction.SOUTH));
+        shapes.put(Direction.WEST, rotateShape(Direction.WEST));
+        return Map.copyOf(shapes);
+    }
+
+    private static VoxelShape rotateShape(Direction direction) {
+        VoxelShape rotatedShape = Shapes.empty();
+        for (var box : NORTH_SHAPE.toAabbs()) {
+            double minX = box.minX * 16;
+            double minY = box.minY * 16;
+            double minZ = box.minZ * 16;
+            double maxX = box.maxX * 16;
+            double maxY = box.maxY * 16;
+            double maxZ = box.maxZ * 16;
+
+            rotatedShape = Shapes.or(rotatedShape, switch (direction) {
+                case EAST -> box(16 - maxZ, minY, minX, 16 - minZ, maxY, maxX);
+                case SOUTH -> box(16 - maxX, minY, 16 - maxZ, 16 - minX, maxY, 16 - minZ);
+                case WEST -> box(minZ, minY, 16 - maxX, maxZ, maxY, 16 - minX);
+                default -> throw new IllegalArgumentException("Expected a horizontal direction");
+            });
+        }
+        return rotatedShape;
     }
 }

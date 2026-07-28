@@ -1,72 +1,72 @@
-# 厕所技艺（Toilet Technology）
+# Toilet Technology
 
 [![Minecraft](https://img.shields.io/badge/Minecraft-1.21.1-62B47A?logo=minecraft&logoColor=white)](https://www.minecraft.net/)
 [![NeoForge](https://img.shields.io/badge/NeoForge-21.1.241-orange)](https://neoforged.net/)
 
-**厕所技艺**是一个面向 Minecraft 1.21.1 的 NeoForge 科技模组。模组以生物排泄物的收集、处理与资源化利用为主题，将厕所、粪液、污水、发酵和气体处理串联为一套可自动化的资源循环系统。
+[简体中文](README_zh_CN.md)
 
-> 项目仍在开发与测试阶段；配方、数值、结构和功能可能随版本调整。
+**Toilet Technology** is a technology mod for Minecraft 1.21.1 on NeoForge. It centers on collecting, processing, and reclaiming biological waste, connecting toilets, slurry, wastewater, fermentation, and gas treatment into an automatable resource cycle.
 
-- **模组联动**：支持与 Mekanism 的可选气体兼容；可识别 PoopSky 的部分粪便物品和粪液作为加工输入。
+> The project is still under development and testing. Recipes, values, structures, and functionality may change between versions.
 
-## 环境要求
+- **Mod integrations:** Optional gas compatibility with Mekanism is supported. Some PoopSky waste items and slurry are recognized as processing inputs.
 
-| 项目 | 版本 |
+## Requirements
+
+| Component | Version |
 | --- | --- |
 | Minecraft | 1.21.1 |
-| NeoForge | 21.1.241 或更高版本 |
+| NeoForge | 21.1.241 or later |
 | Java | 21 |
 
-JEI 与 Mekanism 均为可选依赖；未安装 Mekanism 时，模组仍可使用自身的气体系统运行。
+JEI and Mekanism are optional dependencies. Without Mekanism installed, the mod continues to run using its own gas system.
 
-## 开发与构建
+## Development and Build
 
-请先安装 JDK 21，然后在项目根目录执行：
+Install JDK 21, then run this command from the project root:
 
 ```bash
 ./gradlew build
 ```
 
-常用开发任务：
+Common development tasks:
 
 ```bash
-# 启动开发客户端
+# Launch the development client
 ./gradlew runClient
 
-# 启动开发服务端
+# Launch the development server
 ./gradlew runServer
 
-# 运行单元测试
+# Run unit tests
 ./gradlew test
 
-# 运行数据生成器
+# Run the data generator
 ./gradlew runData
 ```
 
-### 无 Mekanism 构建验证
+### Build Verification Without Mekanism
 
-Mekanism 兼容层可以通过以下任务排除后进行编译验证：
+Compile while excluding the Mekanism compatibility layer with:
 
 ```bash
 ./gradlew compileJava -PwithoutMekanism
 ```
 
-## 附属模组 API
+## Addon API
 
-面向附属模组开发者的稳定气体 API 位于 `cn.tea.toilet.technology.api.**`。使用方式、Capability 生命周期、
-内置气体限制和本地 Maven 发布说明见 [docs/api/README.md](docs/api/README.md)。
+The stable gas API for addon developers is in `cn.tea.toilet.technology.api.**`. See [docs/api/README.md](docs/api/README.md) for usage, capability lifecycle requirements, built-in gas limitations, and local Maven publishing instructions.
 
-公共 API 当前版本为 `1.0.0`；第三方气体动态注册不属于 API 1.0 的范围。
+The current public API version is `1.0.0`. Dynamic third-party gas registration is outside the scope of API 1.0.
 
-## 作者
+## Author
 
 - Tea_white_
 
-## 致谢
+## Acknowledgments
 
-- 声音与部分纹理效果参考/使用自 [PoopSkyMod](https://github.com/Altnoir/PoopSkyMod)，作者为 [Altnoir](https://github.com/Altnoir)，项目采用 MIT License。
+- Sounds and some texture effects reference or use material from [PoopSkyMod](https://github.com/Altnoir/PoopSkyMod), by [Altnoir](https://github.com/Altnoir), which is licensed under the MIT License.
 
-## 许可证
+## License
 
-- 本项目采用 MIT License。
-
+- This project is licensed under the MIT License.

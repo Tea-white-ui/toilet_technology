@@ -8,5 +8,10 @@
     "sounds": [
       "toilet_technology:fart_2"
     ]
+  },
+  "gas_melting_furnace_working": {
+    "sounds": [
+      "toilet_technology:gas_melting_furnace_working"
+    ]
   }
 }

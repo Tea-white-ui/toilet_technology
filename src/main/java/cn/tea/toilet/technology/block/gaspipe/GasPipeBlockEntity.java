@@ -3,7 +3,6 @@ package cn.tea.toilet.technology.block.gaspipe;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.gas.BasicGasTank;
 import cn.tea.toilet.technology.gas.GasAction;
-import cn.tea.toilet.technology.gas.GasCapabilities;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.gas.IGasHandler;
 import net.minecraft.core.BlockPos;
@@ -23,7 +22,7 @@ public final class GasPipeBlockEntity extends BlockEntity {
 
     private final BasicGasTank tank = new BasicGasTank(CAPACITY, stack -> true, this::setChanged);
     private final IGasHandler handler = new PipeGasHandler();
-    private int roundRobinIndex;
+
 
     public GasPipeBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.GAS_PIPE.get(), pos, state);
@@ -33,30 +32,16 @@ public final class GasPipeBlockEntity extends BlockEntity {
         return handler;
     }
 
+    IGasHandler getInternalGasHandler() {
+        return handler;
+    }
+
+    boolean hasBufferedGas() {
+        return !tank.isEmpty();
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, GasPipeBlockEntity pipe) {
-        if (level.isClientSide()) return;
-        Direction[] directions = Direction.values();
-        int start = pipe.roundRobinIndex++ % directions.length;
-        Direction receivedFrom = null;
-
-        for (int offset = 0; offset < directions.length && pipe.tank.getStored() < CAPACITY; offset++) {
-            Direction direction = directions[(start + offset) % directions.length];
-            IGasHandler neighbor = level.getCapability(GasCapabilities.BLOCK, pos.relative(direction), direction.getOpposite());
-            if (neighbor == null || neighbor == pipe.handler) continue;
-            if (!GasPipeTransfer.pull(neighbor, pipe.handler, TRANSFER_RATE).isEmpty()) {
-                receivedFrom = direction;
-                break;
-            }
-        }
-
-        if (pipe.tank.isEmpty()) return;
-        for (int offset = 0; offset < directions.length; offset++) {
-            Direction direction = directions[(start + offset) % directions.length];
-            if (direction == receivedFrom) continue;
-            IGasHandler neighbor = level.getCapability(GasCapabilities.BLOCK, pos.relative(direction), direction.getOpposite());
-            if (neighbor == null || neighbor == pipe.handler) continue;
-            if (!GasPipeTransfer.push(pipe.handler, neighbor, TRANSFER_RATE).isEmpty()) break;
-        }
+        GasPipeNetworkScheduler.tick(level, pos);
     }
 
     private final class PipeGasHandler implements IGasHandler {
@@ -77,13 +62,11 @@ public final class GasPipeBlockEntity extends BlockEntity {
     protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("GasTank", tank.serializeNBT());
-        tag.putInt("RoundRobinIndex", roundRobinIndex);
     }
 
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         if (tag.contains("GasTank")) tank.deserializeNBT(tag.getCompound("GasTank"));
-        roundRobinIndex = Math.max(0, tag.getInt("RoundRobinIndex"));
     }
 }

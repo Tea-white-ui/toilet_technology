@@ -44,7 +44,12 @@ final class GasPipeNetworkScheduler {
                 return;
             }
         }
-        GasPipeNetworkTransfer.transferOne(network.externalEndpoints, GasPipeBlockEntity.TRANSFER_RATE);
+        if (!GasPipeNetworkTransfer.transferOne(
+                network.externalEndpoints, GasPipeBlockEntity.TRANSFER_RATE).isEmpty()) {
+            return;
+        }
+        GasPipeNetworkTransfer.redistributePipeBuffers(
+                network.pipeHandlers, GasPipeBlockEntity.TRANSFER_RATE);
     }
 
     private static Network discover(Level level, BlockPos start) {
@@ -55,6 +60,7 @@ final class GasPipeNetworkScheduler {
         ArrayDeque<BlockPos> open = new ArrayDeque<>();
         LongOpenHashSet visited = new LongOpenHashSet();
         List<BlockPos> pipes = new ArrayList<>();
+        List<IGasHandler> pipeHandlers = new ArrayList<>();
         List<GasPipeBlockEntity> bufferedPipes = new ArrayList<>();
         Set<IGasHandler> endpointIdentities = Collections.newSetFromMap(new IdentityHashMap<>());
         List<IGasHandler> externalEndpoints = new ArrayList<>();
@@ -66,8 +72,9 @@ final class GasPipeNetworkScheduler {
             if (!isLoaded(level, pipePos) || !(level.getBlockState(pipePos).getBlock() instanceof GasPipeBlock)) continue;
 
             pipes.add(pipePos);
-            if (level.getBlockEntity(pipePos) instanceof GasPipeBlockEntity pipe && pipe.hasBufferedGas()) {
-                bufferedPipes.add(pipe);
+            if (level.getBlockEntity(pipePos) instanceof GasPipeBlockEntity pipe) {
+                pipeHandlers.add(pipe.getInternalGasHandler());
+                if (pipe.hasBufferedGas()) bufferedPipes.add(pipe);
             }
 
             for (Direction direction : DIRECTIONS) {
@@ -83,7 +90,7 @@ final class GasPipeNetworkScheduler {
                 if (endpoint != null && endpointIdentities.add(endpoint)) externalEndpoints.add(endpoint);
             }
         }
-        return new Network(pipes, bufferedPipes, externalEndpoints);
+        return new Network(pipes, pipeHandlers, bufferedPipes, externalEndpoints);
     }
 
     private static boolean isLoaded(Level level, BlockPos pos) {
@@ -95,8 +102,9 @@ final class GasPipeNetworkScheduler {
         private final LongOpenHashSet processedPipes = new LongOpenHashSet();
     }
 
-    private record Network(List<BlockPos> pipes, List<GasPipeBlockEntity> bufferedPipes,
+    private record Network(List<BlockPos> pipes, List<IGasHandler> pipeHandlers,
+                           List<GasPipeBlockEntity> bufferedPipes,
                            List<IGasHandler> externalEndpoints) {
-        private static final Network EMPTY = new Network(List.of(), List.of(), List.of());
+        private static final Network EMPTY = new Network(List.of(), List.of(), List.of(), List.of());
     }
 }

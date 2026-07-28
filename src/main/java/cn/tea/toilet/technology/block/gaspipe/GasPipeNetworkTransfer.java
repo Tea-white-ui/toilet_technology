@@ -45,6 +45,28 @@ final class GasPipeNetworkTransfer {
         return GasStack.EMPTY;
     }
 
+    static GasStack redistributePipeBuffers(List<? extends IGasHandler> pipeBuffers, long limit) {
+        if (limit <= 0) return GasStack.EMPTY;
+        for (int sourceIndex = 0; sourceIndex < pipeBuffers.size(); sourceIndex++) {
+            IGasHandler source = pipeBuffers.get(sourceIndex);
+            GasStack offered = source.extractGas(0, limit, GasAction.SIMULATE);
+            if (offered.isEmpty()) continue;
+
+            for (int destinationIndex = 0; destinationIndex < pipeBuffers.size(); destinationIndex++) {
+                if (sourceIndex == destinationIndex) continue;
+                IGasHandler destination = pipeBuffers.get(destinationIndex);
+                GasStack remainder = destination.insertGas(0, offered, GasAction.SIMULATE);
+                long accepted = offered.amount() - remainder.amount();
+                if (accepted <= 0) continue;
+
+                long transferLimit = Math.min(Math.min(limit, accepted), equalizationLimit(source, destination));
+                if (transferLimit <= 0) continue;
+                return GasTransfer.transfer(source, 0, destination, 0, transferLimit);
+            }
+        }
+        return GasStack.EMPTY;
+    }
+
     private static boolean isBidirectional(IGasHandler source, IGasHandler destination, GasStack gas) {
         GasStack probe = gas.copyWithAmount(1);
         return source.isValid(0, probe) && destination.isValid(0, probe);

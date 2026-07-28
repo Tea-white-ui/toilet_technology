@@ -75,6 +75,18 @@ class GasPipeNetworkTransferTest {
         assertTrue(GasPipeNetworkTransfer.transferOne(List.of(source, destination), 1_000).isEmpty());
     }
 
+    @Test
+    void gasInOnePipeBufferFlowsIntoAnAdjacentEmptyPipeBuffer() {
+        TestHandler filledPipe = new TestHandler(1_000, new GasStack(GasRegistry.BIOGAS, 1_000), true, true);
+        TestHandler emptyPipe = new TestHandler(1_000, GasStack.EMPTY, true, true);
+
+        GasStack moved = GasPipeNetworkTransfer.redistributePipeBuffers(List.of(filledPipe, emptyPipe), 256);
+
+        assertEquals(256, moved.amount());
+        assertEquals(744, filledPipe.stack.amount());
+        assertEquals(256, emptyPipe.stack.amount());
+    }
+
     private static final class TestHandler implements IGasHandler {
         private final long capacity;
         private final boolean allowsInsertion;

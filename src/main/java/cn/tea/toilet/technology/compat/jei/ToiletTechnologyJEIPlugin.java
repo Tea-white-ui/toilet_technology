@@ -40,7 +40,8 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
      * 所有JEI配方类别定义列表 *新增配方类型时，只需在此列表中添加对应的Definition实现
      */
     private static final List<JeiCategoryDefinition<?>> CATEGORY_DEFINITIONS = List.of(
-            new DryingCategoryDefinition()
+            new DryingCategoryDefinition(),
+            new GasMeltingCategoryDefinition()
     );
 
     @NotNull

@@ -1,0 +1,13 @@
+{
+  "type": "toilet_technology:gas_melting",
+  "gas": "toilet_technology:biogas",
+  "gas_amount": 80,
+  "input": {
+    "item": "toilet_technology:dried_feces_block"
+  },
+  "output": {
+    "count": 4,
+    "id": "minecraft:coal"
+  },
+  "processing_time": 100
+}

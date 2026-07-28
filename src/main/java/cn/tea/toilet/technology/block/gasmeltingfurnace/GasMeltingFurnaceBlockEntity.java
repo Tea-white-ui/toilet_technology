@@ -70,7 +70,7 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
     }
 
     public int getProcessingTime() {
-        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT));
+        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT), gasTank.getStack());
         return recipe == null ? 0 : recipe.processingTime();
     }
 
@@ -80,16 +80,16 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
      * flame stays visible across consecutive processing cycles.
      */
     public boolean isProcessing() {
-        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT));
-        return recipe != null && canOutput(recipe) && recipe.hasRequiredGas(gasTank.getStack());
+        GasMeltingRecipe recipe = findMatchingRecipe(level, inventory.getStackInSlot(INPUT_SLOT), gasTank.getStack());
+        return recipe != null && canOutput(recipe);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, GasMeltingFurnaceBlockEntity blockEntity) {
         if (level.isClientSide()) return;
 
         ItemStack input = blockEntity.inventory.getStackInSlot(INPUT_SLOT);
-        GasMeltingRecipe recipe = findMatchingRecipe(level, input);
-        if (recipe == null || !blockEntity.canOutput(recipe) || !recipe.hasRequiredGas(blockEntity.gasTank.getStack())) {
+        GasMeltingRecipe recipe = findMatchingRecipe(level, input, blockEntity.gasTank.getStack());
+        if (recipe == null || !blockEntity.canOutput(recipe)) {
             blockEntity.setLit(level, pos, state, false);
             if (blockEntity.processingProgress != 0) {
                 blockEntity.processingProgress = 0;
@@ -106,9 +106,9 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         }
 
         blockEntity.finishProcessing(recipe);
-        GasMeltingRecipe nextRecipe = findMatchingRecipe(level, blockEntity.inventory.getStackInSlot(INPUT_SLOT));
-        blockEntity.setLit(level, pos, state, nextRecipe != null && blockEntity.canOutput(nextRecipe)
-                && nextRecipe.hasRequiredGas(blockEntity.gasTank.getStack()));
+        GasMeltingRecipe nextRecipe = findMatchingRecipe(level, blockEntity.inventory.getStackInSlot(INPUT_SLOT),
+                blockEntity.gasTank.getStack());
+        blockEntity.setLit(level, pos, state, nextRecipe != null && blockEntity.canOutput(nextRecipe));
     }
 
     private void setLit(Level level, BlockPos pos, BlockState state, boolean lit) {
@@ -117,11 +117,14 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         }
     }
 
-    private static GasMeltingRecipe findMatchingRecipe(Level level, ItemStack input) {
+    private static GasMeltingRecipe findMatchingRecipe(Level level, ItemStack input, GasStack gasStack) {
         if (level == null || input.isEmpty()) return null;
         return level.getRecipeManager()
-                .getRecipeFor(ModRecipeTypes.GAS_MELTING.get(), new SingleRecipeInput(input), level)
+                .getRecipesFor(ModRecipeTypes.GAS_MELTING.get(), new SingleRecipeInput(input), level)
+                .stream()
                 .map(RecipeHolder::value)
+                .filter(recipe -> recipe.hasRequiredGas(gasStack))
+                .findFirst()
                 .orElse(null);
     }
 

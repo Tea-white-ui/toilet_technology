@@ -53,6 +53,9 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("jei.toilet_technology.absorption_tower.per_batch", "Conversion per batch");
         add("jei.toilet_technology.absorption_tower.structure", "Structure (%s blocks high)");
         add("jei.toilet_technology.absorption_tower.same_facing", "All blocks face the same direction");
+        add("jei.toilet_technology.gas_melting.title", "Gas Melting");
+        add("jei.toilet_technology.gas_melting.duration", "Processing time: %s s");
+        add("jei.toilet_technology.gas_melting.gas_usage", "Gas consumed: %s mB");
         add(ModBlocks.SEPTIC_TANK_CONTROLLER.get(), "Septic Tank Controller");
         add(ModBlocks.SEPTIC_TANK_WALL.get(), "Septic Tank Wall");
         add(ModBlocks.SEPTIC_TANK_LIQUID_INPUT_PORT.get(), "Septic Tank Liquid Input Port");

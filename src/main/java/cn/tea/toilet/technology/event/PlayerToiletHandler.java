@@ -47,6 +47,7 @@ public class PlayerToiletHandler {
 
     /** 产生粪便的基础间隔时间（tick），20 tick = 1秒 */
     private static final int PRODUCE_INTERVAL = 20;
+    private static final ToiletSquatTimer SQUAT_TIMER = new ToiletSquatTimer(PRODUCE_INTERVAL);
 
     /**
      * 玩家Tick事件处理
@@ -93,8 +94,9 @@ public class PlayerToiletHandler {
                 }
             }
 
-            int count = player.getData(ModAttachments.TOILET_SQUAT_TICKS) + 1;
-            if (count >= interval) {
+            int currentCount = player.getData(ModAttachments.TOILET_SQUAT_TICKS);
+            int nextCount = SQUAT_TIMER.nextCount(currentCount, interval);
+            if (nextCount == 0) {
                 // 达到间隔：重置计数并执行交互
                 player.setData(ModAttachments.TOILET_SQUAT_TICKS, 0);
 
@@ -109,7 +111,7 @@ public class PlayerToiletHandler {
                 playFartSound(player);
                 consumeHunger(player);
             } else {
-                player.setData(ModAttachments.TOILET_SQUAT_TICKS, count);
+                player.setData(ModAttachments.TOILET_SQUAT_TICKS, nextCount);
             }
         } else {
             // 不在马桶上时重置

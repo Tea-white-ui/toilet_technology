@@ -38,25 +38,7 @@ public final class DryingRackSyncHandler {
         BlockEntity be = level.getBlockEntity(payload.blockPos());
         
         if (be instanceof DryingRackBlockEntity rackEntity) {
-            // 更新物品数据
-            rackEntity.itemHandler.setStackInSlot(0, payload.slot0());
-            rackEntity.itemHandler.setStackInSlot(1, payload.slot1());
-            rackEntity.itemHandler.setStackInSlot(2, payload.slot2());
-            rackEntity.itemHandler.setStackInSlot(3, payload.slot3());
-            
-            // 更新进度数据
-            rackEntity.dryingProgress[0] = payload.progress0();
-            rackEntity.dryingProgress[1] = payload.progress1();
-            rackEntity.dryingProgress[2] = payload.progress2();
-            rackEntity.dryingProgress[3] = payload.progress3();
-            
-            rackEntity.dryingTotalTime[0] = payload.totalTime0();
-            rackEntity.dryingTotalTime[1] = payload.totalTime1();
-            rackEntity.dryingTotalTime[2] = payload.totalTime2();
-            rackEntity.dryingTotalTime[3] = payload.totalTime3();
-            
-            // 标记数据已改变，触发渲染更新
-            rackEntity.setChanged();
+            rackEntity.applyClientSync(payload);
         }
     }
 }

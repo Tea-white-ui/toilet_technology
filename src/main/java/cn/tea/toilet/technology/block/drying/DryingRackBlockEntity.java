@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block.drying;
-import cn.tea.toilet.technology.ModConstants;
 
+import cn.tea.toilet.technology.ModConstants;
 import cn.tea.toilet.technology.block.ModBlockEntities;
 import cn.tea.toilet.technology.network.DryingRackSyncPayload;
 import cn.tea.toilet.technology.network.ModPacketSender;
@@ -9,7 +9,6 @@ import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -18,20 +17,12 @@ import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * 干燥架方块实体
- * 负责管理干燥架的物品存储和干燥转化逻辑
- * 
- * 网络同步说明：
- * - 使用自定义网络包 DryingRackSyncPayload 同步数据到客户端
- * - 同一游戏刻内合并物品与进度变化，至多发送一个同步包
- * - 客户端接收后更新本地数据并触发渲染
+ * Four-slot drying rack. The block entity coordinates recipes and persistence;
+ * {@link DryingRackProgressState} owns the fixed-size progress snapshot shared
+ * by server processing and client synchronization.
  */
 public class DryingRackBlockEntity extends BlockEntity {
-
-    // 物品处理器，管理4个槽位（每槽最多1个物品，与视觉设计一致）
-    // 注意：这里覆写了所有会改变物品的入口（setStackInSlot/insertItem/extractItem），
-    // 用 suppressSlotSync 计数器让一组变更只发送一个同步包，避免干燥完成时连发两个网络包。
-    public final ItemStackHandler itemHandler = new ItemStackHandler(4) {
+    public final ItemStackHandler itemHandler = new ItemStackHandler(DryingRackConfig.SLOT_COUNT) {
         @Override
         protected void onContentsChanged(int slot) {
             setChanged();
@@ -78,64 +69,49 @@ public class DryingRackBlockEntity extends BlockEntity {
         }
     };
 
-    // 抑制同步的计数器（>0 时将变更合并为一次同步）
-    private int suppressSlotSync = 0;
-    // 有物品变更但仍处于原子操作中时置为 true；最外层操作结束后立即同步。
-    private boolean inventorySyncPending = false;
-
-    // 每个槽位的干燥进度（单位：tick）
-    public int[] dryingProgress = new int[4];
-    // 每个槽位当前配方的干燥总时间（用于计算进度百分比）
-    public int[] dryingTotalTime = new int[4];
-    // 配方缓存，避免每tick遍历全部配方
-    private final DryingRecipe[] cachedRecipes = new DryingRecipe[4];
-    // 标记槽位已确认"无配方"，避免每 tick 重复查找（cachedRecipes[i]==null 时区分"未查"和"查过无匹配"）
-    private final boolean[] noRecipeMatch = new boolean[4];
-    // 上次同步的tick计数，用于控制同步频率
-    private int lastSyncTick = 0;
-    // 同一 tick 内由物品变化请求的立即同步；在 tick 末尾与进度更新合并发送。
-    private boolean syncRequested = false;
+    private final DryingRackProgressState progressState = new DryingRackProgressState(DryingRackConfig.SLOT_COUNT);
+    private final DryingRecipe[] cachedRecipes = new DryingRecipe[DryingRackConfig.SLOT_COUNT];
+    private final boolean[] noRecipeMatch = new boolean[DryingRackConfig.SLOT_COUNT];
+    private int suppressSlotSync;
+    private boolean inventorySyncPending;
+    private int lastSyncTick;
 
     public DryingRackBlockEntity(BlockPos pos, BlockState blockState) {
         super(ModBlockEntities.DRYING_RACK.get(), pos, blockState);
     }
 
-    /**
-     * 同步数据到所有客户端
-     * 使用自定义网络包，比 sendBlockUpdated 更高效
-     */
     private void syncToClients() {
         if (level == null || level.isClientSide()) {
             return;
         }
-        
-        DryingRackSyncPayload payload = new DryingRackSyncPayload(
+        ModPacketSender.sendToTracking(level, getBlockPos(), new DryingRackSyncPayload(
                 getBlockPos(),
                 itemHandler.getStackInSlot(0),
                 itemHandler.getStackInSlot(1),
                 itemHandler.getStackInSlot(2),
                 itemHandler.getStackInSlot(3),
-                dryingProgress[0],
-                dryingProgress[1],
-                dryingProgress[2],
-                dryingProgress[3],
-                dryingTotalTime[0],
-                dryingTotalTime[1],
-                dryingTotalTime[2],
-                dryingTotalTime[3]
-        );
-        
-        ModPacketSender.sendToTracking(level, getBlockPos(), payload);
+                progressState.progress(0),
+                progressState.progress(1),
+                progressState.progress(2),
+                progressState.progress(3),
+                progressState.totalTime(0),
+                progressState.totalTime(1),
+                progressState.totalTime(2),
+                progressState.totalTime(3)
+        ));
     }
 
-    private void requestSync() {
-        syncRequested = true;
+    /** Applies the complete server snapshot on the client without duplicating payload field knowledge. */
+    public void applyClientSync(DryingRackSyncPayload payload) {
+        for (int slot = 0; slot < DryingRackConfig.SLOT_COUNT; slot++) {
+            itemHandler.setStackInSlot(slot, payload.getSlotItem(slot));
+        }
+        progressState.replace(
+                new int[]{payload.getProgress(0), payload.getProgress(1), payload.getProgress(2), payload.getProgress(3)},
+                new int[]{payload.getTotalTime(0), payload.getTotalTime(1), payload.getTotalTime(2), payload.getTotalTime(3)});
+        setChanged();
     }
 
-    /**
-     * 完成一次物品栏变更。玩家交互发生在 BlockEntity 的 tick 之后；若只等下一次 tick
-     * 再发送，会让无干燥配方的物品最多延迟 10 tick 才显示。因此最外层变更结束时立即发送。
-     */
     private void finishSlotMutation() {
         suppressSlotSync--;
         if (suppressSlotSync == 0 && inventorySyncPending) {
@@ -146,122 +122,96 @@ public class DryingRackBlockEntity extends BlockEntity {
 
     private void flushSync(boolean progressChanged) {
         lastSyncTick++;
-        if (!syncRequested && !progressChanged && lastSyncTick < 10) {
+        if (!progressChanged && lastSyncTick < 10) {
             return;
         }
         syncToClients();
-        syncRequested = false;
         lastSyncTick = 0;
     }
 
-    /**
-     * Tick 逻辑 - 每游戏刻调用一次
-     * 检查每个槽位的物品，如果匹配干燥配方则增加进度
-     * 进度达到配方要求时转化物品
-     *
-     * @param level  当前世界
-     * @param pos    方块位置
-     * @param state  方块状态
-     * @param entity 方块实体实例
-     */
     public static void tick(Level level, BlockPos pos, BlockState state, DryingRackBlockEntity entity) {
-        // 只在服务端执行干燥逻辑
         if (level.isClientSide()) {
             return;
         }
 
         boolean progressChanged = false;
-
-        for (int i = 0; i < entity.itemHandler.getSlots(); i++) {
-            ItemStack stack = entity.itemHandler.getStackInSlot(i);
-
+        for (int slot = 0; slot < entity.itemHandler.getSlots(); slot++) {
+            ItemStack stack = entity.itemHandler.getStackInSlot(slot);
             if (stack.isEmpty()) {
-                if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
-                    entity.dryingProgress[i] = 0;
-                    entity.dryingTotalTime[i] = 0;
-                    entity.cachedRecipes[i] = null;
-                    entity.noRecipeMatch[i] = false;
-                    progressChanged = true;
-                }
+                progressChanged |= entity.resetSlot(slot);
                 continue;
             }
 
-            DryingRecipe recipe = entity.cachedRecipes[i];
-            // 已确认"无配方"的槽位直接跳过查找，避免每 tick 调 getRecipeFor
-            if (recipe == null && !entity.noRecipeMatch[i]) {
-                recipe = findMatchingRecipe(level, stack);
-                if (recipe == null) {
-                    // 标记"查过且无匹配"，物品变化时 onContentsChanged 会重置此标记
-                    entity.noRecipeMatch[i] = true;
-                } else {
-                    entity.cachedRecipes[i] = recipe;
-                }
+            DryingRecipe recipe = entity.recipeFor(level, slot, stack);
+            if (recipe == null) {
+                progressChanged |= entity.resetProgress(slot);
+                continue;
             }
 
-            if (recipe != null) {
-                if (entity.dryingTotalTime[i] != recipe.getDryingTime()) {
-                    entity.dryingProgress[i] = 0;
-                    entity.dryingTotalTime[i] = recipe.getDryingTime();
-                    progressChanged = true;
-                }
-
-                entity.dryingProgress[i]++;
+            if (entity.progressState.totalTime(slot) != recipe.getDryingTime()) {
+                entity.progressState.reset(slot);
+                entity.progressState.setTotalTime(slot, recipe.getDryingTime());
                 progressChanged = true;
+            }
 
-                if (entity.dryingProgress[i] >= recipe.getDryingTime()) {
-                    // 原子地完成干燥：先 extract 再 insert，中途抑制同步，最后只发一次包
-                    ItemStack output = recipe.getResultItem(level.registryAccess());
-                    entity.suppressSlotSync++;
-                    try {
-                        ItemStack extracted = entity.itemHandler.extractItem(i, 1, false);
-                        if (extracted.isEmpty()) {
-                            // 输入槽被外部并发清空，放弃本次产出
-                            entity.dryingProgress[i] = 0;
-                            entity.dryingTotalTime[i] = 0;
-                            entity.cachedRecipes[i] = null;
-                            entity.noRecipeMatch[i] = false;
-                            progressChanged = true;
-                            continue;
-                        }
-
-                        // 输出槽 slot limit == 1，多出来的部分直接掉世界（与原行为一致）
-                        ItemStack remaining = entity.itemHandler.insertItem(i, output.copy(), false);
-                        if (!remaining.isEmpty()) {
-                            net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
-                        }
-
-                        entity.dryingProgress[i] = 0;
-                        entity.dryingTotalTime[i] = 0;
-                        entity.cachedRecipes[i] = null;
-                        entity.noRecipeMatch[i] = false;
-                        progressChanged = true;
-                    } finally {
-                        entity.finishSlotMutation();
-                    }
-                    ModConstants.LOGGER.debug("Drying complete: slot={}, input={}, output={}, pos={}", i, stack, output, pos);
-                }
-            } else {
-                if (entity.dryingProgress[i] != 0 || entity.dryingTotalTime[i] != 0) {
-                    entity.dryingProgress[i] = 0;
-                    entity.dryingTotalTime[i] = 0;
-                    progressChanged = true;
-                }
+            entity.progressState.advance(slot);
+            progressChanged = true;
+            if (entity.progressState.progress(slot) >= recipe.getDryingTime()) {
+                entity.completeDrying(level, pos, slot, stack, recipe);
             }
         }
-
         entity.flushSync(progressChanged);
     }
 
-    /**
-     * 查找匹配物品的干燥配方
-     * 使用 RecipeManager.getRecipeFor 走索引查询，O(1) 复杂度
-     * 替代旧实现的 getAllRecipesFor + 线性遍历（每次未命中都全表扫描）
-     */
+    private DryingRecipe recipeFor(Level level, int slot, ItemStack stack) {
+        DryingRecipe recipe = cachedRecipes[slot];
+        if (recipe == null && !noRecipeMatch[slot]) {
+            recipe = findMatchingRecipe(level, stack);
+            if (recipe == null) {
+                noRecipeMatch[slot] = true;
+            } else {
+                cachedRecipes[slot] = recipe;
+            }
+        }
+        return recipe;
+    }
+
+    private boolean resetSlot(int slot) {
+        boolean changed = progressState.reset(slot);
+        if (changed) {
+            cachedRecipes[slot] = null;
+            noRecipeMatch[slot] = false;
+        }
+        return changed;
+    }
+
+    private boolean resetProgress(int slot) {
+        return progressState.reset(slot);
+    }
+
+    private void completeDrying(Level level, BlockPos pos, int slot, ItemStack input, DryingRecipe recipe) {
+        ItemStack output = recipe.getResultItem(level.registryAccess());
+        suppressSlotSync++;
+        try {
+            ItemStack extracted = itemHandler.extractItem(slot, 1, false);
+            if (extracted.isEmpty()) {
+                resetSlot(slot);
+                return;
+            }
+            ItemStack remaining = itemHandler.insertItem(slot, output.copy(), false);
+            if (!remaining.isEmpty()) {
+                net.minecraft.world.Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), remaining);
+            }
+            resetSlot(slot);
+            ModConstants.LOGGER.debug("Drying complete: slot={}, input={}, output={}, pos={}", slot, input, output, pos);
+        } finally {
+            finishSlotMutation();
+        }
+    }
+
     private static DryingRecipe findMatchingRecipe(Level level, ItemStack stack) {
-        var recipeManager = level.getRecipeManager();
-        var recipeInput = new net.minecraft.world.item.crafting.SingleRecipeInput(stack);
-        return recipeManager
-                .getRecipeFor(ModRecipeTypes.DRYING.get(), recipeInput, level)
+        return level.getRecipeManager()
+                .getRecipeFor(ModRecipeTypes.DRYING.get(), new net.minecraft.world.item.crafting.SingleRecipeInput(stack), level)
                 .map(net.minecraft.world.item.crafting.RecipeHolder::value)
                 .orElse(null);
     }
@@ -270,20 +220,16 @@ public class DryingRackBlockEntity extends BlockEntity {
     protected void saveAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.saveAdditional(tag, registries);
         tag.put("Items", itemHandler.serializeNBT(registries));
-        tag.putIntArray("DryingProgress", dryingProgress);
-        tag.putIntArray("DryingTotalTime", dryingTotalTime);
+        tag.putIntArray("DryingProgress", progressState.progressValues());
+        tag.putIntArray("DryingTotalTime", progressState.totalTimeValues());
     }
 
     @Override
     protected void loadAdditional(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
         super.loadAdditional(tag, registries);
         itemHandler.deserializeNBT(registries, tag.getCompound("Items"));
-        if (tag.contains("DryingProgress")) {
-            dryingProgress = tag.getIntArray("DryingProgress");
-        }
-        if (tag.contains("DryingTotalTime")) {
-            dryingTotalTime = tag.getIntArray("DryingTotalTime");
+        if (tag.contains("DryingProgress") && tag.contains("DryingTotalTime")) {
+            progressState.replace(tag.getIntArray("DryingProgress"), tag.getIntArray("DryingTotalTime"));
         }
     }
-
 }

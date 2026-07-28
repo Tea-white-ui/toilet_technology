@@ -2,7 +2,7 @@
 package cn.tea.toilet.technology.compat.jei;
 import cn.tea.toilet.technology.ModConstants;
 
-import cn.tea.toilet.technology.block.ModBlocks;
+
 import cn.tea.toilet.technology.gas.GasRegistry;
 import cn.tea.toilet.technology.gas.GasStack;
 import cn.tea.toilet.technology.item.ModItems;
@@ -52,11 +52,7 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(
-                BiogasProductionJeiCategory.septicTank(registration.getJeiHelpers().getGuiHelper()),
-                BiogasProductionJeiCategory.biogasPond(registration.getJeiHelpers().getGuiHelper()),
-                new AbsorptionTowerJeiCategory(registration.getJeiHelpers().getGuiHelper())
-        );
+        JeiInformationalRegistrations.registerCategories(registration);
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCategory(definition, registration);
         }
@@ -66,11 +62,7 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
     public void registerRecipes(@NotNull IRecipeRegistration registration) {
         //手动向 JEI注册燃料物品信息（不依赖 level，必须在 null检查之前调用）
         registerFuelInfo(registration);
-        registration.addRecipes(BiogasProductionJeiCategory.SEPTIC_TANK_RECIPE_TYPE,
-                BiogasProductionJeiRecipes.septicTankRecipes());
-        registration.addRecipes(BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE,
-                BiogasProductionJeiRecipes.biogasPondRecipes());
-        registration.addRecipes(AbsorptionTowerJeiCategory.RECIPE_TYPE, AbsorptionTowerJeiRecipes.recipes());
+        JeiInformationalRegistrations.registerRecipes(registration);
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level == null) {
@@ -86,16 +78,7 @@ public class ToiletTechnologyJEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(@NotNull IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SEPTIC_TANK_CONTROLLER.get()),
-                BiogasProductionJeiCategory.SEPTIC_TANK_RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BIOGAS_POND_CONTROLLER.get()),
-                BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BIOGAS_GENERATOR.get()),
-                BiogasProductionJeiCategory.BIOGAS_POND_RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ABSORPTION_TOWER_BOTTOM.get()),
-                AbsorptionTowerJeiCategory.RECIPE_TYPE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ABSORPTION_TOWER_BODY.get()),
-                AbsorptionTowerJeiCategory.RECIPE_TYPE);
+        JeiInformationalRegistrations.registerCatalysts(registration);
         for (JeiCategoryDefinition<?> definition : CATEGORY_DEFINITIONS) {
             registerCatalysts(definition, registration);
         }

@@ -1,0 +1,52 @@
+{
+  "variants": {
+    "level=0": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=1": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=10": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=11": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=12": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=13": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=14": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=15": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=2": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=3": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=4": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=5": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=6": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=7": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=8": {
+      "model": "toilet_technology:block/wastewater_block"
+    },
+    "level=9": {
+      "model": "toilet_technology:block/wastewater_block"
+    }
+  }
+}

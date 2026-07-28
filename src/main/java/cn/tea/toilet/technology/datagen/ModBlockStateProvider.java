@@ -6,6 +6,7 @@ import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlock;
 import cn.tea.toilet.technology.block.gaspipe.GasPipeBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
@@ -26,6 +27,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         slabBlock(ModBlocks.ANTISEPTIC_BRICK_SLAB.get(), antisepticBrick, antisepticBrick);
         wallBlock(ModBlocks.ANTISEPTIC_BRICK_WALL.get(), antisepticBrick);
         simpleBlock(ModBlocks.BIOGAS_POND_WALL.get(), models().cubeAll("biogas_pond_wall", modLoc("block/biogas_pond_wall")));
+        fluidBlock(ModBlocks.WASTEWATER_BLOCK.get(), "wastewater_block", modLoc("block/wastewater"));
         simpleBlock(ModBlocks.BIOGAS_POND_CONTROLLER.get(), models().cube(
                 "biogas_pond_controller",
                 modLoc("block/biogas_pond_controller"), modLoc("block/biogas_pond_controller_top"),
@@ -92,5 +94,13 @@ public class ModBlockStateProvider extends BlockStateProvider {
                 modLoc("block/biogas_pond_wall"), modLoc("block/biogas_pond_wall"))
                 .texture("particle", modLoc("block/biogas_pond_wall"));
         horizontalBlock(block, model);
+    }
+
+    private void fluidBlock(LiquidBlock block, String modelName, ResourceLocation texture) {
+        ModelFile model = models().cubeAll(modelName, texture);
+        for (int level = 0; level <= 15; level++) {
+            getVariantBuilder(block).partialState().with(LiquidBlock.LEVEL, level)
+                    .modelForState().modelFile(model).addModel();
+        }
     }
 }

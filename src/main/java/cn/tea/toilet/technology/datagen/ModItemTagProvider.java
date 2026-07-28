@@ -79,6 +79,9 @@ public class ModItemTagProvider extends ItemTagsProvider {
                 .add(ModItems.GAS_MELTING_FURNACE_ITEM.get())
                 .add(ModItems.SEWAGE_PURIFIER_ITEM.get());
 
+        this.tag(ModTags.Items.GAS_PIPES)
+                .add(ModItems.GAS_PIPE_ITEM.get());
+
         // 流体
         this.tag(ModTags.Items.FLUID_CONTAINERS)
                 .add(ModItems.FECES_LIQUID_BUCKET.get())

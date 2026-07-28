@@ -68,6 +68,7 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get(), "Biogas Pond Item Output Port");
         add(ModBlocks.BIOGAS_GENERATOR.get(), "Biogas Generator");
         add(ModBlocks.GAS_MELTING_FURNACE.get(), "Gas Melting Furnace");
+        add(ModBlocks.GAS_PIPE.get(), "Gas Pipe");
         add(ModBlocks.SEWAGE_PURIFIER.get(), "Sewage Purifier");
         add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), "Absorption Tower Bottom");
         add(ModBlocks.ABSORPTION_TOWER_BODY.get(), "Absorption Tower Body");

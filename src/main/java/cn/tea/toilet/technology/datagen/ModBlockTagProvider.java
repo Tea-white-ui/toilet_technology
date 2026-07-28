@@ -71,6 +71,9 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.GAS_MELTING_FURNACE.get())
                 .add(ModBlocks.SEWAGE_PURIFIER.get());
 
+        this.tag(ModTags.Blocks.GAS_PIPES)
+                .add(ModBlocks.GAS_PIPE.get());
+
         this.tag(ModTags.Blocks.HEAT_SOURCES)
                 .addTag(BlockTags.FIRE)
                 .addTag(BlockTags.CAMPFIRES)
@@ -110,6 +113,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_GENERATOR.get())
                 .add(ModBlocks.GAS_MELTING_FURNACE.get())
+                .add(ModBlocks.GAS_PIPE.get())
                 .add(ModBlocks.SEWAGE_PURIFIER.get())
                 .add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
                 .add(ModBlocks.ABSORPTION_TOWER_BODY.get());
@@ -141,6 +145,7 @@ public class ModBlockTagProvider extends BlockTagsProvider {
                 .add(ModBlocks.BIOGAS_POND_ITEM_OUTPUT_PORT.get())
                 .add(ModBlocks.BIOGAS_GENERATOR.get())
                 .add(ModBlocks.GAS_MELTING_FURNACE.get())
+                .add(ModBlocks.GAS_PIPE.get())
                 .add(ModBlocks.SEWAGE_PURIFIER.get())
                 .add(ModBlocks.ABSORPTION_TOWER_BOTTOM.get())
                 .add(ModBlocks.ABSORPTION_TOWER_BODY.get());

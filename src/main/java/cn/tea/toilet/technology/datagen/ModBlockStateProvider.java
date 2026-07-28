@@ -3,6 +3,7 @@ import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlock;
+import cn.tea.toilet.technology.block.gaspipe.GasPipeBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -58,7 +59,19 @@ public class ModBlockStateProvider extends BlockStateProvider {
         horizontalBlock(ModBlocks.SEWAGE_PURIFIER.get(), models().getExistingFile(modLoc("block/sewage_purifier")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), models().getExistingFile(modLoc("block/absorption_tower_bottom")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BODY.get(), models().getExistingFile(modLoc("block/absorption_tower_body")));
+        gasPipe();
 
+    }
+
+    private void gasPipe() {
+        getMultipartBuilder(ModBlocks.GAS_PIPE.get())
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_core"))).addModel().end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_north"))).addModel().condition(GasPipeBlock.NORTH, true).end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_south"))).addModel().condition(GasPipeBlock.SOUTH, true).end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_east"))).addModel().condition(GasPipeBlock.EAST, true).end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_west"))).addModel().condition(GasPipeBlock.WEST, true).end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_up"))).addModel().condition(GasPipeBlock.UP, true).end()
+                .part().modelFile(models().getExistingFile(modLoc("block/gas_pipe_down"))).addModel().condition(GasPipeBlock.DOWN, true).end();
     }
 
     private void septicTankPort(net.minecraft.world.level.block.Block block, String name, boolean topFunctionFace) {

@@ -32,6 +32,8 @@ public class ModTags {
         public static final TagKey<Block> ABSORPTION_TOWERS = tag("absorption_towers");
         /** 沼气生产与污水处理机器方块标签 */
         public static final TagKey<Block> MACHINES = tag("machines");
+        /** 传输模组内置气体的燃气管道。 */
+        public static final TagKey<Block> GAS_PIPES = tag("gas_pipes");
         /** 热源方块标签（用于加速干燥过程） */
         public static final TagKey<Block> HEAT_SOURCES = tag("heat_sources");
 
@@ -60,6 +62,8 @@ public class ModTags {
         public static final TagKey<Item> ABSORPTION_TOWERS = tag("absorption_towers");
         /** 沼气生产与污水处理机器物品标签 */
         public static final TagKey<Item> MACHINES = tag("machines");
+        /** 燃气管道方块物品。 */
+        public static final TagKey<Item> GAS_PIPES = tag("gas_pipes");
         /** 液体运输容器物品标签 */
         public static final TagKey<Item> FLUID_CONTAINERS = tag("fluid_containers");
         /** 气体运输容器物品标签 */

@@ -1,0 +1,57 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_core"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_north"
+      },
+      "when": {
+        "north": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_south"
+      },
+      "when": {
+        "south": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_east"
+      },
+      "when": {
+        "east": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_west"
+      },
+      "when": {
+        "west": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_up"
+      },
+      "when": {
+        "up": "true"
+      }
+    },
+    {
+      "apply": {
+        "model": "toilet_technology:block/gas_pipe_down"
+      },
+      "when": {
+        "down": "true"
+      }
+    }
+  ]
+}

@@ -60,6 +60,8 @@ public class ModItemModelProvider extends ItemModelProvider {
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/biogas_generator")));
         getBuilder("gas_melting_furnace")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/gas_melting_furnace")));
+        getBuilder("gas_pipe")
+                .parent(new ModelFile.UncheckedModelFile(modLoc("block/gas_pipe_core")));
         getBuilder("sewage_purifier")
                 .parent(new ModelFile.UncheckedModelFile(modLoc("block/sewage_purifier")));
         getBuilder("absorption_tower_bottom")

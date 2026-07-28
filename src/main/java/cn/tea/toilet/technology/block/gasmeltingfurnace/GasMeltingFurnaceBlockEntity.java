@@ -8,6 +8,7 @@ import cn.tea.toilet.technology.gas.IGasHandler;
 import cn.tea.toilet.technology.recipe.GasMeltingRecipe;
 import cn.tea.toilet.technology.recipe.ModRecipeTypes;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +20,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /** 燃气熔炼炉：使用数据驱动的燃气熔炼配方处理单个输入槽。 */
 public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
@@ -42,16 +44,23 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         super(ModBlockEntities.GAS_MELTING_FURNACE.get(), pos, state);
     }
 
-    public IItemHandler getItemHandler() {
+    /**
+     * Exposes the furnace inventory to automation on every face: only the input slot accepts items
+     * and only the output slot can be extracted. This also gives hoppers the same slot policy.
+     */
+    public IItemHandler getItemHandler(@Nullable Direction side) {
         return itemHandler;
     }
 
-    /** Direct inventory access for the machine menu; automation remains restricted by {@link #getItemHandler()}. */
+    /** Direct inventory access for the machine menu; automation remains restricted by the sided item handler. */
     public IItemHandler getMenuItems() {
         return inventory;
     }
 
-    public IGasHandler getGasHandler() {
+    /**
+     * Exposes the internal gas tank to automation on every face for both insertion and extraction.
+     */
+    public IGasHandler getGasHandler(@Nullable Direction side) {
         return gasHandler;
     }
 

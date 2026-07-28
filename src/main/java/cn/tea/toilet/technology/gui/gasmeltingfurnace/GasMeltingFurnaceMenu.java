@@ -50,7 +50,7 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
         data = blockEntity == null ? new SimpleContainerData(DATA_COUNT) : new ContainerData() {
             @Override
             public int get(int index) {
-                GasStack stack = blockEntity.getGasHandler().getGasInTank(0);
+                GasStack stack = blockEntity.getGasHandler(null).getGasInTank(0);
                 return switch (index) {
                     case DATA_GAS_AMOUNT -> (int) stack.getAmount();
                     case DATA_GAS_TYPE -> stack.isEmpty() ? 0 : GasRegistry.id(stack.getGas()) + 1;

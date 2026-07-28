@@ -2,6 +2,7 @@ package cn.tea.toilet.technology.datagen;
 import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlocks;
+import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlock;
 import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.neoforge.client.model.generators.ModelFile;
@@ -52,7 +53,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
         horizontalBlock(ModBlocks.DRYING_RACK.get(), models().getExistingFile(modLoc("block/drying_rack")));
         horizontalBlock(ModBlocks.DRYING_BOX.get(), models().getExistingFile(modLoc("block/drying_box")));
         horizontalBlock(ModBlocks.BIOGAS_GENERATOR.get(), models().getExistingFile(modLoc("block/biogas_generator")));
-        horizontalBlock(ModBlocks.GAS_MELTING_FURNACE.get(), models().getExistingFile(modLoc("block/gas_melting_furnace")));
+        horizontalBlock(ModBlocks.GAS_MELTING_FURNACE.get(), state -> models().getExistingFile(modLoc(
+                state.getValue(GasMeltingFurnaceBlock.LIT) ? "block/gas_melting_furnace_lit" : "block/gas_melting_furnace")));
         horizontalBlock(ModBlocks.SEWAGE_PURIFIER.get(), models().getExistingFile(modLoc("block/sewage_purifier")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BOTTOM.get(), models().getExistingFile(modLoc("block/absorption_tower_bottom")));
         horizontalBlock(ModBlocks.ABSORPTION_TOWER_BODY.get(), models().getExistingFile(modLoc("block/absorption_tower_body")));

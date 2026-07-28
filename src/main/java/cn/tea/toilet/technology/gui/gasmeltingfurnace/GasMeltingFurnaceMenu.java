@@ -23,7 +23,9 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
     private static final int CUSTOM_SLOT_COUNT = 2;
     private static final int DATA_GAS_AMOUNT = 0;
     private static final int DATA_GAS_TYPE = 1;
-    private static final int DATA_COUNT = 2;
+    private static final int DATA_PROCESSING_PROGRESS = 2;
+    private static final int DATA_PROCESSING_TIME = 3;
+    private static final int DATA_COUNT = 4;
 
     private final ContainerLevelAccess access;
     private final ContainerData data;
@@ -54,6 +56,8 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
                 return switch (index) {
                     case DATA_GAS_AMOUNT -> (int) stack.getAmount();
                     case DATA_GAS_TYPE -> stack.isEmpty() ? 0 : GasRegistry.id(stack.getGas()) + 1;
+                    case DATA_PROCESSING_PROGRESS -> blockEntity.getProcessingProgress();
+                    case DATA_PROCESSING_TIME -> blockEntity.getProcessingTime();
                     default -> 0;
                 };
             }
@@ -74,6 +78,17 @@ public final class GasMeltingFurnaceMenu extends AbstractContainerMenu {
         Gas gas = GasRegistry.byId(gasIndex);
         int amount = data.get(DATA_GAS_AMOUNT);
         return gas == null || amount <= 0 ? GasStack.EMPTY : new GasStack(gas, amount);
+    }
+
+    public boolean isProcessing() {
+        return data.get(DATA_PROCESSING_PROGRESS) > 0 && data.get(DATA_PROCESSING_TIME) > 0;
+    }
+
+    public int getProcessingProgressScaled(int width) {
+        int progress = data.get(DATA_PROCESSING_PROGRESS);
+        int processingTime = data.get(DATA_PROCESSING_TIME);
+        if (progress <= 0 || processingTime <= 0) return 0;
+        return Math.clamp((int) ((long) progress * width / processingTime), 0, width);
     }
 
     @Override

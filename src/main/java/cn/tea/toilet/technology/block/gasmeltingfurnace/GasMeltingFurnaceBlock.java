@@ -23,6 +23,8 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.inventory.ContainerLevelAccess;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -36,10 +38,13 @@ import org.jetbrains.annotations.Nullable;
  */
 public final class GasMeltingFurnaceBlock extends BaseEntityBlock {
     public static final MapCodec<GasMeltingFurnaceBlock> CODEC = simpleCodec(GasMeltingFurnaceBlock::new);
+    public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public GasMeltingFurnaceBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH));
+        registerDefaultState(stateDefinition.any()
+                .setValue(HorizontalDirectionalBlock.FACING, Direction.NORTH)
+                .setValue(LIT, false));
     }
 
     @Override
@@ -49,7 +54,7 @@ public final class GasMeltingFurnaceBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(HorizontalDirectionalBlock.FACING);
+        builder.add(HorizontalDirectionalBlock.FACING, LIT);
     }
 
     @Override

@@ -20,6 +20,10 @@ import java.util.Optional;
 public final class GasMeltingFurnaceScreen extends AbstractContainerScreen<GasMeltingFurnaceMenu> {
     private static final ResourceLocation TEXTURE = ResourceLocation.fromNamespaceAndPath(
             ModConstants.MOD_ID, "textures/gui/container/gas_melting_furnace.png");
+    private static final ResourceLocation LIT_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace(
+            "container/furnace/lit_progress");
+    private static final ResourceLocation BURN_PROGRESS_SPRITE = ResourceLocation.withDefaultNamespace(
+            "container/furnace/burn_progress");
     private static final int TANK_X = 8;
     private static final int TANK_Y = 26;
     private static final int TANK_WIDTH = 31;
@@ -47,6 +51,17 @@ public final class GasMeltingFurnaceScreen extends AbstractContainerScreen<GasMe
     protected void renderBg(@NotNull GuiGraphics graphics, float partialTick, int mouseX, int mouseY) {
         graphics.blit(TEXTURE, leftPos, topPos, 0, 0, imageWidth, imageHeight);
         renderGasTank(graphics, menu.gasStack());
+        renderProcessingIndicators(graphics);
+    }
+
+    private void renderProcessingIndicators(GuiGraphics graphics) {
+        if (!menu.isProcessing()) return;
+        graphics.blitSprite(LIT_PROGRESS_SPRITE, 14, 14, 0, 0, leftPos + 64, topPos + 47, 14, 14);
+        int progressWidth = menu.getProcessingProgressScaled(24);
+        if (progressWidth > 0) {
+            graphics.blitSprite(BURN_PROGRESS_SPRITE, 24, 16, 0, 0, leftPos + 86, topPos + 26,
+                    progressWidth, 16);
+        }
     }
 
     private void renderGasTank(GuiGraphics graphics, GasStack stack) {

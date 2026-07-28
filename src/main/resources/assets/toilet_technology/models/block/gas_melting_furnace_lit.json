@@ -1,0 +1,6 @@
+{
+  "parent": "toilet_technology:block/gas_melting_furnace",
+  "textures": {
+    "0": "toilet_technology:block/gas_melting_furnace_lit"
+  }
+}

@@ -15,6 +15,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.neoforge.items.IItemHandler;
@@ -79,6 +80,7 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         ItemStack input = blockEntity.inventory.getStackInSlot(INPUT_SLOT);
         GasMeltingRecipe recipe = findMatchingRecipe(level, input);
         if (recipe == null || !blockEntity.canOutput(recipe) || !recipe.hasRequiredGas(blockEntity.gasTank.getStack())) {
+            blockEntity.setLit(level, pos, state, false);
             if (blockEntity.processingProgress != 0) {
                 blockEntity.processingProgress = 0;
                 blockEntity.setChanged();
@@ -86,6 +88,7 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
             return;
         }
 
+        blockEntity.setLit(level, pos, state, true);
         blockEntity.processingProgress++;
         if (blockEntity.processingProgress < recipe.processingTime()) {
             blockEntity.setChanged();
@@ -93,6 +96,15 @@ public final class GasMeltingFurnaceBlockEntity extends BlockEntity {
         }
 
         blockEntity.finishProcessing(recipe);
+        GasMeltingRecipe nextRecipe = findMatchingRecipe(level, blockEntity.inventory.getStackInSlot(INPUT_SLOT));
+        blockEntity.setLit(level, pos, state, nextRecipe != null && blockEntity.canOutput(nextRecipe)
+                && nextRecipe.hasRequiredGas(blockEntity.gasTank.getStack()));
+    }
+
+    private void setLit(Level level, BlockPos pos, BlockState state, boolean lit) {
+        if (state.getValue(GasMeltingFurnaceBlock.LIT) != lit) {
+            level.setBlock(pos, state.setValue(GasMeltingFurnaceBlock.LIT, lit), Block.UPDATE_CLIENTS);
+        }
     }
 
     private static GasMeltingRecipe findMatchingRecipe(Level level, ItemStack input) {

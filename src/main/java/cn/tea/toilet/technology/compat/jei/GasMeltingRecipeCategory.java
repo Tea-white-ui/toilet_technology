@@ -76,7 +76,7 @@ public final class GasMeltingRecipeCategory implements IRecipeCategory<GasMeltin
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, GasMeltingRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, GAS_INPUT_X, GAS_INPUT_Y)
-                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.gas.GasStack(
+                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.api.gas.GasStack(
                         recipe.gas(), recipe.gasAmount()))
                 .setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.INPUT, ITEM_INPUT_X, ITEM_INPUT_Y)

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.compat.jei;
 
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.ingredients.subtypes.UidContext;

@@ -1,9 +1,9 @@
 package cn.tea.toilet.technology.block.multiblock;
 
-import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.api.gas.GasAction;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

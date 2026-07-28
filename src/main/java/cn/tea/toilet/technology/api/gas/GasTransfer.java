@@ -1,9 +1,9 @@
-package cn.tea.toilet.technology.gas;
+package cn.tea.toilet.technology.api.gas;
 
 import java.util.Objects;
 
 /**
- * Transfers gas between handlers without loss by simulating both endpoints before executing either.
+ * Transfers gas between handlers without loss by simulating both endpoints before execution.
  */
 public final class GasTransfer {
     private GasTransfer() {
@@ -19,14 +19,20 @@ public final class GasTransfer {
         }
 
         GasStack offered = source.extractGas(sourceTank, limit, GasAction.SIMULATE);
-        if (offered.isEmpty()) return GasStack.EMPTY;
+        if (offered.isEmpty()) {
+            return GasStack.EMPTY;
+        }
 
         GasStack remainder = destination.insertGas(destinationTank, offered, GasAction.SIMULATE);
         long accepted = offered.amount() - remainder.amount();
-        if (accepted <= 0) return GasStack.EMPTY;
+        if (accepted <= 0) {
+            return GasStack.EMPTY;
+        }
 
         GasStack extracted = source.extractGas(sourceTank, accepted, GasAction.EXECUTE);
-        if (extracted.isEmpty()) return GasStack.EMPTY;
+        if (extracted.isEmpty()) {
+            return GasStack.EMPTY;
+        }
 
         GasStack executionRemainder = destination.insertGas(destinationTank, extracted, GasAction.EXECUTE);
         long transferred = extracted.amount() - executionRemainder.amount();

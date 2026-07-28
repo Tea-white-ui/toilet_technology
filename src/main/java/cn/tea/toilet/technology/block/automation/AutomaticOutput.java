@@ -1,9 +1,9 @@
 package cn.tea.toilet.technology.block.automation;
 
 import cn.tea.toilet.technology.gas.ExternalGasHandlers;
-import cn.tea.toilet.technology.gas.GasStack;
-import cn.tea.toilet.technology.gas.GasTransfer;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasTransfer;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.Level;

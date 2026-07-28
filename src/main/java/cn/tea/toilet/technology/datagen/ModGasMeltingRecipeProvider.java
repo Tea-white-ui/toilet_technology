@@ -36,7 +36,7 @@ public final class ModGasMeltingRecipeProvider {
     }
 
     private static void addRecipe(RecipeOutput output, String name, Ingredient input, ItemStack result,
-                                  cn.tea.toilet.technology.gas.Gas gas, long gasAmount, int processingTime) {
+                                  cn.tea.toilet.technology.api.gas.Gas gas, long gasAmount, int processingTime) {
         output.accept(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, name),
                 new GasMeltingRecipe(input, result, gas, gasAmount, processingTime), null);
     }

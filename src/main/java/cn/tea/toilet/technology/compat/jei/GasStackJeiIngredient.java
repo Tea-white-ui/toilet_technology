@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.compat.jei;
 
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import com.mojang.serialization.Codec;
 import mezz.jei.api.ingredients.IIngredientType;
 import net.minecraft.resources.ResourceLocation;

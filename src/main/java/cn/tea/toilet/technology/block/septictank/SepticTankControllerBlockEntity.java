@@ -7,12 +7,12 @@ import cn.tea.toilet.technology.block.multiblock.MultiblockValidationState;
 import cn.tea.toilet.technology.block.multiblock.StructureGatedGasHandler;
 import cn.tea.toilet.technology.block.septictank.SepticTankBiogasProduction;
 import cn.tea.toilet.technology.compat.PoopSkyCompat;
-import cn.tea.toilet.technology.gas.BasicGasTank;
-import cn.tea.toilet.technology.gas.GasAction;
+import cn.tea.toilet.technology.api.gas.BasicGasTank;
+import cn.tea.toilet.technology.api.gas.GasAction;
 
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.item.ModItems;
 

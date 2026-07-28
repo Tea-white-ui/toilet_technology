@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.bootstrap;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.gas.GasCapabilities;
+import cn.tea.toilet.technology.api.gas.GasCapabilities;
 import cn.tea.toilet.technology.item.GasTankItem;
 import cn.tea.toilet.technology.item.ModItems;
 import net.neoforged.bus.api.IEventBus;

@@ -1,5 +1,9 @@
 package cn.tea.toilet.technology.gas;
 
+import cn.tea.toilet.technology.api.gas.GasAction;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasTransfer;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

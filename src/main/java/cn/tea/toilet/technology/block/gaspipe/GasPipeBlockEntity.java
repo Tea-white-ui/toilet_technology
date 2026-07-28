@@ -1,10 +1,10 @@
 package cn.tea.toilet.technology.block.gaspipe;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
-import cn.tea.toilet.technology.gas.BasicGasTank;
-import cn.tea.toilet.technology.gas.GasAction;
-import cn.tea.toilet.technology.gas.GasStack;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.BasicGasTank;
+import cn.tea.toilet.technology.api.gas.GasAction;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.recipe;
 
-import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.api.gas.Gas;
 import net.minecraft.world.level.material.Fluid;
 
 /**

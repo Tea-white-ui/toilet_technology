@@ -1,20 +1,19 @@
 package cn.tea.toilet.technology.gas;
-import cn.tea.toilet.technology.ModConstants;
 
-import java.util.List;
+import cn.tea.toilet.technology.api.gas.Gas;
+import cn.tea.toilet.technology.api.gas.ToiletGasRegistry;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
+
+/**
+ * Internal bridge for legacy menu wire IDs. Addon code must use {@link ToiletGasRegistry} instead.
+ */
 public final class GasRegistry {
-    public static final Gas BIOGAS = new Gas(
-            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "biogas"),
-            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block/biogas"),
-            0x87965B);
-    public static final Gas METHANE = new Gas(
-            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "methane"),
-            ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "block/methane"),
-            0x8EE6F2);
-    private static final List<Gas> GASES = List.of(BIOGAS, METHANE);
+    public static final Gas BIOGAS = ToiletGasRegistry.BIOGAS;
+    public static final Gas METHANE = ToiletGasRegistry.METHANE;
+    private static final List<Gas> GASES = ToiletGasRegistry.gases();
 
     private GasRegistry() { }
 
@@ -22,6 +21,6 @@ public final class GasRegistry {
     public static int id(Gas gas) { return GASES.indexOf(gas); }
     public static @Nullable Gas byId(int id) { return id >= 0 && id < GASES.size() ? GASES.get(id) : null; }
     public static @Nullable Gas byId(@Nullable ResourceLocation id) {
-        return id == null ? null : GASES.stream().filter(gas -> gas.id().equals(id)).findFirst().orElse(null);
+        return id == null ? null : ToiletGasRegistry.get(id).orElse(null);
     }
 }

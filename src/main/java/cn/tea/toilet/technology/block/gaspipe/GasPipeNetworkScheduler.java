@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.block.gaspipe;
 
 import cn.tea.toilet.technology.gas.ExternalGasHandlers;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import it.unimi.dsi.fastutil.longs.LongOpenHashSet;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.compat.jei;
 
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;

@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.gui.absorptiontower;
 
 import cn.tea.toilet.technology.ModConstants;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.gui.TankMenuData;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;

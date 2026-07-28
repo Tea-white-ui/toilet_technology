@@ -1,8 +1,8 @@
 package cn.tea.toilet.technology.recipe;
 
-import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.api.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

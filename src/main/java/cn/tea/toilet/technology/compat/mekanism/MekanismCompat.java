@@ -3,12 +3,12 @@ import cn.tea.toilet.technology.ModConstants;
 
 import cn.tea.toilet.technology.block.ModBlockEntities;
 
-import cn.tea.toilet.technology.gas.GasAction;
-import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.api.gas.GasAction;
+import cn.tea.toilet.technology.api.gas.Gas;
 import cn.tea.toilet.technology.gas.ExternalGasHandlers;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
-import cn.tea.toilet.technology.gas.IGasHandler;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import cn.tea.toilet.technology.item.GasTankItem;
 import cn.tea.toilet.technology.item.ModItems;
 import mekanism.api.Action;

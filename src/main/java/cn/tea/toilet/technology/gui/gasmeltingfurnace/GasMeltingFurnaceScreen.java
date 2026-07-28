@@ -2,7 +2,7 @@ package cn.tea.toilet.technology.gui.gasmeltingfurnace;
 
 import cn.tea.toilet.technology.ModConstants;
 import cn.tea.toilet.technology.block.gasmeltingfurnace.GasMeltingFurnaceBlockEntity;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;

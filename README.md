@@ -51,6 +51,13 @@ Mekanism 兼容层可以通过以下任务排除后进行编译验证：
 ./gradlew compileJava -PwithoutMekanism
 ```
 
+## 附属模组 API
+
+面向附属模组开发者的稳定气体 API 位于 `cn.tea.toilet.technology.api.**`。使用方式、Capability 生命周期、
+内置气体限制和本地 Maven 发布说明见 [docs/api/README.md](docs/api/README.md)。
+
+公共 API 当前版本为 `1.0.0`；第三方气体动态注册不属于 API 1.0 的范围。
+
 ## 作者
 
 - Tea_white_

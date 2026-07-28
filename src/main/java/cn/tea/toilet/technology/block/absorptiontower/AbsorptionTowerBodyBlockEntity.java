@@ -38,7 +38,7 @@ public class AbsorptionTowerBodyBlockEntity extends BlockEntity {
     }
 
     @Nullable
-    public cn.tea.toilet.technology.gas.IGasHandler getGasHandler(@Nullable Direction side) {
+    public cn.tea.toilet.technology.api.gas.IGasHandler getGasHandler(@Nullable Direction side) {
         AbsorptionTowerBottomBlockEntity bottom = controller();
         return bottom == null || getBottomDistance() != AbsorptionTowerStructure.HEIGHT - 1
                 ? null : bottom.getGasOutputHandler(side);

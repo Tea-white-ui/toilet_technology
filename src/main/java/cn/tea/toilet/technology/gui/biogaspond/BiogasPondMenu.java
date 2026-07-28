@@ -5,9 +5,9 @@ import cn.tea.toilet.technology.block.biogaspond.BiogasPondControllerBlockEntity
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.gui.TankMenuData;
 import cn.tea.toilet.technology.gui.septictank.OutputOnlySlot;
-import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.api.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;

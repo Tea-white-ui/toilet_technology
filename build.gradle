@@ -228,11 +228,16 @@ publishing {
     publications {
         register('mavenJava', MavenPublication) {
             from components.java
+            artifactId = mod_id
+            pom {
+                name = mod_name
+                description = "Toilet Technology runtime and public addon API ${api_version}"
+            }
         }
     }
     repositories {
         maven {
-            url "file://${project.projectDir}/repo"
+            url = uri(layout.projectDirectory.dir("repo"))
         }
     }
 }

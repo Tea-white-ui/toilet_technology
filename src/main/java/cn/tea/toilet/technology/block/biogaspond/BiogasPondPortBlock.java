@@ -1,6 +1,6 @@
 package cn.tea.toilet.technology.block.biogaspond;
 
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.gas.GasTankTransferInteraction;
 import cn.tea.toilet.technology.item.GasTankItem;
 import com.mojang.serialization.MapCodec;

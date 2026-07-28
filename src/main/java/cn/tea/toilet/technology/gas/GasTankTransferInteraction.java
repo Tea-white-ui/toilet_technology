@@ -1,5 +1,9 @@
 package cn.tea.toilet.technology.gas;
 
+import cn.tea.toilet.technology.api.gas.GasCapabilities;
+import cn.tea.toilet.technology.api.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasTransfer;
+import cn.tea.toilet.technology.api.gas.IGasHandler;
 import cn.tea.toilet.technology.item.GasTankItem;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;

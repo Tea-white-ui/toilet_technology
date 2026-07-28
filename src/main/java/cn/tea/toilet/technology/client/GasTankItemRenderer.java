@@ -1,7 +1,7 @@
 package cn.tea.toilet.technology.client;
 
 import cn.tea.toilet.technology.ModConstants;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.item.GasTankItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

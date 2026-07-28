@@ -4,7 +4,7 @@ import cn.tea.toilet.technology.ModConstants;
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.fluid.ModFluids;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.item.ModItems;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

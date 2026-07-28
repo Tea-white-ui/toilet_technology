@@ -2,9 +2,9 @@ package cn.tea.toilet.technology.gui.absorptiontower;
 
 import cn.tea.toilet.technology.block.ModBlocks;
 import cn.tea.toilet.technology.block.absorptiontower.AbsorptionTowerBottomBlockEntity;
-import cn.tea.toilet.technology.gas.Gas;
+import cn.tea.toilet.technology.api.gas.Gas;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.gui.ModMenuTypes;
 import cn.tea.toilet.technology.gui.TankMenuData;
 import net.minecraft.core.registries.BuiltInRegistries;

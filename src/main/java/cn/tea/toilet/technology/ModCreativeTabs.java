@@ -2,7 +2,7 @@ package cn.tea.toilet.technology;
 
 import cn.tea.toilet.technology.item.ModItems;
 import cn.tea.toilet.technology.gas.GasRegistry;
-import cn.tea.toilet.technology.gas.GasStack;
+import cn.tea.toilet.technology.api.gas.GasStack;
 import cn.tea.toilet.technology.item.GasTankItem;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;

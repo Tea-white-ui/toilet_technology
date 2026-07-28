@@ -64,14 +64,14 @@ public final class AbsorptionTowerJeiCategory implements IRecipeCategory<Absorpt
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, AbsorptionTowerRecipe recipe, IFocusGroup focuses) {
         builder.addSlot(RecipeIngredientRole.INPUT, AbsorptionTowerJeiLayout.GAS_INPUT_X, AbsorptionTowerJeiLayout.GAS_INPUT_Y)
-                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.gas.GasStack(recipe.inputGas(), recipe.inputGasAmount()))
+                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.api.gas.GasStack(recipe.inputGas(), recipe.inputGasAmount()))
                 .setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.INPUT, AbsorptionTowerJeiLayout.FLUID_INPUT_X, AbsorptionTowerJeiLayout.FLUID_INPUT_Y)
                 .addFluidStack(recipe.inputFluid(), recipe.inputFluidAmount())
                 .setFluidRenderer(recipe.inputFluidAmount(), true, 16, 16)
                 .setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.OUTPUT, AbsorptionTowerJeiLayout.GAS_OUTPUT_X, AbsorptionTowerJeiLayout.GAS_OUTPUT_Y)
-                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.gas.GasStack(recipe.outputGas(), recipe.outputGasAmount()))
+                .addIngredient(GasStackJeiIngredient.TYPE, new cn.tea.toilet.technology.api.gas.GasStack(recipe.outputGas(), recipe.outputGasAmount()))
                 .setStandardSlotBackground();
         builder.addSlot(RecipeIngredientRole.OUTPUT, AbsorptionTowerJeiLayout.FLUID_OUTPUT_X, AbsorptionTowerJeiLayout.FLUID_OUTPUT_Y)
                 .addFluidStack(recipe.outputFluid(), recipe.outputFluidAmount())

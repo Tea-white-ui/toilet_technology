@@ -12,7 +12,7 @@
   "gas_melting_furnace_working": {
     "sounds": [
       {
-        "attenuation_distance": 24,
+        "attenuation_distance": 18,
         "name": "toilet_technology:gas_melting_furnace_working",
         "preload": true
       }

@@ -29,6 +29,6 @@ class GasMeltingFurnaceWorkingSoundTest {
         String soundDefinitions = Files.readString(Path.of(
                 "src/main/java/cn/tea/toilet/technology/datagen/ModSoundProvider.java"));
         assertTrue(soundDefinitions.contains(
-                "sound(\"toilet_technology:gas_melting_furnace_working\").preload().attenuationDistance(24)"));
+                "sound(\"toilet_technology:gas_melting_furnace_working\").preload().attenuationDistance(18)"));
     }
 }

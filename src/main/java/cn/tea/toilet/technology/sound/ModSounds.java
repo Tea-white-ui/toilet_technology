@@ -27,6 +27,11 @@ public class ModSounds {
     public static final DeferredHolder<SoundEvent, SoundEvent> FART_2 = SOUNDS.register("fart_2",
             () -> SoundEvent.createVariableRangeEvent(ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "fart_2")));
 
+    /** 燃气熔炼炉工作时周期播放的机器运转音效。 */
+    public static final DeferredHolder<SoundEvent, SoundEvent> GAS_MELTING_FURNACE_WORKING =
+            SOUNDS.register("gas_melting_furnace_working", () -> SoundEvent.createVariableRangeEvent(
+                    ResourceLocation.fromNamespaceAndPath(ModConstants.MOD_ID, "gas_melting_furnace_working")));
+
     /**
      * 注册所有声音事件到事件总线
      * 

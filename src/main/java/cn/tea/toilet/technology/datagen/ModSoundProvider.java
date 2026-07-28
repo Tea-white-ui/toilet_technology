@@ -17,5 +17,7 @@ public class ModSoundProvider extends SoundDefinitionsProvider {
                 .with(sound("toilet_technology:fart_1")));
         add(ModSounds.FART_2.get(), definition()
                 .with(sound("toilet_technology:fart_2")));
+        add(ModSounds.GAS_MELTING_FURNACE_WORKING.get(), definition()
+                .with(sound("toilet_technology:gas_melting_furnace_working")));
     }
 }

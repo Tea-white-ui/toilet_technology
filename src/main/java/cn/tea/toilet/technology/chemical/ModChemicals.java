@@ -1,8 +1,8 @@
 package cn.tea.toilet.technology.chemical;
 
 /**
- * Legacy namespace retained for source compatibility. Gas registration now lives in GasRegistry,
- * while Mekanism registration is isolated in the optional compatibility bridge.
+ * 保留了遗留命名空间以保证源代码兼容性。气体注册现存于GasRegistry，
+ * 而Mekanism注册则被隔离在可选兼容桥接中。
  */
 @Deprecated(forRemoval = true)
 public final class ModChemicals {

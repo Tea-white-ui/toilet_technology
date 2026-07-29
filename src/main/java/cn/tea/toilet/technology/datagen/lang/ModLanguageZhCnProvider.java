@@ -90,9 +90,10 @@ public class ModLanguageZhCnProvider extends LanguageProvider {
         add("tooltip.toilet_technology.gas_tank.amount", "储存：%s %s / %s mB");
         add("tooltip.toilet_technology.gas_tank.sealed", "密封容器：无法在世界中放置");
         add("tooltip.toilet_technology.feces", "这东西不能吃...");
-        add("tooltip.toilet_technology.dried_feces", "高效的燃料");
         add("tooltip.toilet_technology.biogas_residue", "可当作肥料");
         add("tooltip.toilet_technology.multi_layer_sintered_metal_mesh", "高强度材料");
+        add("tooltip.toilet_technology.squat_toilet", "不能储水");
+        add("tooltip.toilet_technology.netherite_toilet", "无限粪液！");
 
         add("advancements.toilet_technology.root.title", "厕所技艺：资源循环");
         add("advancements.toilet_technology.root.description", "从排泄物出发，建立可持续的处理与利用体系。");

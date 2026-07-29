@@ -88,9 +88,10 @@ public class ModLanguageEnUsProvider extends LanguageProvider {
         add("tooltip.toilet_technology.gas_tank.amount", "Stores: %s %s / %s mB");
         add("tooltip.toilet_technology.gas_tank.sealed", "Sealed container: cannot be placed in the world");
         add("tooltip.toilet_technology.feces", "You can't eat this...");
-        add("tooltip.toilet_technology.dried_feces", "An efficient fuel");
         add("tooltip.toilet_technology.biogas_residue", "Can be used as fertilizer");
         add("tooltip.toilet_technology.multi_layer_sintered_metal_mesh", "A high-strength material");
+        add("tooltip.toilet_technology.squat_toilet", "Cannot store water");
+        add("tooltip.toilet_technology.netherite_toilet", "Unlimited feces liquid!");
 
         add("advancements.toilet_technology.root.title", "Toilet Technology: Resource Cycle");
         add("advancements.toilet_technology.root.description", "Turn waste into a sustainable cycle of processing and reuse.");

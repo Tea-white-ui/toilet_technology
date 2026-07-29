@@ -87,10 +87,11 @@
   "message.toilet_technology.biogas_pond_invalid": "The 5×5×5 biogas pond structure is incomplete (the 3×3×3 interior must be hollow)",
   "message.toilet_technology.septic_tank_invalid": "The 3×4×3 septic tank structure is incomplete",
   "tooltip.toilet_technology.biogas_residue": "Can be used as fertilizer",
-  "tooltip.toilet_technology.dried_feces": "An efficient fuel",
   "tooltip.toilet_technology.feces": "You can't eat this...",
   "tooltip.toilet_technology.gas_tank.amount": "Stores: %s %s / %s mB",
   "tooltip.toilet_technology.gas_tank.empty": "Empty",
   "tooltip.toilet_technology.gas_tank.sealed": "Sealed container: cannot be placed in the world",
-  "tooltip.toilet_technology.multi_layer_sintered_metal_mesh": "A high-strength material"
+  "tooltip.toilet_technology.multi_layer_sintered_metal_mesh": "A high-strength material",
+  "tooltip.toilet_technology.netherite_toilet": "Unlimited feces liquid!",
+  "tooltip.toilet_technology.squat_toilet": "Cannot store water"
 }

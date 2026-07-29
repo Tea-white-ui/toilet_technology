@@ -47,7 +47,7 @@ public class ModItems {
 
         /** 干燥粪便物品：用于干燥配方或其他用途的基础材料 */
         public static final DeferredHolder<Item, Item> DRIED_FECES = ITEMS.register("dried_feces",
-                () -> new TooltipItem(new Item.Properties(), "tooltip.toilet_technology.dried_feces"));
+                () -> new Item(new Item.Properties()));
 
         /** 粪球：可像雪球一样投掷，命中生物时造成伤害并施加负面效果。 */
         public static final DeferredHolder<Item, Item> FECES_BALL = ITEMS.register("feces_ball",
@@ -90,8 +90,9 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.ANTISEPTIC_BRICK_WALL.get(), new Item.Properties()));
     // === 厕所 ===
     /** 蹲便器物品 */
-    public static final DeferredHolder<Item, BlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",
-            () -> new BlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties()));
+    public static final DeferredHolder<Item, TooltipBlockItem> SQUAT_TOILET_ITEM = ITEMS.register("squat_toilet",
+            () -> new TooltipBlockItem(ModBlocks.SQUAT_TOILET.get(), new Item.Properties(),
+                    "tooltip.toilet_technology.squat_toilet"));
     /** 木制马桶物品 */
     public static final DeferredHolder<Item, BlockItem> OAK_TOILET_ITEM = ITEMS.register("oak_toilet",
             () -> new BlockItem(ModBlocks.OAK_TOILET.get(), new Item.Properties()));
@@ -108,8 +109,9 @@ public class ModItems {
     public static final DeferredHolder<Item, BlockItem> DIAMOND_TOILET_ITEM = ITEMS.register("diamond_toilet",
             () -> new BlockItem(ModBlocks.DIAMOND_TOILET.get(), new Item.Properties()));
     /** 下界合金马桶物品：具有防火特性 */
-    public static final DeferredHolder<Item, BlockItem> NETHERITE_TOILET_ITEM = ITEMS.register("netherite_toilet",
-            () -> new BlockItem(ModBlocks.NETHERITE_TOILET.get(), new Item.Properties().fireResistant()));
+    public static final DeferredHolder<Item, TooltipBlockItem> NETHERITE_TOILET_ITEM = ITEMS.register("netherite_toilet",
+            () -> new TooltipBlockItem(ModBlocks.NETHERITE_TOILET.get(), new Item.Properties().fireResistant(),
+                    "tooltip.toilet_technology.netherite_toilet"));
     // === 干燥台/箱 ===
     /** 干燥架物品 */
     public static final DeferredHolder<Item, BlockItem> DRYING_RACK_ITEM = ITEMS.register("drying_rack",
